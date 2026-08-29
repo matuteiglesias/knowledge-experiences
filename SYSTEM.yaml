@@ -67,7 +67,8 @@ census:
   count: 16
   composition_maturity_rule: real-source-only
   maturity_snapshot:
-    E3: 5
+    E4: 1
+    E3: 4
     E1: 1
     E0: 10
   v2_candidates:
@@ -75,6 +76,6 @@ census:
     - multi-source-collections-and-curation-receipts
 
 status:
-  phase: expanding-executable-multi-domain-ladder
-  next_gate: paper-real-corpus-or-e4-operational-use
+  phase: first-operational-experience
+  next_gate: paper-real-corpus-or-independent-operational-use
   implementation_policy: evidence-pulled

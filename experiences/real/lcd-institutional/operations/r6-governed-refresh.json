@@ -1,0 +1,57 @@
+{
+  "current": {
+    "collection_release_id": "sha256:a42200262d4f259a",
+    "experience_release_id": "sha256:3f4a7a631fe3cacd",
+    "index_sha256": "a7a06cddec2bff5c98650958fec6fb47f2794e919b6a63edf7661ac946b8b68d",
+    "producer_run_id": "r6_live_lcd_pages_20260829T231633Z",
+    "producer_run_status": "completed_trusted",
+    "producer_trust_level": "trusted",
+    "records": 19,
+    "rendered_artifact_sha256": "840969fa463cfc6ac45ee3ea74211219de4effa66eeae798a723cdd0bd87fcfa"
+  },
+  "downstream_validation": {
+    "lcd-thesis-resources": {
+      "collection_release_id": "sha256:ea2408eddab680e1",
+      "experience_release_id": "sha256:5c591abb4f47ba5e",
+      "records": 4,
+      "rendered_artifact_sha256": "0e256693c0c60e1c56cfba8c85a7ff337f7e4c34451191ebda8357067abd7179",
+      "result": "pass"
+    }
+  },
+  "github_run_id": "33280584106",
+  "knowledge_experiences_seed_commit": "ced555118ae2b6375267c27d7837954097c16d13",
+  "operation_id": "r6-lcd-institutional-governed-refresh",
+  "operation_kind": "governed_refresh",
+  "policy": {
+    "audience_use_claimed": false,
+    "auto_schedule_added": false,
+    "deployment_claimed": false,
+    "posts_excluded": true,
+    "source_scope": "complete public WordPress page collection only"
+  },
+  "previous": {
+    "accepted_kx_commit": "e931d23adaf77213eaaa8c9abd2ea25da17ec6b9",
+    "collection_release_id": "sha256:582187c7ac71a101",
+    "experience_release_id": "sha256:e5f0d7ad9f42ab8f",
+    "index_sha256": "66898ae81d7203bac9e7ca77ed3139dced8ff6c2c9f3c1855a88f1a13861a2a2",
+    "producer_run_id": "kx_live_lcd_pages_20260829T221634Z",
+    "producer_run_status": "completed_trusted",
+    "producer_trust_level": "trusted",
+    "records": 19,
+    "rendered_artifact_sha256": "71e18f6b0fbee3b464bd076b9f7cc76ab3253ead3e1255dacaa5eaca41284eeb"
+  },
+  "producer": "repo.lcd-uba-knowledgebase",
+  "result": "pass",
+  "schema_id": "knowledge.operational-refresh",
+  "schema_version": 1,
+  "source_diff": {
+    "added_source_ids": [],
+    "comparison_performed": true,
+    "content_changed_source_ids": [
+      2
+    ],
+    "metadata_changed_source_ids": [],
+    "removed_source_ids": []
+  },
+  "trigger_kind": "explicit_operator_requested_refresh"
+}
