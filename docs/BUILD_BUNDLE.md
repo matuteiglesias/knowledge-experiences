@@ -38,24 +38,39 @@ LCD supplied the first non-paper bounded adapter without a new core abstraction.
 
 ## Wave V1.5 — Experience census pressure test
 
-**Status:** complete in this tranche; accept only when `scripts/check_census.py`, repository tests and all prior integration proofs remain green.
+**Status:** accepted historical baseline.
 
-The fifteen-case authority is `docs/experience-census.v1.json`, summarized in `docs/EXPERIENCE_CENSUS.md` and interpreted in `docs/V1_5_CENSUS_FINDINGS.md`.
+The original fifteen-case authority is preserved in repository history and interpreted in `docs/V1_5_CENSUS_FINDINGS.md`. Its key governance decision survives unchanged: E0–E4 measures **real-source composition maturity**. Sanitized proofs and mature pre-existing verticals are separately visible through `engineering_status`; they do not inflate maturity.
 
-Key governance decision: E0–E4 remains real-source composition maturity. Sanitized proofs and mature pre-existing verticals are separately visible through `engineering_status`; they do not inflate the maturity score.
+The live authority is now `docs/experience-census.v1.json`, summarized in `docs/EXPERIENCE_CENSUS.md`. The original 15 entries are a minimum append-only baseline rather than a permanent discovery ceiling.
 
-Census result at 2026-08-29: all fifteen concrete experiences remain E0 under the strict rule, while five have reusable/proven mechanics and three are mature vertical surfaces. The gap is now mostly real-source adoption rather than missing architecture.
-
-Repeated V2 candidates:
+Repeated V2 candidates remain:
 
 - `ordered-groups-and-reading-trails` — pressure from economic-complexity path + course readings, with Thesis as vertical evidence;
 - `multi-source-collections-and-curation-receipts` — pressure from personal publications + policy/research dossier.
 
-## Post-V1 operating regime
+## Real-use ladder R1–R5
 
-**Default next gate: real use before V2.**
+**Status:** active evidence-pulled operating regime.
 
-Materialize approved real-source experiences with the existing kernel, observe friction, then evolve selectively. Priority evidence is one real Paper KB experience and one verified live LCD experience because both should require little or no new platform code.
+- **R1 — LCD real use:** trusted live LCD pages produced the first real non-paper E3 experience.
+- **R1 fan-out — LCD curated subset:** the same frozen producer release yielded a second E3 experience through explicit ID curation, demonstrating falling marginal cost.
+- **R2 — multi-lane E1:** exact Git-backed collections were frozen for Thesis, Journal and knowledge-ecosystem docs without duplicating their existing human surfaces.
+- **R3 — two E2 snapshots:** Thesis and Journal gained distinct portable frozen navigators using the existing static renderer.
+- **R4 — persistent Git E3 seams:** both snapshots became executable exact-source cross-repository proofs rather than checked-in artifacts only.
+- **R5 — teaching discovery:** `repo.ldd-uba` entered as the first post-seed census case. Real materialization exposed upstream count drift and structural Hugo `_index.md` files; the source authority was repaired and KX added only a provenance-bearing path filter before accepting the exact 60-exercise E3 seam.
+
+After R5 the live census has **16 governed experiences: 5×E3 + 1×E1 + 10×E0**. Empty rungs are allowed; maturity is evidence-driven rather than score-driven.
+
+## Current operating regime
+
+**Default next gate: real use, new real-source adoption, or operational evidence before broad V2.**
+
+The strongest remaining scientific target is a genuinely approved real Paper KB corpus. Paper KB already has proven producer/consumer mechanics, but fixtures are not promoted as real experience evidence.
+
+E4 requires actual operation/use evidence: a refresh, circulation, recurring workflow or comparable human/operational demand. More deterministic CI alone cannot earn E4.
+
+The live census may discover additional concrete experiences when they are semantically distinct and backed by source authority. Do not force new estate discoveries into one of the original fifteen rows merely to avoid growing the ledger.
 
 ## Wave V2 — Evidence-pulled reconciliation
 
@@ -71,4 +86,4 @@ Do not build a broad V2 from the census table alone. Pull one candidate only whe
 
 ## Stop rule
 
-V1 succeeds if real use can now start cheaply and architecture stays legible. Architecture work should stop when the next useful action is to supply real governed material rather than another abstraction. That is the current state.
+The kernel is no longer the development frontier. New work should primarily supply real governed material, prove genuinely useful new experiences, observe operational use, or repair drift exposed by those uses. Architecture changes remain justified only when repeated real friction demands them.
