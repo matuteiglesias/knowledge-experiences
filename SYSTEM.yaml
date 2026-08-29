@@ -67,12 +67,13 @@ census:
   composition_maturity_rule: real-source-only
   maturity_snapshot:
     E3: 2
-    E0: 13
+    E1: 3
+    E0: 10
   v2_candidates:
     - ordered-groups-and-reading-trails
     - multi-source-collections-and-curation-receipts
 
 status:
-  phase: real-use-active
-  next_gate: second-real-source-domain
+  phase: multi-lane-real-use-active
+  next_gate: paper-real-corpus-or-distinct-e2-consumer
   implementation_policy: evidence-pulled

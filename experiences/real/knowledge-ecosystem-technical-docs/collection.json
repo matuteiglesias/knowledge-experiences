@@ -1,0 +1,16 @@
+{
+  "schema_id": "knowledge.collection-spec",
+  "schema_version": 1,
+  "collection_id": "knowledge-ecosystem-technical-docs",
+  "title": "Knowledge ecosystem technical docs — exact document index",
+  "description": "Metadata-only index of exact versioned architecture/control-surface documents; architecture authority remains upstream.",
+  "source": {
+    "adapter": "jsonl",
+    "path": "source/items.jsonl",
+    "authority": "repo.knowledge-ecosystem-docs",
+    "release_id": "git:ab59145a0378edc5f56b61e03951f93ca018c60a"
+  },
+  "selection": {
+    "mode": "all"
+  }
+}
