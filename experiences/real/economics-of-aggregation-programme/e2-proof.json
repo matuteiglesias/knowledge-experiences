@@ -1,0 +1,10 @@
+{
+  "collection_release_id": "sha256:3c46140540fd493c",
+  "experience_release_id": "sha256:e48e77652ca1c927",
+  "records": 89,
+  "rendered_artifact": "release/site/index.html",
+  "rendered_artifact_sha256": "319c680845f7e692555dd5971d8932b8b0db2ac5c736d3b03edeac1e83277e0f",
+  "result": "pass",
+  "schema_id": "knowledge.e2-snapshot-proof",
+  "schema_version": 1
+}
