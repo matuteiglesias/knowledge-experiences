@@ -1,0 +1,144 @@
+name: Materialize real LCD thesis resources subset
+
+on:
+  push:
+    branches: [real-use/lcd-live-institutional]
+    paths:
+      - '.github/workflows/materialize-lcd-thesis-subset.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    env:
+      SOURCE_ROOT: experiences/real/lcd-institutional
+      EXPERIENCE_ROOT: experiences/real/lcd-thesis-resources
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: real-use/lcd-live-institutional
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Knowledge Experiences
+        run: python -m pip install --no-deps -e .
+      - name: Verify exact real-source parent and materialize curated specs
+        run: |
+          python - <<'PY'
+          import json, os, shutil
+          from pathlib import Path
+
+          source_root = Path(os.environ['SOURCE_ROOT'])
+          root = Path(os.environ['EXPERIENCE_ROOT'])
+          source_dir = root / 'source'
+          source_dir.mkdir(parents=True, exist_ok=True)
+
+          receipt = json.loads((source_root / 'source/producer-receipt.json').read_text())
+          parent_proof = json.loads((source_root / 'real-use-proof.json').read_text())
+          rows = json.loads((source_root / 'source/title_slug_index.json').read_text())
+          assert receipt['producer_run_status'] == 'completed_trusted'
+          assert receipt['producer_trust_level'] == 'trusted'
+          assert parent_proof['result'] == 'pass'
+          assert parent_proof['producer_run_id'] == receipt['producer_run_id']
+
+          selected = {
+              'lcd:page:1948': 'Quiero ser tutor/a',
+              'lcd:page:1951': 'Quiero ser director/a',
+              'lcd:page:2147': 'Cartelera de temas de tesis de licenciatura – BAK',
+              'lcd:page:2562': 'Archivo de tesis de licenciatura – BAK',
+          }
+          by_id = {f"lcd:{row['entity_type']}:{row['source_id']}": row for row in rows}
+          for item_id, expected_title in selected.items():
+              assert item_id in by_id, f'missing curated real source id: {item_id}'
+              assert by_id[item_id]['title'] == expected_title
+              assert by_id[item_id]['source_url'].startswith(receipt['source_base_url'] + '/')
+
+          shutil.copyfile(source_root / 'source/title_slug_index.json', source_dir / 'title_slug_index.json')
+          shutil.copyfile(source_root / 'source/producer-receipt.json', source_dir / 'producer-receipt.json')
+          release_id = f"run:{receipt['producer_run_id']};git:{receipt['producer_git_commit']}"
+          collection = {
+              'schema_id': 'knowledge.collection-spec',
+              'schema_version': 1,
+              'collection_id': 'lcd-thesis-resources-live',
+              'title': 'LCD — thesis resources',
+              'description': 'Curated thesis-related LCD pages selected by exact identities from the trusted live institutional-page release.',
+              'source': {
+                  'adapter': 'lcd-title-slug-index',
+                  'path': 'source/title_slug_index.json',
+                  'authority': 'repo.lcd-uba-knowledgebase',
+                  'release_id': release_id,
+              },
+              'selection': {'mode': 'ids', 'item_ids': list(selected)},
+          }
+          experience = {
+              'schema_id': 'knowledge.experience-spec',
+              'schema_version': 1,
+              'experience_id': 'lcd-thesis-resources-live',
+              'title': 'LCD — thesis resources',
+              'collection_spec': 'lcd.collection.json',
+              'renderer': 'static-navigator',
+              'visibility': 'public',
+              'capabilities': {'search': True, 'facets': ['entity_type']},
+              'navigation': {'default_sort': 'title'},
+          }
+          (root / 'lcd.collection.json').write_text(json.dumps(collection, indent=2, ensure_ascii=False) + '\n')
+          (root / 'lcd.experience.json').write_text(json.dumps(experience, indent=2, ensure_ascii=False) + '\n')
+          PY
+      - name: Build deterministic curated experience
+        run: |
+          rm -rf "$EXPERIENCE_ROOT/release"
+          kx doctor "$EXPERIENCE_ROOT/lcd.experience.json"
+          kx build "$EXPERIENCE_ROOT/lcd.experience.json" --out "$EXPERIENCE_ROOT/release"
+      - name: Record real-use proof
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+
+          source_root = Path(os.environ['SOURCE_ROOT'])
+          root = Path(os.environ['EXPERIENCE_ROOT'])
+          receipt = json.loads((root / 'source/producer-receipt.json').read_text())
+          parent_proof = json.loads((source_root / 'real-use-proof.json').read_text())
+          collection = json.loads((root / 'release/collection.release.json').read_text())
+          experience = json.loads((root / 'release/experience.release.json').read_text())
+          html_path = root / 'release/site/index.html'
+          html = html_path.read_text()
+          expected_ids = ['lcd:page:1948', 'lcd:page:1951', 'lcd:page:2147', 'lcd:page:2562']
+          assert [item['item_id'] for item in collection['items']] == expected_ids
+          assert len(collection['items']) == 4
+          assert 'Quiero ser tutor/a' in html
+          assert 'Quiero ser director/a' in html
+          assert 'Cartelera de temas de tesis' in html
+          assert 'Archivo de tesis de licenciatura' in html
+          proof = {
+              'schema_id': 'knowledge.real-experience-proof',
+              'schema_version': 1,
+              'experience_id': 'lcd-thesis-resources-live',
+              'github_run_id': os.environ['GITHUB_RUN_ID'],
+              'knowledge_experiences_commit': os.environ['GITHUB_SHA'],
+              'producer_git_commit': receipt['producer_git_commit'],
+              'producer_run_id': receipt['producer_run_id'],
+              'parent_real_source_proof_run_id': parent_proof['github_run_id'],
+              'collection_release_id': collection['release_id'],
+              'experience_release_id': experience['release_id'],
+              'selected_item_ids': expected_ids,
+              'rendered_artifact': 'release/site/index.html',
+              'rendered_artifact_sha256': hashlib.sha256(html_path.read_bytes()).hexdigest(),
+              'records': 4,
+              'result': 'pass',
+          }
+          (root / 'real-use-proof.json').write_text(json.dumps(proof, indent=2, sort_keys=True) + '\n')
+          print(json.dumps(proof, indent=2))
+          PY
+      - name: Commit immutable curated experience to branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$EXPERIENCE_ROOT"
+          git commit -m 'Materialize real LCD thesis resources experience' || exit 0
+          git push origin HEAD:real-use/lcd-live-institutional
