@@ -1,0 +1,154 @@
+[
+  {
+    "slug": "archivo-de-tesis-de-licenciatura-bak",
+    "title": "Archivo de tesis de licenciatura – BAK",
+    "source_url": "https://lcd.exactas.uba.ar/archivo-de-tesis-de-licenciatura-bak/",
+    "entity_type": "page",
+    "source_id": 2562,
+    "content_hash": "sha256:5e6fa0a6fdd0de20e5794bf2c35c96c368e2bd71531ad855c8f545fa637275d3"
+  },
+  {
+    "slug": "temas-de-tesis-de-licenciatura-bak",
+    "title": "Cartelera de temas de tesis de licenciatura – BAK",
+    "source_url": "https://lcd.exactas.uba.ar/temas-de-tesis-de-licenciatura-bak/",
+    "entity_type": "page",
+    "source_id": 2147,
+    "content_hash": "sha256:abeb3678843c406fefc501404382425baa6d905b7990c1c79eca8a9ef204905a"
+  },
+  {
+    "slug": "comision-de-carrera",
+    "title": "Comisión de Carrera",
+    "source_url": "https://lcd.exactas.uba.ar/comision-de-carrera/",
+    "entity_type": "page",
+    "source_id": 807,
+    "content_hash": "sha256:ce8afdc85264e76774ad6e355bf80df39ca7b458a448e3b28cc08be0262e1a6d"
+  },
+  {
+    "slug": "comisiones",
+    "title": "Comisión de Carrera Original",
+    "source_url": "https://lcd.exactas.uba.ar/comisiones/",
+    "entity_type": "page",
+    "source_id": 650,
+    "content_hash": "sha256:c4e9b14c0e2280e0c9f2b9d1076afd99244b2081e3119acfbf1d77260e7ff5e9"
+  },
+  {
+    "slug": "employee-circle-grid",
+    "title": "Employee Circle Grid",
+    "source_url": "https://lcd.exactas.uba.ar/employee-circle-grid/",
+    "entity_type": "page",
+    "source_id": 1435,
+    "content_hash": "sha256:0a67fb8c5ed16a9cf9e3a3009d5887cf8d1477b3666f18c8c2c0b33f1123b820"
+  },
+  {
+    "slug": "employee-circle-panel-grid",
+    "title": "Employee Circle Panel Grid",
+    "source_url": "https://lcd.exactas.uba.ar/employee-circle-panel-grid/",
+    "entity_type": "page",
+    "source_id": 1434,
+    "content_hash": "sha256:65c2f077e1a3c1cca3103b70fda3cc6f0de71a5fb23c8dd7617fdf47e048960f"
+  },
+  {
+    "slug": "home",
+    "title": "Home",
+    "source_url": "https://lcd.exactas.uba.ar/",
+    "entity_type": "page",
+    "source_id": 395,
+    "content_hash": "sha256:6c24eb95f971a5c827cf82f2731761dbf46eafdde4198e13900f0a30ff355287"
+  },
+  {
+    "slug": "horarios-de-consulta",
+    "title": "Horarios de consulta",
+    "source_url": "https://lcd.exactas.uba.ar/horarios-de-consulta/",
+    "entity_type": "page",
+    "source_id": 1864,
+    "content_hash": "sha256:fd7503819f4323c1f5f0918d11730d6a8e58b730e676548c3c6d83b1becd25b5"
+  },
+  {
+    "slug": "institucional",
+    "title": "Institucional",
+    "source_url": "https://lcd.exactas.uba.ar/institucional/",
+    "entity_type": "page",
+    "source_id": 410,
+    "content_hash": "sha256:b1cf4114ab8448270a653d7d0b51d14b485fea784f59a900b8439c9fc4ffff8f"
+  },
+  {
+    "slug": "mujeres-de-exactas",
+    "title": "Mujeres de Exactas",
+    "source_url": "https://lcd.exactas.uba.ar/novedades/mujeres-de-exactas/",
+    "entity_type": "page",
+    "source_id": 1135,
+    "content_hash": "sha256:5ded716557f28d44f683d61cec49407d5b169ad3550ce951c8359590a4e54655"
+  },
+  {
+    "slug": "no-access",
+    "title": "No Access",
+    "source_url": "https://lcd.exactas.uba.ar/no-access/",
+    "entity_type": "page",
+    "source_id": 2940,
+    "content_hash": "sha256:793de10fa6bdd44592d96fbd54d5c7bdded88d419de12529c8a79ed9dd97813c"
+  },
+  {
+    "slug": "novedades",
+    "title": "Novedades",
+    "source_url": "https://lcd.exactas.uba.ar/novedades/",
+    "entity_type": "page",
+    "source_id": 412,
+    "content_hash": "sha256:6b20b5aae8a398bddc0b1ee7e363b923b172d645262e0577595476ee83109479"
+  },
+  {
+    "slug": "materias",
+    "title": "Plan de estudios",
+    "source_url": "https://lcd.exactas.uba.ar/materias/",
+    "entity_type": "page",
+    "source_id": 43,
+    "content_hash": "sha256:5cf2a845186c93aa7d14891c860b284a62820a47357c1428c9447c2ce2b6b39a"
+  },
+  {
+    "slug": "preguntas-frecuentes",
+    "title": "Preguntas Frecuentes",
+    "source_url": "https://lcd.exactas.uba.ar/preguntas-frecuentes/",
+    "entity_type": "page",
+    "source_id": 480,
+    "content_hash": "sha256:1693d6abfbb128fc4b69eaafa0c56c100504acc85205d03644b858a23ac2e892"
+  },
+  {
+    "slug": "pagina-ejemplo",
+    "title": "Página de ejemplo",
+    "source_url": "https://lcd.exactas.uba.ar/pagina-ejemplo/",
+    "entity_type": "page",
+    "source_id": 2,
+    "content_hash": "sha256:5c5cd550f01a7b82b385ba3f7b83082f573f8ff2cc453a0407ee11492c7c8c42"
+  },
+  {
+    "slug": "quiero-ser-director-a",
+    "title": "Quiero ser director/a",
+    "source_url": "https://lcd.exactas.uba.ar/quiero-ser-director-a/",
+    "entity_type": "page",
+    "source_id": 1951,
+    "content_hash": "sha256:3723e84b2d6646c59d98af59201e6962be1d3b63d92dc33640c7e16c64771258"
+  },
+  {
+    "slug": "quiero-ser-tutor-a",
+    "title": "Quiero ser tutor/a",
+    "source_url": "https://lcd.exactas.uba.ar/quiero-ser-tutor-a/",
+    "entity_type": "page",
+    "source_id": 1948,
+    "content_hash": "sha256:9ac0da4fff1c322e31527c9ab991d42c926b4d11c47083ea0cd3909b65953034"
+  },
+  {
+    "slug": "semana-de-las-ciencias-de-datos-2021",
+    "title": "Semana de las Ciencias de Datos 2021",
+    "source_url": "https://lcd.exactas.uba.ar/semana-de-las-ciencias-de-datos-2021/",
+    "entity_type": "page",
+    "source_id": 1225,
+    "content_hash": "sha256:b46bbe1be876cbaf916f529006c48a946c1d64dc077d3c92d8df5619822948c7"
+  },
+  {
+    "slug": "datame",
+    "title": "¡Dátame! Las charlas de LCD",
+    "source_url": "https://lcd.exactas.uba.ar/datame/",
+    "entity_type": "page",
+    "source_id": 1183,
+    "content_hash": "sha256:5e93a26c17efbe967b62a076e3a8fe3ed0ff09645ec1f7bb4b4cd1d524d84027"
+  }
+]

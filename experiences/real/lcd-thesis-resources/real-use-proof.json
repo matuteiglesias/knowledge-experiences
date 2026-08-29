@@ -1,0 +1,22 @@
+{
+  "collection_release_id": "sha256:01bbef6b349aefea",
+  "experience_id": "lcd-thesis-resources-live",
+  "experience_release_id": "sha256:3b69509ac61a991f",
+  "github_run_id": "33278265492",
+  "knowledge_experiences_commit": "923deddabb532bc4637b3d562ba944ef0dc3680e",
+  "parent_real_source_proof_run_id": "33278164562",
+  "producer_git_commit": "dcaa61e338b284d43764b9c06a0f112629e958f6",
+  "producer_run_id": "kx_live_lcd_pages_20260829T221634Z",
+  "records": 4,
+  "rendered_artifact": "release/site/index.html",
+  "rendered_artifact_sha256": "d9b6345bdfeed25df376eca4bcfd40827bcace77b7e4cddf6536e86160c6ae57",
+  "result": "pass",
+  "schema_id": "knowledge.real-experience-proof",
+  "schema_version": 1,
+  "selected_item_ids": [
+    "lcd:page:1948",
+    "lcd:page:1951",
+    "lcd:page:2147",
+    "lcd:page:2562"
+  ]
+}
