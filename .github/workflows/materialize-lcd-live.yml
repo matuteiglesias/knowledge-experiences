@@ -40,7 +40,15 @@ jobs:
           cd /tmp/lcd-kb
           rm -rf data/lcd/raw/pages data/lcd/raw/posts data/lcd/reports
           PYTHONPATH=src python -m lcd_kb.cli fetch --entity page --base-url "$LIVE_BASE_URL" --per-page 100
+          set +e
           PYTHONPATH=src python -m lcd_kb.cli fetch --entity post --base-url "$LIVE_BASE_URL" --per-page 100
+          POST_STATUS=$?
+          set -e
+          if [ "$POST_STATUS" -ne 0 ]; then
+            echo '--- producer post fetch errors ---'
+            cat data/lcd/reports/post_fetch_errors.jsonl || true
+            exit "$POST_STATUS"
+          fi
           RUN_ID="kx_live_lcd_$(date -u +%Y%m%dT%H%M%SZ)"
           PYTHONPATH=src python -m lcd_kb.cli build --run-id "$RUN_ID"
           echo "RUN_ID=$RUN_ID" >> "$GITHUB_ENV"
