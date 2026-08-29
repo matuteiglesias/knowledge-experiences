@@ -38,6 +38,21 @@ def _load_jsonl(path: Path, source_path: str) -> list[tuple[int, dict[str, Any]]
     return rows
 
 
+def _load_json_array(path: Path, source_path: str) -> list[dict[str, Any]]:
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ValidationError(f"{source_path}: invalid JSON: {exc}") from exc
+    if not isinstance(raw, list):
+        raise ValidationError(f"{source_path}: root must be an array")
+    rows: list[dict[str, Any]] = []
+    for index, item in enumerate(raw):
+        if not isinstance(item, dict):
+            raise ValidationError(f"{source_path}[{index}]: record must be an object")
+        rows.append(item)
+    return rows
+
+
 class JsonlSourceAdapter:
     name = "jsonl"
 
@@ -208,10 +223,63 @@ class PaperReviewSourceAdapter:
         return LoadedSource(items=tuple(items), sha256=sha256_file(path), path=source.path)
 
 
+def _lcd_index_item(raw: dict[str, Any], *, source: SourceSpec, index: int) -> dict[str, Any]:
+    prefix = f"{source.path}[{index}]"
+    required_strings = ("slug", "title", "source_url", "entity_type", "content_hash")
+    for field in required_strings:
+        value = raw.get(field)
+        if not isinstance(value, str) or not value.strip():
+            raise ValidationError(f"{prefix}: {field} must be a non-empty string")
+    source_id = raw.get("source_id")
+    if isinstance(source_id, bool) or not isinstance(source_id, (str, int)) or not str(source_id).strip():
+        raise ValidationError(f"{prefix}: source_id must be a non-empty string or integer")
+    if not raw["content_hash"].startswith("sha256:"):
+        raise ValidationError(f"{prefix}: content_hash must be a sha256: identity")
+
+    entity_type = raw["entity_type"].strip()
+    object_id = f"{entity_type}:{source_id}"
+    item = {
+        "item_id": f"lcd:{object_id}",
+        "kind": f"lcd-{entity_type}",
+        "title": raw["title"].strip(),
+        "subtitle": entity_type,
+        "contributors": [],
+        "tags": [],
+        "facets": {"entity_type": entity_type},
+        "canonical_url": raw["source_url"].strip(),
+        "source_ref": {
+            "authority": source.authority,
+            "object_id": object_id,
+            "url": raw["source_url"].strip(),
+        },
+    }
+    return validate_item(item)
+
+
+class LcdTitleSlugIndexAdapter:
+    name = "lcd-title-slug-index"
+
+    def load(self, source: SourceSpec, *, base_dir: Path) -> LoadedSource:
+        path = (base_dir / source.path).resolve()
+        if not path.is_file():
+            raise ValidationError(f"source file does not exist: {source.path}")
+        items: list[dict[str, Any]] = []
+        seen: set[str] = set()
+        for index, raw in enumerate(_load_json_array(path, source.path)):
+            item = _lcd_index_item(raw, source=source, index=index)
+            item_id = item["item_id"]
+            if item_id in seen:
+                raise ValidationError(f"{source.path}[{index}]: duplicate LCD identity {item_id!r}")
+            seen.add(item_id)
+            items.append(item)
+        return LoadedSource(items=tuple(items), sha256=sha256_file(path), path=source.path)
+
+
 _ADAPTERS: dict[str, SourceAdapter] = {
     "jsonl": JsonlSourceAdapter(),
     "paper-catalog-jsonl": PaperCatalogSourceAdapter(),
     "paper-review-jsonl": PaperReviewSourceAdapter(),
+    "lcd-title-slug-index": LcdTitleSlugIndexAdapter(),
 }
 
 

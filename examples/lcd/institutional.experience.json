@@ -1,0 +1,11 @@
+{
+  "schema_id": "knowledge.experience-spec",
+  "schema_version": 1,
+  "experience_id": "lcd-institutional-index-proof",
+  "title": "LCD — institutional knowledge index",
+  "collection_spec": "institutional.collection.json",
+  "renderer": "static-navigator",
+  "visibility": "private",
+  "capabilities": {"search": true, "facets": ["entity_type"]},
+  "navigation": {"default_sort": "title"}
+}

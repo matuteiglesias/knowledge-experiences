@@ -1,0 +1,73 @@
+name: LCD non-paper producer fan-out proof
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prove:
+    runs-on: ubuntu-latest
+    env:
+      LCD_COMMIT: dcaa61e338b284d43764b9c06a0f112629e958f6
+      LCD_RUN: local_contract_check_20260424T161417Z
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Knowledge Experiences
+        run: python -m pip install --no-deps -e .
+      - name: Checkout pinned LCD producer
+        run: |
+          git clone -q https://github.com/matuteiglesias/lcd-UBA-knowledgebase.git /tmp/lcd-kb
+          git -C /tmp/lcd-kb checkout -q "$LCD_COMMIT"
+          test "$(git -C /tmp/lcd-kb rev-parse HEAD)" = "$LCD_COMMIT"
+      - name: Resolve exact trusted run artifact
+        run: |
+          mkdir -p examples/lcd/generated
+          python - <<'PY'
+          import json, os, shutil
+          from pathlib import Path
+
+          root = Path('/tmp/lcd-kb')
+          run_id = os.environ['LCD_RUN']
+          latest = json.loads((root / 'data/lcd/registry/latest_trusted.json').read_text())
+          assert latest['run_id'] == run_id
+          assert latest['status'] == 'completed_trusted'
+          manifest = json.loads((root / latest['manifest_path']).read_text())
+          assert manifest['result'] == 'pass'
+          assert manifest['run_status'] == 'completed_trusted'
+          src = root / f'data/lcd/runs/{run_id}/indexes/title_slug_index.json'
+          assert src.is_file()
+          rows = json.loads(src.read_text())
+          assert len(rows) == 2
+          shutil.copyfile(src, Path('examples/lcd/generated/title_slug_index.json'))
+          print(f'using governed LCD run {run_id} with {len(rows)} index rows')
+          PY
+      - name: Build deterministic LCD experience
+        run: |
+          kx doctor examples/lcd/institutional.experience.json
+          kx build examples/lcd/institutional.experience.json --out /tmp/lcd-experience
+      - name: Assert source identity and page/post reuse
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          out = Path('/tmp/lcd-experience')
+          release = json.loads((out / 'collection.release.json').read_text())
+          assert release['source']['authority'] == 'repo.lcd-uba-knowledgebase'
+          assert os.environ['LCD_COMMIT'] in release['source']['release_id']
+          assert os.environ['LCD_RUN'] in release['source']['release_id']
+          assert [x['item_id'] for x in release['items']] == ['lcd:page:395', 'lcd:post:901']
+          assert {x['facets']['entity_type'] for x in release['items']} == {'page', 'post'}
+          html = (out / 'site/index.html').read_text()
+          assert 'Plan de estudios' in html
+          assert 'Inscripciones 2026' in html
+          print('LCD -> Knowledge Experiences non-paper fan-out proof accepted')
+          PY
