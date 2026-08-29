@@ -1,0 +1,108 @@
+name: Materialize R2 multi-lane E1 releases
+
+on:
+  push:
+    branches: [real-use/r2-multi-lane-e1]
+    paths:
+      - '.github/workflows/materialize-r2-multi-lane-e1.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: real-use/r2-multi-lane-e1
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Knowledge Experiences
+        run: python -m pip install --no-deps -e .
+      - name: Checkout exact public producer commits
+        run: |
+          git clone -q https://github.com/matuteiglesias/thesis.git /tmp/thesis
+          git -C /tmp/thesis checkout -q 7265018750db0f96b69efd4048aedad06ad803fc
+          test "$(git -C /tmp/thesis rev-parse HEAD)" = "7265018750db0f96b69efd4048aedad06ad803fc"
+
+          git clone -q https://github.com/matuteiglesias/journal.git /tmp/journal
+          git -C /tmp/journal checkout -q 11fc6ea42e13866cd952e4957c26dd2e55ef78d7
+          test "$(git -C /tmp/journal rev-parse HEAD)" = "11fc6ea42e13866cd952e4957c26dd2e55ef78d7"
+
+          git clone -q https://github.com/matuteiglesias/knowledge-ecosystem-docs.git /tmp/knowledge-ecosystem-docs
+          git -C /tmp/knowledge-ecosystem-docs checkout -q ab59145a0378edc5f56b61e03951f93ca018c60a
+          test "$(git -C /tmp/knowledge-ecosystem-docs rev-parse HEAD)" = "ab59145a0378edc5f56b61e03951f93ca018c60a"
+      - name: Materialize exact Git-backed metadata collections
+        run: |
+          python scripts/materialize_markdown_collection.py \
+            --repo-root /tmp/thesis \
+            --source-repo matuteiglesias/thesis \
+            --authority repo.thesis \
+            --commit 7265018750db0f96b69efd4048aedad06ad803fc \
+            --scope-root docs \
+            --mode all-markdown \
+            --collection-id economics-of-aggregation-programme \
+            --title 'Economics of Aggregation programme — exact document index' \
+            --description 'Metadata-only index of exact versioned research-programme documents; repo.thesis retains content and status authority.' \
+            --kind research-document \
+            --out-dir experiences/real/economics-of-aggregation-programme
+
+          python scripts/materialize_markdown_collection.py \
+            --repo-root /tmp/journal \
+            --source-repo matuteiglesias/journal \
+            --authority repo.journal \
+            --commit 11fc6ea42e13866cd952e4957c26dd2e55ef78d7 \
+            --scope-root content \
+            --mode explicit-publish \
+            --collection-id working-memory-journal \
+            --title 'Working-memory journal — explicit-publication collection' \
+            --description 'Conservative metadata-only subset of exact versioned journal notes carrying explicit publish:true; Quartz remains publication authority.' \
+            --kind journal-note \
+            --out-dir experiences/real/working-memory-journal
+
+          python scripts/materialize_markdown_collection.py \
+            --repo-root /tmp/knowledge-ecosystem-docs \
+            --source-repo matuteiglesias/knowledge-ecosystem-docs \
+            --authority repo.knowledge-ecosystem-docs \
+            --commit ab59145a0378edc5f56b61e03951f93ca018c60a \
+            --scope-root docs \
+            --mode all-markdown \
+            --collection-id knowledge-ecosystem-technical-docs \
+            --title 'Knowledge ecosystem technical docs — exact document index' \
+            --description 'Metadata-only index of exact versioned architecture/control-surface documents; architecture authority remains upstream.' \
+            --kind architecture-document \
+            --out-dir experiences/real/knowledge-ecosystem-technical-docs
+      - name: Compile deterministic E1 collection releases twice
+        run: |
+          for d in \
+            experiences/real/economics-of-aggregation-programme \
+            experiences/real/working-memory-journal \
+            experiences/real/knowledge-ecosystem-technical-docs
+          do
+            mkdir -p "$d/release"
+            kx validate "$d/collection.json"
+            kx compile-collection "$d/collection.json" --out "$d/release/collection.release.json"
+            kx compile-collection "$d/collection.json" --out /tmp/collection.release.json
+            cmp "$d/release/collection.release.json" /tmp/collection.release.json
+          done
+      - name: Promote exact evidence into the governed census
+        run: python scripts/promote_r2_e1.py
+      - name: Validate repository and materializer
+        run: |
+          python -m py_compile scripts/materialize_markdown_collection.py
+          make check
+      - name: Remove one-shot promotion machinery
+        run: |
+          rm .github/workflows/materialize-r2-multi-lane-e1.yml
+          rm scripts/promote_r2_e1.py
+      - name: Commit governed R2 evidence
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'R2: populate three real-source E1 lanes'
+          git push origin HEAD:real-use/r2-multi-lane-e1
