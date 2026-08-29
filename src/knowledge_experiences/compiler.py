@@ -96,16 +96,41 @@ def build_experience(spec_path: Path, out_dir: Path) -> dict[str, Any]:
     if not isinstance(spec, ExperienceSpec):
         raise ValidationError(f"{spec_path}: expected {ExperienceSpec.schema_id}")
     collection_spec_path = (spec_path.parent / spec.collection_spec).resolve()
+    collection_spec = read_typed(collection_spec_path)
+    if not isinstance(collection_spec, CollectionSpec):
+        raise ValidationError(f"{collection_spec_path}: expected {CollectionSpec.schema_id}")
+    source_path = (collection_spec_path.parent / collection_spec.source.path).resolve()
+
     out_dir = Path(out_dir).resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
     collection_release_path = out_dir / "collection.release.json"
     collection_release = compile_collection(collection_spec_path, collection_release_path)
-    renderer = get_renderer(spec.renderer)
     site_dir = out_dir / "site"
-    artifacts = renderer.render(collection_release=collection_release, experience_spec=spec, out_dir=site_dir)
+
+    if spec.renderer == "abstract-scroller":
+        from .external_renderers import AbstractScrollerRenderer
+
+        renderer = AbstractScrollerRenderer()
+        artifacts = renderer.render(
+            collection_release=collection_release,
+            experience_spec=spec,
+            out_dir=site_dir,
+            source_path=source_path,
+        )
+    else:
+        renderer = get_renderer(spec.renderer)
+        artifacts = renderer.render(
+            collection_release=collection_release,
+            experience_spec=spec,
+            out_dir=site_dir,
+        )
+
     artifact_records = []
     for artifact in sorted(artifacts, key=lambda p: p.relative_to(out_dir).as_posix()):
         artifact_records.append({"path": artifact.relative_to(out_dir).as_posix(), "sha256": sha256_file(artifact)})
+    renderer_record: dict[str, Any] = {"name": spec.renderer}
+    if spec.renderer_ref is not None:
+        renderer_record["ref"] = spec.renderer_ref
     payload: dict[str, Any] = {
         "schema_id": "knowledge.experience-release",
         "schema_version": 1,
@@ -115,7 +140,7 @@ def build_experience(spec_path: Path, out_dir: Path) -> dict[str, Any]:
             "release_id": collection_release["release_id"],
             "sha256": sha256_file(collection_release_path),
         },
-        "renderer": {"name": spec.renderer},
+        "renderer": renderer_record,
         "spec_sha256": sha256_file(spec_path),
         "artifacts": artifact_records,
     }

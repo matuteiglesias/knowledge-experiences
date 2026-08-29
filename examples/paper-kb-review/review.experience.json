@@ -1,0 +1,10 @@
+{
+  "schema_id": "knowledge.experience-spec",
+  "schema_version": 1,
+  "experience_id": "paper-kb-abstract-scroller-proof",
+  "title": "Paper KB — immutable review snapshot",
+  "collection_spec": "review.collection.json",
+  "renderer": "abstract-scroller",
+  "renderer_ref": "6a738edd28d21bf54d6c52943883fee19f4cc033",
+  "visibility": "private"
+}

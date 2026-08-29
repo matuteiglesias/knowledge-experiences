@@ -1,0 +1,104 @@
+name: Abstract Scroller renderer handoff proof
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prove:
+    runs-on: ubuntu-latest
+    env:
+      PAPER_KB_COMMIT: ecf09f19c3211de85eea6e4f81a0c2a48f378fc0
+      ABSTRACT_SCROLLER_COMMIT: 6a738edd28d21bf54d6c52943883fee19f4cc033
+      KX_ABSTRACT_SCROLLER_ROOT: /tmp/abstract-scroller
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Knowledge Experiences
+        run: python -m pip install --no-deps -e .
+      - name: Checkout pinned producer and renderer
+        run: |
+          git clone -q https://github.com/matuteiglesias/paper-kb.git /tmp/paper-kb
+          git -C /tmp/paper-kb checkout -q "$PAPER_KB_COMMIT"
+          test "$(git -C /tmp/paper-kb rev-parse HEAD)" = "$PAPER_KB_COMMIT"
+          git clone -q https://github.com/matuteiglesias/abstract-scroller.git "$KX_ABSTRACT_SCROLLER_ROOT"
+          git -C "$KX_ABSTRACT_SCROLLER_ROOT" checkout -q "$ABSTRACT_SCROLLER_COMMIT"
+          test "$(git -C "$KX_ABSTRACT_SCROLLER_ROOT" rev-parse HEAD)" = "$ABSTRACT_SCROLLER_COMMIT"
+          python -m pip install -e "$KX_ABSTRACT_SCROLLER_ROOT"
+      - name: Produce canonical review records with real Paper KB code
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/.proof/review_chunk_sets" "$GITHUB_WORKSPACE/examples/paper-kb-review/generated"
+          cd /tmp/paper-kb
+          PYTHONPATH=. python - <<'PY'
+          import os
+          from pathlib import Path
+          from pipeline.writers.chunk_set_writer import write_chunk_set_artifact
+
+          root = Path(os.environ["GITHUB_WORKSPACE"]) / ".proof" / "review_chunk_sets"
+          rows = [
+              ("review-a", "paper:review-a", "Review A", 2026),
+              ("review-b", "paper:review-b", "Review B", 2025),
+          ]
+          for run_id, uid, title, year in rows:
+              write_chunk_set_artifact(
+                  [{"chunk_id": f"{run_id}-chunk", "paper_id": uid, "paper_uid": uid, "text": "Sanitized proof chunk.", "chunk_index": 0, "metadata": {}}],
+                  source_items=[f"{run_id}.tei.xml"],
+                  run_id=run_id,
+                  out_dir=root,
+                  paper_meta={
+                      "paper_uid": uid,
+                      "paper_id": uid,
+                      "title": title,
+                      "abstract": f"Sanitized abstract for {title}.",
+                      "year": year,
+                      "venue": "Proof Venue",
+                      "tags": ["proof"],
+                      "badges": ["has_code"] if uid.endswith("a") else [],
+                  },
+              )
+          PY
+          PYTHONPATH=. python -m pipeline.projections.review_records \
+            --chunk-set-dir "$GITHUB_WORKSPACE/.proof/review_chunk_sets" \
+            --out "$GITHUB_WORKSPACE/examples/paper-kb-review/generated/paper.review-record.v1.jsonl"
+      - name: Run repository regression and deterministic external renderer build
+        run: |
+          python -m unittest discover -s tests -p 'test_*.py'
+          kx doctor examples/paper-kb-review/review.experience.json
+          kx build examples/paper-kb-review/review.experience.json --out /tmp/scroller-experience
+      - name: Assert identity survives producer -> composition -> snapshot
+        run: |
+          python - <<'PY'
+          import brotli
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          out = Path("/tmp/scroller-experience")
+          release = json.loads((out / "experience.release.json").read_text())
+          collection = json.loads((out / "collection.release.json").read_text())
+          manifest = json.loads((out / "site" / "manifest.json").read_text())
+          provenance = json.loads((out / "site" / "renderer.provenance.json").read_text())
+          source_path = Path("examples/paper-kb-review/generated/paper.review-record.v1.jsonl")
+          source_sha = hashlib.sha256(source_path.read_bytes()).hexdigest()
+
+          assert collection["source"]["authority"] == "repo.paper-kb"
+          assert collection["source"]["release_id"] == os.environ["PAPER_KB_COMMIT"]
+          assert collection["source"]["sha256"] == source_sha
+          assert release["renderer"] == {"name": "abstract-scroller", "ref": os.environ["ABSTRACT_SCROLLER_COMMIT"]}
+          assert provenance["renderer_commit"] == os.environ["ABSTRACT_SCROLLER_COMMIT"]
+          assert provenance["input_sha256"] == source_sha
+          assert manifest["counts"]["docs"] == 2
+
+          tile = next((out / "site" / "tiles").glob("tile_*.json.br"))
+          payload = json.loads(brotli.decompress(tile.read_bytes()).decode("utf-8"))
+          assert [doc["doc_id"] for doc in payload["docs"]] == ["paper:review-a", "paper:review-b"]
+          print("Paper KB -> Knowledge Experiences -> Abstract Scroller handoff accepted")
+          PY

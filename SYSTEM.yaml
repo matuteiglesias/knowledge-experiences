@@ -21,7 +21,7 @@ authority:
 ecosystem:
   architecture_authority: repo.knowledge-ecosystem-docs
   shared_interop_authority: repo.kb-contracts
-  proven_producers:
+  expected_producers:
     - repo.paper-kb
   expected_capabilities:
     - repo.knowledge-inspect
@@ -41,25 +41,21 @@ interfaces:
   source_adapters:
     - jsonl
     - paper-catalog-jsonl
-  producer_inputs:
-    - paper.catalog-record@1
-  selection_modes:
-    - all
-    - ids
-    - facets
+    - paper-review-jsonl
   renderers:
     - static-navigator
-
-verification:
-  proven:
-    - deterministic local fixture builds through kx doctor
-    - pinned Paper KB paper.catalog-record@1 output composes into static navigator experiences in cross-repository CI
-    - author facet selection produces a second experience from the same producer release without new renderer code
-  limitations:
-    - cross-repository proof uses sanitized producer-generated artifacts, not a rights-sensitive real paper corpus
-    - working-paper-series experience is not claimed because current Paper KB venue/series coverage is not guaranteed
+    - abstract-scroller
+  proven_handoffs:
+    - producer: repo.paper-kb
+      contract: paper.catalog-record@1
+      renderer: static-navigator
+      evidence: pinned cross-repo CI
+    - producer: repo.paper-kb
+      contract: paper.review-record@1
+      renderer: repo.abstract-scroller
+      evidence: pinned producer/composer/renderer CI
 
 status:
-  phase: v1.2-paper-kb-catalog-seam
-  next_gate: v1.3-abstract-scroller-handoff
+  phase: v1.3-second-renderer
+  next_gate: v1.4-ecosystem-fan-out
   implementation_policy: evidence-pulled

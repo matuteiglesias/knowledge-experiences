@@ -192,6 +192,7 @@ class ExperienceSpec:
     collection_spec: str
     renderer: str
     title: str | None = None
+    renderer_ref: str | None = None
     visibility: str = "private"
     facets: tuple[str, ...] = ()
     search: bool = True
@@ -203,7 +204,7 @@ class ExperienceSpec:
     @classmethod
     def from_dict(cls, raw: Any) -> "ExperienceSpec":
         data = _expect_mapping(raw, "ExperienceSpec")
-        allowed = {"schema_id", "schema_version", "experience_id", "title", "collection_spec", "renderer", "visibility", "capabilities", "navigation"}
+        allowed = {"schema_id", "schema_version", "experience_id", "title", "collection_spec", "renderer", "renderer_ref", "visibility", "capabilities", "navigation"}
         extra = set(data) - allowed
         if extra:
             raise ValidationError(f"ExperienceSpec has unknown fields: {sorted(extra)}")
@@ -232,6 +233,7 @@ class ExperienceSpec:
             title=_optional_str(data, "title", "ExperienceSpec"),
             collection_spec=_required_str(data, "collection_spec", "ExperienceSpec"),
             renderer=_required_str(data, "renderer", "ExperienceSpec"),
+            renderer_ref=_optional_str(data, "renderer_ref", "ExperienceSpec"),
             visibility=visibility,
             facets=facets,
             search=search,
@@ -251,6 +253,8 @@ class ExperienceSpec:
         }
         if self.title is not None:
             out["title"] = self.title
+        if self.renderer_ref is not None:
+            out["renderer_ref"] = self.renderer_ref
         return out
 
 
