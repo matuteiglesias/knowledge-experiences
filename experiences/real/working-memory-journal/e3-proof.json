@@ -1,0 +1,12 @@
+{
+  "case": "journal",
+  "collection_release_id": "sha256:1cdee66182d2514e",
+  "experience_release_id": "sha256:943be14e62f6a14f",
+  "proof": "exact-git-source-to-frozen-experience",
+  "rendered_artifact_sha256": "5a99c59f74774872d5a3c8da68ad985ed9176fc22829b0bce3f810abd8fdb32e",
+  "result": "pass",
+  "schema_id": "knowledge.e3-cross-repo-proof",
+  "schema_version": 1,
+  "source_commit": "11fc6ea42e13866cd952e4957c26dd2e55ef78d7",
+  "source_repo": "matuteiglesias/journal"
+}

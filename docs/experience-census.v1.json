@@ -348,8 +348,8 @@
       "id": 11,
       "experience_id": "economics-of-aggregation-programme",
       "name": "Economics of Aggregation programme",
-      "composition_maturity": "E2",
-      "engineering_status": "existing_vertical",
+      "composition_maturity": "E3",
+      "engineering_status": "proven_real_source_seam",
       "existing_surface": "repo.thesis Docusaurus research portal; README identifies a live research/thesis site",
       "source_authorities": [
         "repo.thesis"
@@ -361,7 +361,7 @@
       "collection_release": "experiences/real/economics-of-aggregation-programme/release/collection.release.json#sha256:3c46140540fd493c",
       "renderer_profile": "static-navigator-frozen-snapshot",
       "rendered_artifact": "experiences/real/economics-of-aggregation-programme/release/site/index.html",
-      "cross_repo_proof": null,
+      "cross_repo_proof": "experiences/real/economics-of-aggregation-programme/e3-proof.json + .github/workflows/git-vertical-seam-proof.yml",
       "operational_evidence": null,
       "capabilities_reused": [
         "jsonl",
@@ -370,24 +370,25 @@
         "static-navigator",
         "immutable-human-snapshot"
       ],
-      "incremental_work": "experience configuration only over the accepted E1 CollectionRelease; existing static-navigator renderer reused unchanged",
-      "blocker": "none for the frozen E2 artifact; the upstream live vertical remains authoritative for current content and richer semantics",
-      "observed_friction": "none in rendering; the key discipline is keeping frozen snapshot semantics distinct from the live upstream vertical",
+      "incremental_work": "persistent proof only: exact upstream Git checkout is reprojected and rebuilt with the existing materializer, kernel and static renderer",
+      "blocker": "none for reproducible E3 seam; E4 still requires genuine operational use/refresh demand rather than stronger CI",
+      "observed_friction": "large public Git producers are cheap to reproduce when commit identity and selection policy are explicit; no new adapter or renderer was needed",
       "v2_candidate": "ordered-groups-and-reading-trails",
       "engineering_evidence": [
         "repository contains curated trails and explicit research-status/provenance semantics",
         "R2 exact Git snapshot 7265018750db0f96b69efd4048aedad06ad803fc produced 89 metadata records and CollectionRelease sha256:3c46140540fd493c",
-        "R3 deterministic build produced ExperienceRelease sha256:e48e77652ca1c927 and human artifact sha256 319c680845f7e692555dd5971d8932b8b0db2ac5c736d3b03edeac1e83277e0f"
+        "R3 deterministic build produced ExperienceRelease sha256:e48e77652ca1c927 and human artifact sha256 319c680845f7e692555dd5971d8932b8b0db2ac5c736d3b03edeac1e83277e0f",
+        "R4 persistent cross-repo CI reproduces matuteiglesias/thesis@7265018750db0f96b69efd4048aedad06ad803fc through source projection, CollectionRelease sha256:3c46140540fd493c, ExperienceRelease sha256:e48e77652ca1c927 and artifact 319c680845f7e692555dd5971d8932b8b0db2ac5c736d3b03edeac1e83277e0f"
       ],
-      "evidence_boundary": "E2 claims only portable immutable index of the exact 89-document research-programme state, distinct from the live Docusaurus portal; no live-site replacement, deployment, cross-repo executable proof, or E3 operational claim is made",
-      "next_real_action": "use or circulate the frozen snapshot; E3 requires a persistent executable source-to-snapshot seam or repeated real operational use, not merely this checked-in build"
+      "evidence_boundary": "E3 means the accepted real-source producer-to-experience seam is executable and reproducible from exact Git pins; it does not claim live deployment, automatic refresh, audience use, or E4 operation",
+      "next_real_action": "use the frozen experience in a real research/publication workflow or perform a governed refresh from a newer upstream commit; only repeated operational demand can justify E4"
     },
     {
       "id": 12,
       "experience_id": "working-memory-journal",
       "name": "Working-memory journal",
-      "composition_maturity": "E2",
-      "engineering_status": "existing_vertical",
+      "composition_maturity": "E3",
+      "engineering_status": "proven_real_source_seam",
       "existing_surface": "repo.journal Quartz publication garden",
       "source_authorities": [
         "repo.journal"
@@ -399,7 +400,7 @@
       "collection_release": "experiences/real/working-memory-journal/release/collection.release.json#sha256:1cdee66182d2514e",
       "renderer_profile": "static-navigator-frozen-snapshot",
       "rendered_artifact": "experiences/real/working-memory-journal/release/site/index.html",
-      "cross_repo_proof": null,
+      "cross_repo_proof": "experiences/real/working-memory-journal/e3-proof.json + .github/workflows/git-vertical-seam-proof.yml",
       "operational_evidence": null,
       "capabilities_reused": [
         "jsonl",
@@ -408,17 +409,18 @@
         "static-navigator",
         "immutable-human-snapshot"
       ],
-      "incremental_work": "experience configuration only over the accepted E1 CollectionRelease; existing static-navigator renderer reused unchanged",
-      "blocker": "none for the frozen E2 artifact; the upstream live vertical remains authoritative for current content and richer semantics",
-      "observed_friction": "none in rendering; the key discipline is keeping frozen snapshot semantics distinct from the live upstream vertical",
+      "incremental_work": "persistent proof only: exact upstream Git checkout is reprojected and rebuilt with the existing materializer, kernel and static renderer",
+      "blocker": "none for reproducible E3 seam; E4 still requires genuine operational use/refresh demand rather than stronger CI",
+      "observed_friction": "large public Git producers are cheap to reproduce when commit identity and selection policy are explicit; no new adapter or renderer was needed",
       "v2_candidate": null,
       "engineering_evidence": [
         "repository documents publish:true filtering, draft/private exclusions and historical-evidence semantics",
         "R2 exact Git snapshot 11fc6ea42e13866cd952e4957c26dd2e55ef78d7 produced 2868 metadata records and CollectionRelease sha256:1cdee66182d2514e",
-        "R3 deterministic build produced ExperienceRelease sha256:943be14e62f6a14f and human artifact sha256 5a99c59f74774872d5a3c8da68ad985ed9176fc22829b0bce3f810abd8fdb32e"
+        "R3 deterministic build produced ExperienceRelease sha256:943be14e62f6a14f and human artifact sha256 5a99c59f74774872d5a3c8da68ad985ed9176fc22829b0bce3f810abd8fdb32e",
+        "R4 persistent cross-repo CI reproduces matuteiglesias/journal@11fc6ea42e13866cd952e4957c26dd2e55ef78d7 through source projection, CollectionRelease sha256:1cdee66182d2514e, ExperienceRelease sha256:943be14e62f6a14f and artifact 5a99c59f74774872d5a3c8da68ad985ed9176fc22829b0bce3f810abd8fdb32e"
       ],
-      "evidence_boundary": "E2 claims only auditable immutable inventory of the exact 2,868-note explicit-publication subset, distinct from Quartz's live semantic garden; no live-site replacement, deployment, cross-repo executable proof, or E3 operational claim is made",
-      "next_real_action": "use the inventory for publication/synthesis audit or circulation; compare with the live Quartz output before any E3 claim"
+      "evidence_boundary": "E3 means the accepted real-source producer-to-experience seam is executable and reproducible from exact Git pins; it does not claim live deployment, automatic refresh, audience use, or E4 operation",
+      "next_real_action": "use the frozen experience in a real research/publication workflow or perform a governed refresh from a newer upstream commit; only repeated operational demand can justify E4"
     },
     {
       "id": 13,
