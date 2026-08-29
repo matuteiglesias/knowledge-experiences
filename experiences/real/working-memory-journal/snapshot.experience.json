@@ -1,0 +1,16 @@
+{
+  "schema_id": "knowledge.experience-spec",
+  "schema_version": 1,
+  "experience_id": "working-memory-journal-frozen-publication-inventory",
+  "title": "Working-memory journal — frozen explicit-publication inventory",
+  "collection_spec": "collection.json",
+  "renderer": "static-navigator",
+  "visibility": "public",
+  "capabilities": {
+    "search": true,
+    "facets": ["top_level"]
+  },
+  "navigation": {
+    "default_sort": "date"
+  }
+}
