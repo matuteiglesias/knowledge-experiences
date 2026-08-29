@@ -1,0 +1,11 @@
+{
+  "schema_id": "knowledge.experience-spec",
+  "schema_version": 1,
+  "experience_id": "paper-kb-proof-author-navigator",
+  "title": "Ada Example — Works",
+  "collection_spec": "ada.collection.json",
+  "renderer": "static-navigator",
+  "visibility": "private",
+  "capabilities": {"search": true, "facets": ["year", "venue"]},
+  "navigation": {"default_sort": "title"}
+}

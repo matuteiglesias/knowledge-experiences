@@ -27,15 +27,30 @@ def read_typed(path: Path) -> Any:
     return validate_document(read_json(path))
 
 
+def _facet_matches(raw: Any, wanted: Any) -> bool:
+    if isinstance(raw, list):
+        return wanted in raw
+    return raw == wanted
+
+
 def _select_items(spec: CollectionSpec, items: tuple[dict[str, Any], ...]) -> list[dict[str, Any]]:
     if spec.selection.mode == "all":
         selected = list(items)
-    else:
+    elif spec.selection.mode == "ids":
         by_id = {item["item_id"]: item for item in items}
         missing = [item_id for item_id in spec.selection.item_ids if item_id not in by_id]
         if missing:
             raise ValidationError(f"collection selection references missing item_ids: {missing}")
         selected = [by_id[item_id] for item_id in spec.selection.item_ids]
+    else:
+        selected = []
+        for item in items:
+            facets = item.get("facets", {})
+            if all(_facet_matches(facets.get(key), wanted) for key, wanted in spec.selection.facets):
+                selected.append(item)
+        if not selected:
+            wanted = {key: value for key, value in spec.selection.facets}
+            raise ValidationError(f"collection facet selection matched no items: {wanted}")
     return sorted(selected, key=lambda item: item["item_id"])
 
 
@@ -44,11 +59,9 @@ def compile_collection(spec_path: Path, out_path: Path | None = None) -> dict[st
     spec = read_typed(spec_path)
     if not isinstance(spec, CollectionSpec):
         raise ValidationError(f"{spec_path}: expected {CollectionSpec.schema_id}")
-
     adapter = get_source_adapter(spec.source.adapter)
     loaded = adapter.load(spec.source, base_dir=spec_path.parent)
     selected = _select_items(spec, loaded.items)
-
     source_provenance: dict[str, Any] = {
         "authority": spec.source.authority,
         "adapter": spec.source.adapter,
@@ -57,7 +70,6 @@ def compile_collection(spec_path: Path, out_path: Path | None = None) -> dict[st
     }
     if spec.source.release_id is not None:
         source_provenance["release_id"] = spec.source.release_id
-
     payload: dict[str, Any] = {
         "schema_id": "knowledge.collection-release",
         "schema_version": 1,
@@ -69,12 +81,10 @@ def compile_collection(spec_path: Path, out_path: Path | None = None) -> dict[st
     }
     if spec.description is not None:
         payload["description"] = spec.description
-
     release_hash = sha256_value(payload)
     release = dict(payload)
     release["release_id"] = f"sha256:{release_hash[:16]}"
     release["payload_sha256"] = release_hash
-
     if out_path is not None:
         write_canonical_json(Path(out_path), release)
     return release
@@ -85,22 +95,17 @@ def build_experience(spec_path: Path, out_dir: Path) -> dict[str, Any]:
     spec = read_typed(spec_path)
     if not isinstance(spec, ExperienceSpec):
         raise ValidationError(f"{spec_path}: expected {ExperienceSpec.schema_id}")
-
     collection_spec_path = (spec_path.parent / spec.collection_spec).resolve()
     out_dir = Path(out_dir).resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
-
     collection_release_path = out_dir / "collection.release.json"
     collection_release = compile_collection(collection_spec_path, collection_release_path)
-
     renderer = get_renderer(spec.renderer)
     site_dir = out_dir / "site"
     artifacts = renderer.render(collection_release=collection_release, experience_spec=spec, out_dir=site_dir)
-
     artifact_records = []
     for artifact in sorted(artifacts, key=lambda p: p.relative_to(out_dir).as_posix()):
         artifact_records.append({"path": artifact.relative_to(out_dir).as_posix(), "sha256": sha256_file(artifact)})
-
     payload: dict[str, Any] = {
         "schema_id": "knowledge.experience-release",
         "schema_version": 1,

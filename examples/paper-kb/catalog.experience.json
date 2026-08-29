@@ -1,0 +1,11 @@
+{
+  "schema_id": "knowledge.experience-spec",
+  "schema_version": 1,
+  "experience_id": "paper-kb-proof-catalog-navigator",
+  "title": "Paper KB — catalog navigator proof",
+  "collection_spec": "catalog.collection.json",
+  "renderer": "static-navigator",
+  "visibility": "private",
+  "capabilities": {"search": true, "facets": ["author", "year", "venue"]},
+  "navigation": {"default_sort": "title"}
+}

@@ -4,3 +4,5 @@ __pycache__/
 .venv/
 dist/
 build/
+examples/paper-kb/generated.catalog.jsonl
+.proof/

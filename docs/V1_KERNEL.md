@@ -2,7 +2,7 @@
 
 ## Status
 
-V1.1 establishes the smallest executable composition loop. It is intentionally a mechanics kernel, not a universal knowledge model.
+V1.1 established the smallest executable composition loop. V1.2 has now supplied the first real producer pressure and one deliberately small model expansion.
 
 ```text
 CollectionSpec
@@ -25,75 +25,78 @@ kx build examples/fixture/demo.experience.json --out /tmp/kx-demo
 kx doctor examples/fixture/demo.experience.json
 ```
 
-`doctor` builds the same experience twice into independent temporary directories and fails unless the complete output file hashes and release objects match exactly.
+`doctor` builds the same experience twice into independent temporary directories and fails unless complete output file hashes and release objects match exactly.
 
 ## Local contracts
 
-The draft producer-owned schemas in `contracts/` are:
+The repository-owned V1 schemas are:
 
 - `knowledge.collection-spec@1`
 - `knowledge.collection-release@1`
 - `knowledge.experience-spec@1`
 - `knowledge.experience-release@1`
 
-They belong to this repository. Do not register them in `kb-contracts` unless a later real interoperability boundary requires shared ownership.
+They belong here. Do not register them in `kb-contracts` unless a later ecosystem-wide interoperability boundary requires shared ownership.
 
-Runtime validation is implemented without a JSON Schema dependency. The checked-in JSON schemas are inspectable contract documents and the Python models are the executable V1 validator. Unknown fields fail closed so V2 extensions cannot silently become accidental semantics.
+Runtime validation remains dependency-light and fail-closed for unknown fields.
 
-## Deliberately small selection semantics
+## Selection semantics
 
-V1 supports only:
+V1.1 began with only:
 
 - `selection.mode = all`;
-- `selection.mode = ids` with an explicit ordered list of source item IDs.
+- `selection.mode = ids`.
 
-The compiled release canonicalizes selected membership by `item_id` so a source's incidental line order does not alter the release.
+V1.2 added the first evidence-pulled expansion:
 
-There is intentionally no generic author query, venue query, filter DSL, graph query, semantic query, or nested collection semantics. V1.2/V1.5 must supply evidence before those abstractions are introduced.
+- `selection.mode = facets` with a non-empty mapping of exact facet values.
 
-## Reference source item projection
+Facet matching is deliberately boring: scalar facets require equality; array facets match when they contain the requested scalar; all configured facet predicates must match. Zero matches fail closed so typos do not silently publish empty collections.
 
-The JSONL adapter accepts a generic display projection with:
+This is not a general query DSL. There are still no arbitrary field expressions, graph queries, semantic queries, regex conditions or nested collection semantics.
 
-- required `item_id`, `kind`, `title`;
-- optional subtitle, summary, date, contributors, tags, facets, canonical URL and source reference.
+## Source adapter boundary
 
-This is an adapter input shape, not a claim that all producers should adopt one universal domain schema. Real producer adapters may project producer-owned records into this shape at the boundary.
+The generic `jsonl` adapter accepts the local display projection.
 
-HTTP(S) URLs are validated before they can be emitted by the static renderer.
+The `paper-catalog-jsonl` adapter consumes the compatibility surface it actually needs from producer-owned `paper.catalog-record@1`:
+
+- validates schema id/version and required paper identity/title/authors;
+- maps `paper_uid` to item identity;
+- maps authors to contributors and the `author` facet;
+- carries year/venue into facets only when the producer supplied them;
+- carries abstract/date/tags/source URL when present;
+- records `repo.paper-kb` as source authority.
+
+The adapter does **not** vendor Paper KB's JSON Schema and does not infer missing authors, venue or series metadata.
+
+## Paper KB executable proof
+
+`.github/workflows/paper-kb-catalog-proof.yml` pins Paper KB commit:
+
+```text
+ecf09f19c3211de85eea6e4f81a0c2a48f378fc0
+```
+
+The workflow uses the real Paper KB chunk-set writer and catalog projection to create sanitized canonical records, then builds:
+
+1. a full catalog navigator with author/year/venue facets;
+2. an author-specific navigator from the same source release using only declarative facet selection.
+
+This is an executable producer/consumer proof. It is not a claim that a real rights-sensitive corpus was published or deployed.
 
 ## Reproducibility model
 
-Collection release identity depends on:
+Collection release identity depends on canonical spec bytes, exact source bytes SHA-256, producer authority/release identity, and exact normalized selected items.
 
-- canonical CollectionSpec bytes;
-- exact source bytes SHA-256;
-- producer authority/release identity when supplied;
-- exact selected normalized items.
+Experience release identity additionally depends on canonical ExperienceSpec bytes, the exact CollectionRelease file hash, renderer identity and exact rendered artifact hashes.
 
-Experience release identity additionally depends on:
-
-- canonical ExperienceSpec bytes;
-- exact CollectionRelease file hash;
-- renderer name;
-- exact rendered artifact hashes.
-
-There are no wall-clock timestamps in identity-bearing releases. Identical inputs therefore produce identical release IDs and files.
+There are no wall-clock timestamps in identity-bearing releases.
 
 ## Renderer boundary
 
-`static-navigator` is the only V1 renderer. It produces one self-contained HTML file with:
-
-- text search;
-- configured facets;
-- title/date/source sorting;
-- item summaries and contributors/tags;
-- stable item anchors;
-- source/canonical links;
-- responsive layout.
-
-Its purpose is to make a cheap E2 experience possible. It is not the destination architecture for every collection.
+`static-navigator` remains the only internal V1 renderer. Search, configured facets, simple sorting, summaries, stable anchors and provenance links are available without a backend, vector store or chat runtime.
 
 ## Next pressure test
 
-The next gate is V1.2: inspect current Paper KB and prove a real producer seam. Do not extend this kernel first merely to make Paper KB fit. If author/series experiences need metadata that the current Paper KB review projection does not own, improve Paper KB with the smallest justified producer-owned catalog projection and adapt that real output here.
+V1.3 should prove a second renderer using Abstract Scroller's existing immutable snapshot compiler/reader boundary. Preserve Scroller ownership: Knowledge Experiences should prepare and invoke a renderer handoff, not duplicate its snapshot implementation or copy Paper KB review schemas.
