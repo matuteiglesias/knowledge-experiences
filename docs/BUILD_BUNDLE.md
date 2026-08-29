@@ -24,55 +24,52 @@ Established repository identity/authority, agent protocol, architecture, experie
 
 Delivered the small Python package/CLI, local collection/experience contracts, deterministic releases, JSONL source boundary, self-contained static navigator, `kx validate/compile-collection/build/doctor`, tests and CI.
 
-V1.1 deliberately started with `all` and explicit-ID selection only.
-
-**DoD:** accepted; `kx doctor` independently rebuilds and requires complete file-hash equality.
-
-**Still forbidden:** database, vector store, chat, generalized plugin framework, auth platform, hosted orchestrator.
-
 ---
 
 ## Wave V1.2 — First producer: Paper KB catalog seam
 
-**Status:** bounded interface tranche implemented; acceptance requires this branch's cross-repository CI to be green before merge.
+**Status:** accepted and merged on 2026-08-29.
 
-**Observed need:** `paper.review-record@1` is correctly review-oriented and does not expose authors. Current Paper KB TEI production already places parsed author names in governed `chunk_set.paper_meta`, so browsing should be served by a sibling producer projection rather than widening the review schema.
+Delivered producer-owned `paper.catalog-record@1` in Paper KB, `paper-catalog-jsonl` consumption here, exact facet selection, and a pinned cross-repository proof showing full-catalog and author-specific experiences from one producer release.
 
-Implemented across the ecosystem:
-
-- Paper KB producer-owned `paper.catalog-record@1` merged at `ecf09f19c3211de85eea6e4f81a0c2a48f378fc0`;
-- Paper KB catalog projection copies only existing paper metadata and refuses inference;
-- Knowledge Experiences `paper-catalog-jsonl` adapter validates only its consumer surface and maps authors/year/venue to display facets;
-- first evidence-pulled core expansion: exact `selection.mode=facets`;
-- pinned cross-repository workflow creates canonical sanitized producer output through real Paper KB code;
-- full catalog and author-specific experience reuse the same source release and static renderer.
-
-**Important evidence boundary:** the executable seam is real, but CI uses sanitized producer-generated artifacts. No rights-sensitive real corpus was run or published here. Therefore actual thesis/author corpus instances remain to be materialized when an approved corpus is available to the execution environment.
-
-**Not claimed:** working-paper-series support as a real experience. `venue` can be consumed when present, but current Paper KB TEI production does not guarantee venue/series coverage.
-
-**DoD for this tranche:** producer identity is pinned and survives release provenance; real producer code feeds real consumer code; author selection is producer-backed rather than inferred downstream; a second experience is created by configuration/selection rather than another app.
+Evidence boundary remains explicit: the interface proof uses sanitized producer-generated artifacts, not a rights-sensitive real corpus. Working-paper-series support is not claimed because venue/series coverage is not guaranteed upstream.
 
 ---
 
 ## Wave V1.3 — Second renderer: Abstract Scroller handoff
 
-**Status:** next gate after V1.2 merge.
+**Status:** implemented in this tranche; accept only after repository CI and the pinned three-repository proof are green.
 
-**Mission:** prove one collection can select a renderer other than the reference navigator.
+**Mission:** prove one ExperienceSpec can choose the real Abstract Scroller renderer without copying its implementation or moving Paper KB review semantics into the composition authority.
 
-Reuse Abstract Scroller's existing immutable-snapshot boundary. Prefer an adapter/handoff that preserves Scroller ownership over snapshot compilation. Do not duplicate its reader or vendor Paper KB schemas.
+Implemented:
 
-Target experiences:
+- `paper-review-jsonl` consumer adapter for the bounded Paper KB review surface;
+- optional exact `ExperienceSpec.renderer_ref` pin;
+- verified external renderer handoff through `KX_ABSTRACT_SCROLLER_ROOT`;
+- source SHA check before renderer invocation;
+- exact renderer Git HEAD check before invocation;
+- real Scroller snapshot compiler + manifest validator invocation;
+- renderer provenance captured in the frozen output;
+- fail-closed rule that Abstract Scroller currently accepts only full-source membership;
+- pinned CI across Paper KB → Knowledge Experiences → Abstract Scroller;
+- identity assertion from Paper KB `paper_uid` to final Scroller tile `doc_id`;
+- deterministic `kx doctor` over the external renderer path.
 
-- thesis rapid review;
-- literature-review snapshot.
+Pins used by the proof:
 
-**DoD:** one collection/experience definition reproducibly invokes the real Scroller build path and produces a usable immutable snapshot; important cross-repo identity is preserved and pinned.
+- Paper KB `ecf09f19c3211de85eea6e4f81a0c2a48f378fc0`;
+- Abstract Scroller `6a738edd28d21bf54d6c52943883fee19f4cc033`.
+
+**Evidence boundary:** this proves interface mechanics using real code on sanitized records. It does not by itself raise thesis rapid review or literature-review snapshot to real-corpus E2/E3 maturity.
+
+**DoD:** accepted when the exact producer/composer/renderer chain builds reproducibly, Scroller validates the snapshot, and canonical `paper_uid` survives into final tiles.
 
 ---
 
 ## Wave V1.4 — Parallel ecosystem fan-out
+
+**Status:** next gate after V1.3 merge.
 
 ### Lane A — document producer
 Use `lcd-UBA-knowledgebase` as the first non-paper pressure test. Reuse trusted normalized/chunk/run artifacts and add only the clean producer seam required for deterministic consumption.
@@ -101,8 +98,6 @@ Success is not fifteen deployed apps. Success is evidence that heterogeneous exp
 ## Wave V2 — Evidence-pulled reconciliation
 
 Do not design V2 before census evidence exists. Classify friction as configuration, source projection, adapter, renderer capability, composition-model, or genuinely vertical product need. Expand core semantics only for repeated patterns or unavoidable invariants.
-
-Open questions stay open until evidence exists: groups vs trails, nested collections, mixed-source namespace rules, visibility/deployment policy, typed derived intelligence attachments and formal renderer capability negotiation.
 
 ---
 

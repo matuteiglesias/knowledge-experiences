@@ -1,0 +1,14 @@
+{
+  "schema_id": "knowledge.collection-spec",
+  "schema_version": 1,
+  "collection_id": "paper-kb-review-proof",
+  "title": "Paper KB review snapshot proof",
+  "description": "Producer-owned review records handed intact to Abstract Scroller.",
+  "source": {
+    "adapter": "paper-review-jsonl",
+    "path": "generated/paper.review-record.v1.jsonl",
+    "authority": "repo.paper-kb",
+    "release_id": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0"
+  },
+  "selection": {"mode": "all"}
+}
