@@ -9,7 +9,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / "experiences" / "real" / "ldd-uba-exercise-catalog"
-SOURCE_COMMIT = "a67a9d89c1464e68f8b701c9d3ab44c775042bfc"
+SOURCE_COMMIT = "1e8a3c400e1296055614e0dec627f7177c730537"
+PATH_REGEX = r"content/notebooks/[0-9]{2}\.md"
 
 
 def load(path: Path):
@@ -22,8 +23,10 @@ def main() -> int:
     experience = load(BASE / "release" / "experience.release.json")
     proof = load(BASE / "e3-proof.json")
     records = receipt["record_count"]
-    if records != 58:
-        raise SystemExit(f"expected the 58 exercise pages declared by repo.ldd-uba; materialized {records}")
+    if records != 60:
+        raise SystemExit(f"expected 60 numbered exercise pages from repaired repo.ldd-uba authority; materialized {records}")
+    if receipt.get("path_regex") != PATH_REGEX:
+        raise SystemExit("LDD receipt is missing the exact numbered-exercise path filter")
     if proof.get("result") != "pass" or proof.get("source_commit") != SOURCE_COMMIT:
         raise SystemExit("LDD E3 proof missing or pinned to the wrong producer commit")
     if proof.get("collection_release_id") != collection.get("release_id"):
@@ -43,7 +46,7 @@ def main() -> int:
             "name": "LDD UBA teaching exercise catalog",
             "composition_maturity": "E3",
             "engineering_status": "proven_real_source_seam",
-            "existing_surface": "repo.ldd-uba Hugo catalog of 58 teaching exercises/notebooks",
+            "existing_surface": "repo.ldd-uba Hugo catalog of 60 numbered teaching exercises plus four category indexes",
             "source_authorities": ["repo.ldd-uba"],
             "code_pins": {"repo.ldd-uba": SOURCE_COMMIT},
             "exact_source_release": f"git:{SOURCE_COMMIT};source-index:sha256:{receipt['source_index_sha256']}",
@@ -52,17 +55,17 @@ def main() -> int:
             "rendered_artifact": "experiences/real/ldd-uba-exercise-catalog/release/site/index.html",
             "cross_repo_proof": "experiences/real/ldd-uba-exercise-catalog/e3-proof.json + .github/workflows/git-vertical-seam-proof.yml",
             "operational_evidence": None,
-            "capabilities_reused": ["git-markdown-metadata-projection", "static-navigator", "deterministic-releases", "exact-git-cross-repo-proof"],
-            "incremental_work": "configuration and source pinning only over the already-amortized Git Markdown projection, composition kernel and static navigator",
+            "capabilities_reused": ["git-markdown-metadata-projection", "explicit-path-filter", "static-navigator", "deterministic-releases", "exact-git-cross-repo-proof"],
+            "incremental_work": "bounded path filtering plus configuration/source pinning over the already-amortized Git Markdown projection, composition kernel and static navigator",
             "blocker": "none for the reproducible exercise catalog; E4 requires actual recurring teaching use or governed refresh demand",
-            "observed_friction": "the 58 exercise pages form a clean flat corpus; no ordered-group or course-reading semantics were needed, so #10 Course readings remains a separate unresolved experience",
+            "observed_friction": "real use exposed upstream README drift (58 declared vs 60 numbered exercises) and four structural Hugo _index.md pages; the source authority was repaired and KX now filters the exact numbered exercise paths rather than conflating navigation with exercises",
             "v2_candidate": None,
             "engineering_evidence": [
-                f"repo.ldd-uba@{SOURCE_COMMIT} contains exactly 58 tracked Markdown exercise pages under content/notebooks",
-                f"R5 produced CollectionRelease {collection['release_id']} and ExperienceRelease {experience['release_id']} without a new source adapter, renderer, or kernel change",
-                f"persistent real-source CI reproduces the final artifact sha256 {proof['rendered_artifact_sha256']} from the exact producer commit",
+                f"repo.ldd-uba@{SOURCE_COMMIT} explicitly documents 60 numbered exercises and four category indexes",
+                f"R5 path-filtered exactly {records} numbered Markdown exercises under content/notebooks and produced CollectionRelease {collection['release_id']} plus ExperienceRelease {experience['release_id']}",
+                f"persistent real-source CI reproduces the final artifact sha256 {proof['rendered_artifact_sha256']} from the exact repaired producer commit",
             ],
-            "evidence_boundary": "E3 covers the exact 58-page teaching exercise corpus at the pinned Git commit and its frozen KX navigator; it does not assert notebook executability, current-course membership, live deployment health, or E4 operation",
+            "evidence_boundary": "E3 covers the exact 60 numbered teaching-exercise pages at the pinned Git commit and their frozen KX navigator; category _index.md pages, notebook executability, current-course membership, live deployment health and E4 operation are not claimed",
             "next_real_action": "use the frozen exercise navigator in a real teaching/preparation workflow or perform an explicit refresh from a newer LDD commit; keep #10 Course readings separate until a real reading-list source is selected",
         }
     )
@@ -81,7 +84,7 @@ def main() -> int:
         "",
         "## Current frontier",
         "",
-        "**16 governed experiences: 5 are E3, 1 is E1, and 10 remain E0.** R5 adds the first post-seed discovery: a real teaching exercise corpus that was visible in the estate but semantically distinct from the original Course readings case.",
+        "**16 governed experiences: 5 are E3, 1 is E1, and 10 remain E0.** R5 adds the first post-seed discovery: a real teaching-exercise corpus that was visible in the estate but semantically distinct from the original Course readings case.",
         "",
         "| # | Experience | Maturity | Engineering status | Current evidence |",
         "|---|---|---|---|---|",
@@ -89,7 +92,7 @@ def main() -> int:
     for row in rows:
         evidence = "declared / prior engineering evidence"
         if row["id"] == 16:
-            evidence = f"58 exact Git exercise pages → `{experience['release_id']}` + persistent real-source proof"
+            evidence = f"60 exact numbered Git exercise pages → `{experience['release_id']}` + persistent real-source proof"
         elif row["id"] in {11, 12}:
             evidence = "exact Git producer → deterministic frozen experience + persistent proof"
         elif row["id"] == 13:
@@ -101,7 +104,9 @@ def main() -> int:
         "",
         "## R5 interpretation",
         "",
-        "`repo.ldd-uba` owns a Hugo teaching catalog and exactly 58 tracked exercise pages under `content/notebooks/`. KX snapshots only metadata and exact source pointers, renders a separate immutable navigator, and proves the full seam from the pinned producer commit. The original Hugo site remains the pedagogical/content authority.",
+        "`repo.ldd-uba` owns a Hugo teaching catalog with 60 numbered exercise pages and four category `_index.md` navigation pages. KX uses an explicit repo-relative path filter to snapshot only `content/notebooks/[0-9]{2}.md`, then renders a separate immutable navigator and proves the full seam from the repaired producer commit. The original Hugo site remains the pedagogical/content authority.",
+        "",
+        "The first R5 attempt was useful drift sensing: the README claimed 58 exercises while the repository contained numbered exercises through 60, and a recursive Markdown projection also included four category indexes. The upstream README was repaired before the accepted source was repinned; the KX path boundary now states exactly what counts as an exercise.",
         "",
         "This is deliberately **not** census #10 Course readings. Exercises and readings are different pedagogical objects; collapsing them merely to fill an existing row would weaken the ledger. The census therefore grows append-only to #16 instead.",
         "",
@@ -131,13 +136,13 @@ def main() -> int:
 
     r5 = f"""# R5 — teaching exercise catalog enters the ladder
 
-R5 adds the first experience discovered after the original 15-case census: the 58-page `repo.ldd-uba` teaching exercise catalog. It is kept separate from #10 Course readings because exercises and readings have different semantics.
+R5 adds the first experience discovered after the original 15-case census: the 60-page `repo.ldd-uba` teaching exercise catalog. It is kept separate from #10 Course readings because exercises and readings have different semantics.
 
 ## Exact real-source path
 
 ```text
 repo.ldd-uba@{SOURCE_COMMIT}
-        ↓  content/notebooks/*.md (58 exact tracked pages)
+        ↓  content/notebooks/[0-9]{{2}}.md (60 exact numbered pages)
 metadata-only Git projection
         ↓
 CollectionRelease {collection['release_id']}
@@ -153,13 +158,17 @@ persistent cross-repo reproduction proof
 
 Final artifact SHA-256: `{proof['rendered_artifact_sha256']}`.
 
+## Drift discovered during materialization
+
+The pre-R5 README declared 58 exercises. The actual source tree contained numbered exercise files through `60.md` plus four category `_index.md` pages. R5 therefore did not accept the naive 64-record recursive projection. The producer README was corrected first, and the accepted KX source boundary explicitly full-matches the 60 numbered exercise paths.
+
 ## Governance change
 
 The census checker now preserves the original 15 entries as a minimum append-only baseline and requires contiguous IDs through the current count. This removes an accidental discovery ceiling without weakening any E1/E2/E3/E4 evidence requirement.
 
 ## Boundary
 
-KX does not claim the notebooks execute, belong to a current course, or replace the upstream Hugo catalog. It freezes and proves the exact teaching-exercise navigation corpus only. No source adapter, renderer, domain schema, ordering model, or kernel behavior was added.
+KX does not claim the notebooks execute, belong to a current course, or replace the upstream Hugo catalog. It freezes and proves the exact numbered teaching-exercise navigation corpus only. No renderer, domain schema, ordering model, or composition-kernel behavior was added; the only projection extension is an explicit provenance-bearing path filter.
 
 ## Result
 
