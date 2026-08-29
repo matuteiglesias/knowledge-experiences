@@ -11,6 +11,7 @@ CENSUS = ROOT / "docs" / "experience-census.v1.json"
 
 MATURITY = {"E0", "E1", "E2", "E3", "E4"}
 ENGINEERING = {
+    "proven_live",
     "proven_sanitized",
     "proven_contract_check",
     "blocked_producer_metadata",
@@ -78,7 +79,7 @@ def main() -> int:
         if level >= 4 and not row["operational_evidence"]:
             fail(f"row {row['id']}: E4 requires operational_evidence")
 
-        if row["engineering_status"] in {"proven_sanitized", "proven_contract_check", "existing_vertical"} and not row["engineering_evidence"]:
+        if row["engineering_status"] in {"proven_live", "proven_sanitized", "proven_contract_check", "existing_vertical"} and not row["engineering_evidence"]:
             fail(f"row {row['id']}: engineering status requires evidence")
 
     counts = Counter(row["composition_maturity"] for row in rows)

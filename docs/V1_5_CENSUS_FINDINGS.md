@@ -1,3 +1,9 @@
+# Real-use update — 2026-08-29
+
+The all-E0 V1.5 snapshot has now been crossed: cases #8 and #9 reached E3 using trusted live LCD source evidence. #8 materialized 19 public institutional pages; #9 reused the same source release and required configuration/curation only. This is evidence for the intended declining marginal-cost curve. The next gate remains real use in a second source domain, not broad V2 construction.
+
+---
+
 # V1.5 — Census findings and stop decision
 
 ## Finding 1 — V1 mechanics are ahead of real-source adoption
