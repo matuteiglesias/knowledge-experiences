@@ -25,6 +25,7 @@ CASES = {
         "authority": "repo.thesis",
         "commit": "7265018750db0f96b69efd4048aedad06ad803fc",
         "scope_root": "docs",
+        "path_regex": None,
         "mode": "all-markdown",
         "collection_id": "economics-of-aggregation-programme",
         "title": "Economics of Aggregation programme — exact document index",
@@ -37,6 +38,7 @@ CASES = {
         "authority": "repo.journal",
         "commit": "11fc6ea42e13866cd952e4957c26dd2e55ef78d7",
         "scope_root": "content",
+        "path_regex": None,
         "mode": "explicit-publish",
         "collection_id": "working-memory-journal",
         "title": "Working-memory journal — explicit-publication collection",
@@ -47,12 +49,13 @@ CASES = {
         "dir": "ldd-uba-exercise-catalog",
         "source_repo": "matuteiglesias/ldd-uba",
         "authority": "repo.ldd-uba",
-        "commit": "a67a9d89c1464e68f8b701c9d3ab44c775042bfc",
+        "commit": "1e8a3c400e1296055614e0dec627f7177c730537",
         "scope_root": "content/notebooks",
+        "path_regex": r"content/notebooks/[0-9]{2}\.md",
         "mode": "all-markdown",
         "collection_id": "ldd-uba-exercise-catalog",
         "title": "LDD UBA — frozen teaching exercise catalog",
-        "description": "Metadata-only index of the exact versioned teaching exercise pages; repo.ldd-uba retains pedagogical content and Hugo navigation authority.",
+        "description": "Metadata-only index of the exact 60 numbered teaching exercise pages; repo.ldd-uba retains pedagogical content and Hugo navigation authority.",
         "kind": "teaching-exercise",
     },
 }
@@ -94,7 +97,7 @@ def prove_case(name: str, source_root: Path) -> dict:
 
     with tempfile.TemporaryDirectory(prefix=f"kx-git-seam-{name}-") as tmp_raw:
         regenerated = Path(tmp_raw) / cfg["dir"]
-        run(
+        cmd = [
             "python",
             str(ROOT / "scripts" / "materialize_markdown_collection.py"),
             "--repo-root", str(source_root),
@@ -108,7 +111,10 @@ def prove_case(name: str, source_root: Path) -> dict:
             "--description", cfg["description"],
             "--kind", cfg["kind"],
             "--out-dir", str(regenerated),
-        )
+        ]
+        if cfg["path_regex"]:
+            cmd.extend(["--path-regex", cfg["path_regex"]])
+        run(*cmd)
         shutil.copy2(accepted / "snapshot.experience.json", regenerated / "snapshot.experience.json")
 
         assert_same(regenerated / "source" / "items.jsonl", accepted / "source" / "items.jsonl", f"{name} source projection")
