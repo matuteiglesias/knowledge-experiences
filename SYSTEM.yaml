@@ -51,17 +51,25 @@ interfaces:
     - producer: repo.paper-kb
       contract: paper.catalog-record@1
       renderer: static-navigator
-      evidence: pinned cross-repo CI
+      evidence: pinned cross-repo CI over sanitized producer records
     - producer: repo.paper-kb
       contract: paper.review-record@1
       renderer: repo.abstract-scroller
-      evidence: pinned producer/composer/renderer CI
+      evidence: pinned producer/composer/renderer CI over sanitized producer records
     - producer: repo.lcd-uba-knowledgebase
       artifact: run-scoped title_slug_index.json
       renderer: static-navigator
       evidence: pinned cross-repo CI over local contract-check run
 
+census:
+  ledger: docs/experience-census.v1.json
+  count: 15
+  composition_maturity_rule: real-source-only
+  v2_candidates:
+    - ordered-groups-and-reading-trails
+    - multi-source-collections-and-curation-receipts
+
 status:
-  phase: v1.4-ecosystem-fanout
-  next_gate: v1.5-experience-census
+  phase: v1.5-census-complete
+  next_gate: real-use-before-v2
   implementation_policy: evidence-pulled

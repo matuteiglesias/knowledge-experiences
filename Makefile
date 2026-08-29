@@ -1,12 +1,15 @@
-.PHONY: check seed-check test doctor example clean
+.PHONY: check seed-check census-check test doctor example clean
 
 PYTHON ?= python3
 PYTHONPATH_ENV := PYTHONPATH=src
 
-check: seed-check test doctor
+check: seed-check census-check test doctor
 
 seed-check:
 	$(PYTHON) scripts/check_seed.py
+
+census-check:
+	$(PYTHON) scripts/check_census.py
 
 test:
 	$(PYTHONPATH_ENV) $(PYTHON) -m unittest discover -s tests -v
