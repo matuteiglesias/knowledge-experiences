@@ -1,0 +1,14 @@
+{
+  "body_copy_policy": "metadata and exact source pointers only; Markdown bodies remain producer-owned",
+  "excluded_unpublished_count": 0,
+  "path_regex": "content/notebooks/[0-9]{2}\\.md",
+  "record_count": 60,
+  "schema_id": "knowledge.git-markdown-source-receipt",
+  "schema_version": 1,
+  "scope_root": "content/notebooks",
+  "selection_mode": "all-markdown",
+  "source_authority": "repo.ldd-uba",
+  "source_commit": "1e8a3c400e1296055614e0dec627f7177c730537",
+  "source_index_sha256": "1081df10f8a351830bf0272a1f87fa25183789bf4f47dc13d061a100b0ff0a67",
+  "source_repo": "matuteiglesias/ldd-uba"
+}

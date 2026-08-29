@@ -1,0 +1,12 @@
+{
+  "case": "ldd",
+  "collection_release_id": "sha256:099e370174316de7",
+  "experience_release_id": "sha256:24c5001976808e10",
+  "proof": "exact-git-source-to-frozen-experience",
+  "rendered_artifact_sha256": "fbee88a9092a022f70c3c6224e04c28e6ef5e7ff3f99b2205c3348be92ef1580",
+  "result": "pass",
+  "schema_id": "knowledge.e3-cross-repo-proof",
+  "schema_version": 1,
+  "source_commit": "1e8a3c400e1296055614e0dec627f7177c730537",
+  "source_repo": "matuteiglesias/ldd-uba"
+}

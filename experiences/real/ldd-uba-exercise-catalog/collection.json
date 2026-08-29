@@ -1,0 +1,16 @@
+{
+  "schema_id": "knowledge.collection-spec",
+  "schema_version": 1,
+  "collection_id": "ldd-uba-exercise-catalog",
+  "title": "LDD UBA — frozen teaching exercise catalog",
+  "description": "Metadata-only index of the exact 60 numbered teaching exercise pages; repo.ldd-uba retains pedagogical content and Hugo navigation authority.",
+  "source": {
+    "adapter": "jsonl",
+    "path": "source/items.jsonl",
+    "authority": "repo.ldd-uba",
+    "release_id": "git:1e8a3c400e1296055614e0dec627f7177c730537"
+  },
+  "selection": {
+    "mode": "all"
+  }
+}
