@@ -32,6 +32,7 @@ ecosystem:
   vertical_experiences:
     - repo.thesis
     - repo.journal
+    - repo.ldd-uba
 
 interfaces:
   implemented_v1:
@@ -63,10 +64,10 @@ interfaces:
 
 census:
   ledger: docs/experience-census.v1.json
-  count: 15
+  count: 16
   composition_maturity_rule: real-source-only
   maturity_snapshot:
-    E3: 4
+    E3: 5
     E1: 1
     E0: 10
   v2_candidates:
@@ -74,6 +75,6 @@ census:
     - multi-source-collections-and-curation-receipts
 
 status:
-  phase: executable-multi-domain-ladder
+  phase: expanding-executable-multi-domain-ladder
   next_gate: paper-real-corpus-or-e4-operational-use
   implementation_policy: evidence-pulled

@@ -7,6 +7,7 @@ on:
       - 'scripts/prove_git_vertical_seams.py'
       - 'experiences/real/economics-of-aggregation-programme/**'
       - 'experiences/real/working-memory-journal/**'
+      - 'experiences/real/ldd-uba-exercise-catalog/**'
       - '.github/workflows/git-vertical-seam-proof.yml'
   push:
     branches: [main]
@@ -15,6 +16,7 @@ on:
       - 'scripts/prove_git_vertical_seams.py'
       - 'experiences/real/economics-of-aggregation-programme/**'
       - 'experiences/real/working-memory-journal/**'
+      - 'experiences/real/ldd-uba-exercise-catalog/**'
       - '.github/workflows/git-vertical-seam-proof.yml'
   workflow_dispatch:
 
@@ -40,8 +42,13 @@ jobs:
           git clone -q https://github.com/matuteiglesias/journal.git /tmp/journal
           git -C /tmp/journal checkout -q 11fc6ea42e13866cd952e4957c26dd2e55ef78d7
           test "$(git -C /tmp/journal rev-parse HEAD)" = "11fc6ea42e13866cd952e4957c26dd2e55ef78d7"
+
+          git clone -q https://github.com/matuteiglesias/ldd-uba.git /tmp/ldd-uba
+          git -C /tmp/ldd-uba checkout -q 1e8a3c400e1296055614e0dec627f7177c730537
+          test "$(git -C /tmp/ldd-uba rev-parse HEAD)" = "1e8a3c400e1296055614e0dec627f7177c730537"
       - name: Reproduce accepted source-to-experience seams
         run: |
           python scripts/prove_git_vertical_seams.py \
             --thesis-root /tmp/thesis \
-            --journal-root /tmp/journal
+            --journal-root /tmp/journal \
+            --ldd-root /tmp/ldd-uba

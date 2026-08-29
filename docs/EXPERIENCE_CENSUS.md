@@ -1,10 +1,10 @@
-# Experience Census — executable real-use ladder
+# Experience Census — expanding executable real-use ladder
 
-The machine-readable authority is `docs/experience-census.v1.json`. `E0`–`E4` remains strict: each rung is earned by the evidence it names.
+The machine-readable authority is `docs/experience-census.v1.json`. The original 15-entry census is now a governed baseline, not a permanent ceiling: new concrete experiences may be appended with contiguous IDs and the same strict E0–E4 evidence rules.
 
 ## Current frontier
 
-**4 experiences are E3, 1 is E1, and 10 remain E0.** R4 promotes the two R3 Git-backed snapshots only after their complete source-to-artifact paths became persistent executable cross-repository proofs.
+**16 governed experiences: 5 are E3, 1 is E1, and 10 remain E0.** R5 adds the first post-seed discovery: a real teaching-exercise corpus that was visible in the estate but semantically distinct from the original Course readings case.
 
 | # | Experience | Maturity | Engineering status | Current evidence |
 |---|---|---|---|---|
@@ -18,18 +18,21 @@ The machine-readable authority is `docs/experience-census.v1.json`. `E0`–`E4` 
 | 8 | LCD institutional corpus | **E3** | proven_live | trusted live LCD source → rendered real-source experience + executable proof |
 | 9 | LCD thesis/resources subset | **E3** | proven_live | trusted live LCD source → rendered real-source experience + executable proof |
 | 10 | Course readings | **E0** | blocked_capability | declared / prior engineering evidence |
-| 11 | Economics of Aggregation programme | **E3** | proven_real_source_seam | exact Git producer → deterministic frozen experience / `sha256:e48e77652ca1c927` |
-| 12 | Working-memory journal | **E3** | proven_real_source_seam | exact Git producer → deterministic frozen experience / `sha256:943be14e62f6a14f` |
+| 11 | Economics of Aggregation programme | **E3** | proven_real_source_seam | exact Git producer → deterministic frozen experience + persistent proof |
+| 12 | Working-memory journal | **E3** | proven_real_source_seam | exact Git producer → deterministic frozen experience + persistent proof |
 | 13 | Knowledge-ecosystem technical docs | **E1** | existing_vertical | 32 exact-Git metadata records → reproducible E1 CollectionRelease |
 | 14 | Personal publications | **E0** | blocked_capability | declared / prior engineering evidence |
 | 15 | Policy/research dossier | **E0** | blocked_capability | declared / prior engineering evidence |
+| 16 | LDD UBA teaching exercise catalog | **E3** | proven_real_source_seam | 60 exact numbered Git exercise pages → `sha256:24c5001976808e10` + persistent real-source proof |
 
-## R4 interpretation
+## R5 interpretation
 
-The thesis and Journal E3 claims are stronger than checked-in snapshots: CI checks out the exact real upstream commits, reruns the bounded metadata projection, reproduces the accepted collection and human experience, and compares every identity-bearing release plus the final HTML artifact. The upstream repositories retain domain/editorial authority throughout.
+`repo.ldd-uba` owns a Hugo teaching catalog with 60 numbered exercise pages and four category `_index.md` navigation pages. KX uses an explicit repo-relative path filter to snapshot only `content/notebooks/[0-9]{2}.md`, then renders a separate immutable navigator and proves the full seam from the repaired producer commit. The original Hugo site remains the pedagogical/content authority.
 
-Knowledge-ecosystem technical docs remains E1 because a distinct second human experience is still not justified. Paper KB concrete experiences remain E0 because the tracked repository still contains production machinery plus fixtures, not an approved real governed corpus.
+The first R5 attempt was useful drift sensing: the README claimed 58 exercises while the repository contained numbered exercises through 60, and a recursive Markdown projection also included four category indexes. The upstream README was repaired before the accepted source was repinned; the KX path boundary now states exactly what counts as an exercise.
+
+This is deliberately **not** census #10 Course readings. Exercises and readings are different pedagogical objects; collapsing them merely to fill an existing row would weaken the ledger. The census therefore grows append-only to #16 instead.
 
 ## Next frontier
 
-The most informative next work is now either (a) a genuinely real Paper KB corpus, (b) a new lower-rung domain with clean source authority, or (c) actual use/refresh of an E3 experience sufficient to test E4 operation. More CI alone cannot earn E4.
+Paper KB remains the highest-value blocked scientific lane. Separately, the growing census can now discover additional real experiences rather than forcing the estate into the original 15 hypotheses. E4 still requires actual operation/use evidence, not more CI.

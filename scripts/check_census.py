@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed structural checks for the V1.5 experience census."""
+"""Fail-closed structural checks for the governed experience census."""
 from __future__ import annotations
 
 import json
@@ -47,11 +47,12 @@ def main() -> int:
     if payload.get("schema_version") != 1:
         fail("schema_version must be 1")
     rows = payload.get("experiences")
-    if not isinstance(rows, list) or len(rows) != 15:
-        fail("exactly 15 experience records are required")
+    if not isinstance(rows, list) or len(rows) < 15:
+        fail("experience census must preserve the original 15-entry baseline and may grow append-only")
     ids = [row.get("id") for row in rows if isinstance(row, dict)]
-    if ids != list(range(1, 16)):
-        fail(f"ids must be ordered 1..15, got {ids}")
+    expected_ids = list(range(1, len(rows) + 1))
+    if ids != expected_ids:
+        fail(f"ids must be ordered contiguous 1..{len(rows)}, got {ids}")
     names: set[str] = set()
     slugs: set[str] = set()
     for row in rows:
@@ -93,6 +94,7 @@ def main() -> int:
     counts = Counter(row["composition_maturity"] for row in rows)
     statuses = Counter(row["engineering_status"] for row in rows)
     print("experience census: OK")
+    print("count:", len(rows))
     print("maturity:", dict(sorted(counts.items())))
     print("engineering:", dict(sorted(statuses.items())))
     return 0

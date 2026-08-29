@@ -516,6 +516,44 @@
       "engineering_evidence": [],
       "evidence_boundary": "no dossier evidence set was selected or inspected in this census",
       "next_real_action": "build a small real two-authority dossier manually, preserving selection provenance, before designing any orchestration"
+    },
+    {
+      "id": 16,
+      "experience_id": "ldd-uba-exercise-catalog",
+      "name": "LDD UBA teaching exercise catalog",
+      "composition_maturity": "E3",
+      "engineering_status": "proven_real_source_seam",
+      "existing_surface": "repo.ldd-uba Hugo catalog of 60 numbered teaching exercises plus four category indexes",
+      "source_authorities": [
+        "repo.ldd-uba"
+      ],
+      "code_pins": {
+        "repo.ldd-uba": "1e8a3c400e1296055614e0dec627f7177c730537"
+      },
+      "exact_source_release": "git:1e8a3c400e1296055614e0dec627f7177c730537;source-index:sha256:1081df10f8a351830bf0272a1f87fa25183789bf4f47dc13d061a100b0ff0a67",
+      "collection_release": "experiences/real/ldd-uba-exercise-catalog/release/collection.release.json#sha256:099e370174316de7",
+      "renderer_profile": "static-navigator-frozen-snapshot",
+      "rendered_artifact": "experiences/real/ldd-uba-exercise-catalog/release/site/index.html",
+      "cross_repo_proof": "experiences/real/ldd-uba-exercise-catalog/e3-proof.json + .github/workflows/git-vertical-seam-proof.yml",
+      "operational_evidence": null,
+      "capabilities_reused": [
+        "git-markdown-metadata-projection",
+        "explicit-path-filter",
+        "static-navigator",
+        "deterministic-releases",
+        "exact-git-cross-repo-proof"
+      ],
+      "incremental_work": "bounded path filtering plus configuration/source pinning over the already-amortized Git Markdown projection, composition kernel and static navigator",
+      "blocker": "none for the reproducible exercise catalog; E4 requires actual recurring teaching use or governed refresh demand",
+      "observed_friction": "real use exposed upstream README drift (58 declared vs 60 numbered exercises) and four structural Hugo _index.md pages; the source authority was repaired and KX now filters the exact numbered exercise paths rather than conflating navigation with exercises",
+      "v2_candidate": null,
+      "engineering_evidence": [
+        "repo.ldd-uba@1e8a3c400e1296055614e0dec627f7177c730537 explicitly documents 60 numbered exercises and four category indexes",
+        "R5 path-filtered exactly 60 numbered Markdown exercises under content/notebooks and produced CollectionRelease sha256:099e370174316de7 plus ExperienceRelease sha256:24c5001976808e10",
+        "persistent real-source CI reproduces the final artifact sha256 fbee88a9092a022f70c3c6224e04c28e6ef5e7ff3f99b2205c3348be92ef1580 from the exact repaired producer commit"
+      ],
+      "evidence_boundary": "E3 covers the exact 60 numbered teaching-exercise pages at the pinned Git commit and their frozen KX navigator; category _index.md pages, notebook executability, current-course membership, live deployment health and E4 operation are not claimed",
+      "next_real_action": "use the frozen exercise navigator in a real teaching/preparation workflow or perform an explicit refresh from a newer LDD commit; keep #10 Course readings separate until a real reading-list source is selected"
     }
   ]
 }

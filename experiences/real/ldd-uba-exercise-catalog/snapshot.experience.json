@@ -1,0 +1,16 @@
+{
+  "schema_id": "knowledge.experience-spec",
+  "schema_version": 1,
+  "experience_id": "ldd-uba-frozen-exercise-catalog",
+  "title": "LDD UBA — frozen teaching exercise catalog",
+  "collection_spec": "collection.json",
+  "renderer": "static-navigator",
+  "visibility": "public",
+  "capabilities": {
+    "search": true,
+    "facets": []
+  },
+  "navigation": {
+    "default_sort": "title"
+  }
+}
