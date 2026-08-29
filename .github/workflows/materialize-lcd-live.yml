@@ -40,15 +40,36 @@ jobs:
           cd /tmp/lcd-kb
           rm -rf data/lcd/raw/pages data/lcd/raw/posts data/lcd/reports
           PYTHONPATH=src python -m lcd_kb.cli fetch --entity page --base-url "$LIVE_BASE_URL" --per-page 100
-          set +e
-          PYTHONPATH=src python -m lcd_kb.cli fetch --entity post --base-url "$LIVE_BASE_URL" --per-page 25
-          POST_STATUS=$?
-          set -e
-          if [ "$POST_STATUS" -ne 0 ]; then
-            echo '--- producer post fetch errors ---'
-            cat data/lcd/reports/post_fetch_errors.jsonl || true
-            exit "$POST_STATUS"
-          fi
+          PYTHONPATH=src python - <<'PY'
+          import json, os
+          from pathlib import Path
+          from lcd_kb.sources.wordpress_rest import (
+              default_fetch_report_paths,
+              fetch_entity_batches,
+              write_fetch_errors,
+              write_fetch_summary,
+          )
+
+          output = Path('data/lcd/raw/posts')
+          fields = [
+              'id', 'date_gmt', 'modified_gmt', 'slug', 'status', 'type', 'link',
+              'title', 'content', 'excerpt', 'author', 'featured_media', 'categories', 'tags',
+          ]
+          result = fetch_entity_batches(
+              base_url=os.environ['LIVE_BASE_URL'],
+              entity='post',
+              output_dir=output,
+              per_page=25,
+              fields=fields,
+          )
+          summary_path, errors_path = default_fetch_report_paths(output, 'post')
+          write_fetch_summary(summary_path, result.summary)
+          write_fetch_errors(errors_path, result.errors)
+          print(json.dumps(result.summary, indent=2))
+          if result.errors:
+              print(json.dumps(result.errors, indent=2))
+              raise SystemExit(1)
+          PY
           RUN_ID="kx_live_lcd_$(date -u +%Y%m%dT%H%M%SZ)"
           PYTHONPATH=src python -m lcd_kb.cli build --run-id "$RUN_ID"
           echo "RUN_ID=$RUN_ID" >> "$GITHUB_ENV"
@@ -109,6 +130,7 @@ jobs:
               'source_system': 'wordpress_rest',
               'source_base_url': base_url,
               'source_scope': 'complete public page + post REST fetch at producer run time',
+              'post_fetch_fields': ['id','date_gmt','modified_gmt','slug','status','type','link','title','content','excerpt','author','featured_media','categories','tags'],
               'page_records_fetched': page_fetch['records_fetched'],
               'post_records_fetched': post_fetch['records_fetched'],
               'index_records': len(index),
