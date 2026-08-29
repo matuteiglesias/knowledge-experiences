@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LCD — institutional pages</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color-scheme:light dark}
+body{margin:0;background:Canvas;color:CanvasText}
+main{max-width:1040px;margin:auto;padding:2rem 1rem 4rem}
+header{margin-bottom:1.5rem}
+h1{font-size:clamp(1.8rem,5vw,3rem);margin:.2rem 0}
+.meta{opacity:.7}.controls{display:grid;grid-template-columns:minmax(12rem,1fr) auto;gap:.75rem;margin:1.2rem 0}
+input,select{font:inherit;padding:.7rem;border:1px solid color-mix(in srgb,CanvasText 25%,transparent);border-radius:.5rem;background:Canvas}
+.facets{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1rem}.facets label{display:flex;gap:.35rem;align-items:center}
+#items{display:grid;gap:.8rem}.card{border:1px solid color-mix(in srgb,CanvasText 18%,transparent);border-radius:.7rem;padding:1rem}
+.card h2{font-size:1.08rem;margin:.1rem 0 .35rem}.card p{margin:.35rem 0;line-height:1.45}.chips{display:flex;flex-wrap:wrap;gap:.35rem}.chip{font-size:.78rem;padding:.15rem .45rem;border-radius:999px;background:color-mix(in srgb,CanvasText 9%,transparent)}
+a{color:inherit}.empty{opacity:.7;padding:2rem 0}
+@media(max-width:640px){.controls{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<p class="meta" id="release"></p>
+<h1 id="title"></h1>
+<p id="description"></p>
+</header>
+<section class="controls">
+<input id="search" type="search" placeholder="Search title, summary, contributors…" aria-label="Search">
+<select id="sort" aria-label="Sort">
+<option value="title">Title</option>
+<option value="date">Date</option>
+<option value="source">Source</option>
+</select>
+</section>
+<section class="facets" id="facets"></section>
+<section id="items"></section>
+</main>
+<script id="kx-data" type="application/json">{"collection_id":"lcd-institutional-live","collection_release_id":"sha256:582187c7ac71a101","config":{"default_sort":"title","facets":["entity_type"],"search":true,"visibility":"public"},"description":"Live public institutional pages from LCD, frozen from one trusted producer run.","items":[{"canonical_url":"https://lcd.exactas.uba.ar/novedades/mujeres-de-exactas/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:1135","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:1135","url":"https://lcd.exactas.uba.ar/novedades/mujeres-de-exactas/"},"subtitle":"page","tags":[],"title":"Mujeres de Exactas"},{"canonical_url":"https://lcd.exactas.uba.ar/datame/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:1183","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:1183","url":"https://lcd.exactas.uba.ar/datame/"},"subtitle":"page","tags":[],"title":"¡Dátame! Las charlas de LCD"},{"canonical_url":"https://lcd.exactas.uba.ar/semana-de-las-ciencias-de-datos-2021/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:1225","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:1225","url":"https://lcd.exactas.uba.ar/semana-de-las-ciencias-de-datos-2021/"},"subtitle":"page","tags":[],"title":"Semana de las Ciencias de Datos 2021"},{"canonical_url":"https://lcd.exactas.uba.ar/employee-circle-panel-grid/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:1434","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:1434","url":"https://lcd.exactas.uba.ar/employee-circle-panel-grid/"},"subtitle":"page","tags":[],"title":"Employee Circle Panel Grid"},{"canonical_url":"https://lcd.exactas.uba.ar/employee-circle-grid/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:1435","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:1435","url":"https://lcd.exactas.uba.ar/employee-circle-grid/"},"subtitle":"page","tags":[],"title":"Employee Circle Grid"},{"canonical_url":"https://lcd.exactas.uba.ar/horarios-de-consulta/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:1864","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:1864","url":"https://lcd.exactas.uba.ar/horarios-de-consulta/"},"subtitle":"page","tags":[],"title":"Horarios de consulta"},{"canonical_url":"https://lcd.exactas.uba.ar/quiero-ser-tutor-a/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:1948","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:1948","url":"https://lcd.exactas.uba.ar/quiero-ser-tutor-a/"},"subtitle":"page","tags":[],"title":"Quiero ser tutor/a"},{"canonical_url":"https://lcd.exactas.uba.ar/quiero-ser-director-a/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:1951","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:1951","url":"https://lcd.exactas.uba.ar/quiero-ser-director-a/"},"subtitle":"page","tags":[],"title":"Quiero ser director/a"},{"canonical_url":"https://lcd.exactas.uba.ar/pagina-ejemplo/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:2","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:2","url":"https://lcd.exactas.uba.ar/pagina-ejemplo/"},"subtitle":"page","tags":[],"title":"Página de ejemplo"},{"canonical_url":"https://lcd.exactas.uba.ar/temas-de-tesis-de-licenciatura-bak/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:2147","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:2147","url":"https://lcd.exactas.uba.ar/temas-de-tesis-de-licenciatura-bak/"},"subtitle":"page","tags":[],"title":"Cartelera de temas de tesis de licenciatura – BAK"},{"canonical_url":"https://lcd.exactas.uba.ar/archivo-de-tesis-de-licenciatura-bak/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:2562","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:2562","url":"https://lcd.exactas.uba.ar/archivo-de-tesis-de-licenciatura-bak/"},"subtitle":"page","tags":[],"title":"Archivo de tesis de licenciatura – BAK"},{"canonical_url":"https://lcd.exactas.uba.ar/no-access/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:2940","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:2940","url":"https://lcd.exactas.uba.ar/no-access/"},"subtitle":"page","tags":[],"title":"No Access"},{"canonical_url":"https://lcd.exactas.uba.ar/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:395","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:395","url":"https://lcd.exactas.uba.ar/"},"subtitle":"page","tags":[],"title":"Home"},{"canonical_url":"https://lcd.exactas.uba.ar/institucional/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:410","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:410","url":"https://lcd.exactas.uba.ar/institucional/"},"subtitle":"page","tags":[],"title":"Institucional"},{"canonical_url":"https://lcd.exactas.uba.ar/novedades/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:412","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:412","url":"https://lcd.exactas.uba.ar/novedades/"},"subtitle":"page","tags":[],"title":"Novedades"},{"canonical_url":"https://lcd.exactas.uba.ar/materias/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:43","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:43","url":"https://lcd.exactas.uba.ar/materias/"},"subtitle":"page","tags":[],"title":"Plan de estudios"},{"canonical_url":"https://lcd.exactas.uba.ar/preguntas-frecuentes/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:480","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:480","url":"https://lcd.exactas.uba.ar/preguntas-frecuentes/"},"subtitle":"page","tags":[],"title":"Preguntas Frecuentes"},{"canonical_url":"https://lcd.exactas.uba.ar/comisiones/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:650","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:650","url":"https://lcd.exactas.uba.ar/comisiones/"},"subtitle":"page","tags":[],"title":"Comisión de Carrera Original"},{"canonical_url":"https://lcd.exactas.uba.ar/comision-de-carrera/","contributors":[],"facets":{"entity_type":"page"},"item_id":"lcd:page:807","kind":"lcd-page","source_ref":{"authority":"repo.lcd-uba-knowledgebase","object_id":"page:807","url":"https://lcd.exactas.uba.ar/comision-de-carrera/"},"subtitle":"page","tags":[],"title":"Comisión de Carrera"}],"title":"LCD — institutional pages"}</script>
+<script>
+const data=JSON.parse(document.getElementById("kx-data").textContent);
+const state={query:"",sort:data.config.default_sort,facets:{}};
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+document.getElementById("title").textContent=data.title;
+document.getElementById("description").textContent=data.description||"";
+document.getElementById("release").textContent=`${data.collection_id} · ${data.collection_release_id} · ${data.config.visibility}`;
+const search=document.getElementById("search");
+if(!data.config.search) search.hidden=true;
+search.addEventListener("input",e=>{state.query=e.target.value.toLowerCase();render()});
+const sort=document.getElementById("sort"); sort.value=state.sort; sort.addEventListener("change",e=>{state.sort=e.target.value;render()});
+const facetRoot=document.getElementById("facets");
+for(const key of data.config.facets){
+  const values=[...new Set(data.items.flatMap(x=>{const v=x.facets?.[key];return Array.isArray(v)?v:(v===undefined||v===null?[]:[v])}).map(String))].sort();
+  if(!values.length) continue;
+  const label=document.createElement("label");
+  label.innerHTML=`<span>${esc(key)}</span>`;
+  const sel=document.createElement("select"); sel.innerHTML=`<option value="">All</option>`+values.map(v=>`<option>${esc(v)}</option>`).join("");
+  sel.addEventListener("change",e=>{state.facets[key]=e.target.value;render()}); label.appendChild(sel); facetRoot.appendChild(label);
+}
+function matches(item){
+  const hay=[item.title,item.subtitle,item.summary,...(item.contributors||[]),...(item.tags||[])].filter(Boolean).join(" ").toLowerCase();
+  if(state.query && !hay.includes(state.query)) return false;
+  for(const [key,want] of Object.entries(state.facets)){
+    if(!want) continue;
+    const raw=item.facets?.[key]; const vals=(Array.isArray(raw)?raw:[raw]).filter(v=>v!==undefined&&v!==null).map(String);
+    if(!vals.includes(want)) return false;
+  }
+  return true;
+}
+function sourceLabel(item){return item.source_ref?.authority||""}
+function sorted(items){
+  return [...items].sort((a,b)=>{
+    if(state.sort==="date") return String(b.date||"").localeCompare(String(a.date||""))||a.title.localeCompare(b.title);
+    if(state.sort==="source") return sourceLabel(a).localeCompare(sourceLabel(b))||a.title.localeCompare(b.title);
+    return a.title.localeCompare(b.title);
+  });
+}
+function card(item){
+  const href=item.canonical_url||item.source_ref?.url;
+  const title=href?`<a href="${esc(href)}">${esc(item.title)}</a>`:esc(item.title);
+  const chips=[...(item.contributors||[]),...(item.tags||[])].map(x=>`<span class="chip">${esc(x)}</span>`).join("");
+  return `<article class="card" id="${encodeURIComponent(item.item_id)}"><h2>${title}</h2>${item.subtitle?`<p>${esc(item.subtitle)}</p>`:""}${item.summary?`<p>${esc(item.summary)}</p>`:""}${chips?`<div class="chips">${chips}</div>`:""}<p class="meta">${esc(item.date||"")} ${esc(sourceLabel(item))}</p></article>`;
+}
+function render(){
+  const items=sorted(data.items.filter(matches)); const root=document.getElementById("items");
+  root.innerHTML=items.length?items.map(card).join(""):`<p class="empty">No matching items.</p>`;
+}
+render();
+</script>
+</body>
+</html>

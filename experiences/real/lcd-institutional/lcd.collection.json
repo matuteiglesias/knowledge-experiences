@@ -1,0 +1,16 @@
+{
+  "schema_id": "knowledge.collection-spec",
+  "schema_version": 1,
+  "collection_id": "lcd-institutional-live",
+  "title": "LCD — institutional pages",
+  "description": "Live public institutional pages from LCD, frozen from one trusted producer run.",
+  "source": {
+    "adapter": "lcd-title-slug-index",
+    "path": "source/title_slug_index.json",
+    "authority": "repo.lcd-uba-knowledgebase",
+    "release_id": "run:kx_live_lcd_pages_20260829T221634Z;git:dcaa61e338b284d43764b9c06a0f112629e958f6"
+  },
+  "selection": {
+    "mode": "all"
+  }
+}

@@ -10,20 +10,30 @@
       "composition_maturity": "E0",
       "engineering_status": "proven_sanitized",
       "existing_surface": null,
-      "source_authorities": ["repo.paper-kb"],
-      "code_pins": {"repo.paper-kb": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0"},
+      "source_authorities": [
+        "repo.paper-kb"
+      ],
+      "code_pins": {
+        "repo.paper-kb": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0"
+      },
       "exact_source_release": null,
       "collection_release": null,
       "renderer_profile": "static-navigator",
       "rendered_artifact": null,
       "cross_repo_proof": "paper-kb-catalog-proof",
       "operational_evidence": null,
-      "capabilities_reused": ["paper-catalog-jsonl", "static-navigator", "deterministic-releases"],
+      "capabilities_reused": [
+        "paper-catalog-jsonl",
+        "static-navigator",
+        "deterministic-releases"
+      ],
       "incremental_work": "configuration once an approved real thesis corpus/catalog release is available",
       "blocker": "no approved real thesis bibliography catalog artifact is available in this execution surface",
       "observed_friction": "none in the composition model",
       "v2_candidate": null,
-      "engineering_evidence": ["real Paper KB writer/catalog projection feeds the compositor in pinned CI using sanitized records"],
+      "engineering_evidence": [
+        "real Paper KB writer/catalog projection feeds the compositor in pinned CI using sanitized records"
+      ],
       "evidence_boundary": "sanitized producer-generated proof is not real thesis source material",
       "next_real_action": "materialize one approved thesis Paper KB catalog release and build the existing recipe"
     },
@@ -34,20 +44,31 @@
       "composition_maturity": "E0",
       "engineering_status": "proven_sanitized",
       "existing_surface": null,
-      "source_authorities": ["repo.paper-kb"],
-      "code_pins": {"repo.paper-kb": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0", "repo.abstract-scroller": "6a738edd28d21bf54d6c52943883fee19f4cc033"},
+      "source_authorities": [
+        "repo.paper-kb"
+      ],
+      "code_pins": {
+        "repo.paper-kb": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0",
+        "repo.abstract-scroller": "6a738edd28d21bf54d6c52943883fee19f4cc033"
+      },
       "exact_source_release": null,
       "collection_release": null,
       "renderer_profile": "abstract-scroller",
       "rendered_artifact": null,
       "cross_repo_proof": "abstract-scroller-handoff-proof",
       "operational_evidence": null,
-      "capabilities_reused": ["paper-review-jsonl", "abstract-scroller", "renderer-ref-pinning"],
+      "capabilities_reused": [
+        "paper-review-jsonl",
+        "abstract-scroller",
+        "renderer-ref-pinning"
+      ],
       "incremental_work": "configuration once an approved real review artifact is available",
       "blocker": "no approved real thesis paper.review-record release is available in this execution surface",
       "observed_friction": "external renderer intentionally accepts full-source membership only",
       "v2_candidate": "selected-external-renderer-handoff",
-      "engineering_evidence": ["pinned three-repository proof preserves paper_uid through final Scroller tile doc_id"],
+      "engineering_evidence": [
+        "pinned three-repository proof preserves paper_uid through final Scroller tile doc_id"
+      ],
       "evidence_boundary": "proof uses sanitized Paper KB records, so the concrete thesis experience remains E0",
       "next_real_action": "run the existing handoff over an approved thesis review release before designing subset semantics"
     },
@@ -58,20 +79,31 @@
       "composition_maturity": "E0",
       "engineering_status": "proven_sanitized",
       "existing_surface": null,
-      "source_authorities": ["repo.paper-kb"],
-      "code_pins": {"repo.paper-kb": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0"},
+      "source_authorities": [
+        "repo.paper-kb"
+      ],
+      "code_pins": {
+        "repo.paper-kb": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0"
+      },
       "exact_source_release": null,
       "collection_release": null,
       "renderer_profile": "static-navigator",
       "rendered_artifact": null,
       "cross_repo_proof": "paper-kb-catalog-proof",
       "operational_evidence": null,
-      "capabilities_reused": ["paper-catalog-jsonl", "facet-selection", "author-facet", "static-navigator"],
+      "capabilities_reused": [
+        "paper-catalog-jsonl",
+        "facet-selection",
+        "author-facet",
+        "static-navigator"
+      ],
       "incremental_work": "configuration-only for an author represented in an approved catalog release",
       "blocker": "no approved real author corpus release selected for this census run",
       "observed_friction": "none after Paper KB introduced producer-owned author metadata projection",
       "v2_candidate": null,
-      "engineering_evidence": ["same sanitized producer release builds full catalog and author subset with no second application"],
+      "engineering_evidence": [
+        "same sanitized producer release builds full catalog and author subset with no second application"
+      ],
       "evidence_boundary": "author reuse is mechanically proven but not materialized for a real author corpus",
       "next_real_action": "choose one approved author corpus and instantiate the existing facet recipe"
     },
@@ -82,20 +114,30 @@
       "composition_maturity": "E0",
       "engineering_status": "blocked_producer_metadata",
       "existing_surface": null,
-      "source_authorities": ["repo.paper-kb"],
-      "code_pins": {"repo.paper-kb": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0"},
+      "source_authorities": [
+        "repo.paper-kb"
+      ],
+      "code_pins": {
+        "repo.paper-kb": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0"
+      },
       "exact_source_release": null,
       "collection_release": null,
       "renderer_profile": "static-navigator",
       "rendered_artifact": null,
       "cross_repo_proof": null,
       "operational_evidence": null,
-      "capabilities_reused": ["paper-catalog-jsonl", "facet-selection", "static-navigator"],
+      "capabilities_reused": [
+        "paper-catalog-jsonl",
+        "facet-selection",
+        "static-navigator"
+      ],
       "incremental_work": "configuration-only if a producer-authoritative series/venue field becomes reliably available",
       "blocker": "current Paper KB TEI production does not guarantee venue/series coverage",
       "observed_friction": "producer metadata gap, not a composition-model gap",
       "v2_candidate": null,
-      "engineering_evidence": ["catalog adapter consumes venue when present but deliberately does not infer it"],
+      "engineering_evidence": [
+        "catalog adapter consumes venue when present but deliberately does not infer it"
+      ],
       "evidence_boundary": "no working-paper-series claim is made from optional or guessed venue metadata",
       "next_real_action": "establish series metadata upstream only when a concrete corpus can supply it authoritatively"
     },
@@ -106,7 +148,10 @@
       "composition_maturity": "E0",
       "engineering_status": "blocked_capability",
       "existing_surface": null,
-      "source_authorities": ["repo.paper-kb", "human-curation"],
+      "source_authorities": [
+        "repo.paper-kb",
+        "human-curation"
+      ],
       "code_pins": {},
       "exact_source_release": null,
       "collection_release": null,
@@ -114,7 +159,10 @@
       "rendered_artifact": null,
       "cross_repo_proof": null,
       "operational_evidence": null,
-      "capabilities_reused": ["paper-catalog-jsonl", "static-navigator"],
+      "capabilities_reused": [
+        "paper-catalog-jsonl",
+        "static-navigator"
+      ],
       "incremental_work": "requires explicit human-curated order/trail semantics beyond unordered membership",
       "blocker": "V1 membership canonicalizes by item_id and has no governed ordered trail/group model",
       "observed_friction": "curation order is meaning, not merely a sort choice",
@@ -130,20 +178,30 @@
       "composition_maturity": "E0",
       "engineering_status": "design_ready",
       "existing_surface": null,
-      "source_authorities": ["repo.paper-kb"],
-      "code_pins": {"repo.paper-kb": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0"},
+      "source_authorities": [
+        "repo.paper-kb"
+      ],
+      "code_pins": {
+        "repo.paper-kb": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0"
+      },
       "exact_source_release": null,
       "collection_release": null,
       "renderer_profile": "private-static-navigator-or-paper-workbench",
       "rendered_artifact": null,
       "cross_repo_proof": null,
       "operational_evidence": null,
-      "capabilities_reused": ["paper-catalog-jsonl", "visibility-metadata", "static-navigator"],
+      "capabilities_reused": [
+        "paper-catalog-jsonl",
+        "visibility-metadata",
+        "static-navigator"
+      ],
       "incremental_work": "mostly configuration after an explicitly approved corpus is available",
       "blocker": "no approved FCV corpus artifact was accessed during this census",
       "observed_friction": "private local use is feasible; richer workbench demand is not yet demonstrated",
       "v2_candidate": null,
-      "engineering_evidence": ["paper composition path is already proven generically"],
+      "engineering_evidence": [
+        "paper composition path is already proven generically"
+      ],
       "evidence_boundary": "no FCV source papers or derived corpus were inspected or processed here",
       "next_real_action": "use an explicitly approved FCV Paper KB release and observe whether static browsing is sufficient"
     },
@@ -154,20 +212,31 @@
       "composition_maturity": "E0",
       "engineering_status": "proven_sanitized",
       "existing_surface": null,
-      "source_authorities": ["repo.paper-kb"],
-      "code_pins": {"repo.paper-kb": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0", "repo.abstract-scroller": "6a738edd28d21bf54d6c52943883fee19f4cc033"},
+      "source_authorities": [
+        "repo.paper-kb"
+      ],
+      "code_pins": {
+        "repo.paper-kb": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0",
+        "repo.abstract-scroller": "6a738edd28d21bf54d6c52943883fee19f4cc033"
+      },
       "exact_source_release": null,
       "collection_release": null,
       "renderer_profile": "abstract-scroller",
       "rendered_artifact": null,
       "cross_repo_proof": "abstract-scroller-handoff-proof",
       "operational_evidence": null,
-      "capabilities_reused": ["paper-review-jsonl", "abstract-scroller", "deterministic-external-rendering"],
+      "capabilities_reused": [
+        "paper-review-jsonl",
+        "abstract-scroller",
+        "deterministic-external-rendering"
+      ],
       "incremental_work": "configuration once a real review release is selected",
       "blocker": "no concrete real literature-review source release selected",
       "observed_friction": "selected subsets would require a producer-domain subset projection or another justified seam",
       "v2_candidate": "selected-external-renderer-handoff",
-      "engineering_evidence": ["real Scroller compiler and manifest validator are exercised in pinned CI"],
+      "engineering_evidence": [
+        "real Scroller compiler and manifest validator are exercised in pinned CI"
+      ],
       "evidence_boundary": "sanitized interface proof does not make a concrete literature review E1/E2",
       "next_real_action": "materialize one complete approved review release through the existing handoff"
     },
@@ -175,49 +244,75 @@
       "id": 8,
       "experience_id": "lcd-institutional-corpus",
       "name": "LCD institutional corpus",
-      "composition_maturity": "E0",
-      "engineering_status": "proven_contract_check",
+      "composition_maturity": "E3",
+      "engineering_status": "proven_live",
       "existing_surface": "lcd-UBA-knowledgebase governed corpus/index machinery",
-      "source_authorities": ["repo.lcd-uba-knowledgebase"],
-      "code_pins": {"repo.lcd-uba-knowledgebase": "dcaa61e338b284d43764b9c06a0f112629e958f6"},
-      "exact_source_release": "run:local_contract_check_20260424T161417Z",
-      "collection_release": null,
+      "source_authorities": [
+        "repo.lcd-uba-knowledgebase"
+      ],
+      "code_pins": {
+        "repo.lcd-uba-knowledgebase": "dcaa61e338b284d43764b9c06a0f112629e958f6",
+        "repo.knowledge-experiences": "77d4a3687487a29148efba4f905b06adf4eab356"
+      },
+      "exact_source_release": "run:kx_live_lcd_pages_20260829T221634Z;git:dcaa61e338b284d43764b9c06a0f112629e958f6",
+      "collection_release": "experiences/real/lcd-institutional/release/collection.release.json#sha256:582187c7ac71a101",
       "renderer_profile": "static-navigator",
-      "rendered_artifact": null,
-      "cross_repo_proof": "lcd-fanout-proof",
+      "rendered_artifact": "experiences/real/lcd-institutional/release/site/index.html",
+      "cross_repo_proof": "experiences/real/lcd-institutional/real-use-proof.json (GitHub Actions run 33278164562)",
       "operational_evidence": null,
-      "capabilities_reused": ["lcd-title-slug-index", "static-navigator", "facet-selection"],
-      "incremental_work": "configuration-only for a future trusted live-source run with the same index surface",
-      "blocker": "the checked-in trusted run is explicitly named local_contract_check rather than a verified live-source institutional run",
-      "observed_friction": "none in composition; producer already exposes a cheap combined browse index",
+      "capabilities_reused": [
+        "lcd-title-slug-index",
+        "static-navigator",
+        "deterministic-releases"
+      ],
+      "incremental_work": "no new composition capability; real producer run plus the existing V1 adapter/renderer recipe",
+      "blocker": "none for the page-scoped institutional experience; the public WordPress posts endpoint returned HTTP 500 during bootstrap probes and is explicitly outside this release",
+      "observed_friction": "live use exposed an unhealthy posts endpoint; scope was narrowed to the coherent complete public page collection without weakening provenance or validation",
       "v2_candidate": "record-level-content-hash-provenance",
-      "engineering_evidence": ["pinned LCD trusted run index builds deterministically in cross-repo CI"],
-      "evidence_boundary": "trusted producer mechanics are real, but the run identity prevents claiming live institutional-corpus maturity",
-      "next_real_action": "execute/identify one verified live LCD run and reuse the unchanged experience recipe"
+      "engineering_evidence": [
+        "live LCD producer run kx_live_lcd_pages_20260829T221634Z completed_trusted over 19 public pages",
+        "Knowledge Experiences build and real-use proof passed in GitHub Actions run 33278164562"
+      ],
+      "evidence_boundary": "E3 applies to the complete public WordPress page collection captured by this exact trusted run; posts are not claimed",
+      "next_real_action": "review/use the frozen navigator and refresh only through another explicit trusted producer run when desired"
     },
     {
       "id": 9,
       "experience_id": "lcd-thesis-resources-subset",
       "name": "LCD thesis/resources subset",
-      "composition_maturity": "E0",
-      "engineering_status": "design_ready",
+      "composition_maturity": "E3",
+      "engineering_status": "proven_live",
       "existing_surface": "lcd-UBA-knowledgebase run index",
-      "source_authorities": ["repo.lcd-uba-knowledgebase", "human-curation"],
-      "code_pins": {"repo.lcd-uba-knowledgebase": "dcaa61e338b284d43764b9c06a0f112629e958f6"},
-      "exact_source_release": null,
-      "collection_release": null,
+      "source_authorities": [
+        "repo.lcd-uba-knowledgebase",
+        "human-curation"
+      ],
+      "code_pins": {
+        "repo.lcd-uba-knowledgebase": "dcaa61e338b284d43764b9c06a0f112629e958f6",
+        "repo.knowledge-experiences": "923deddabb532bc4637b3d562ba944ef0dc3680e"
+      },
+      "exact_source_release": "run:kx_live_lcd_pages_20260829T221634Z;git:dcaa61e338b284d43764b9c06a0f112629e958f6",
+      "collection_release": "experiences/real/lcd-thesis-resources/release/collection.release.json#sha256:01bbef6b349aefea",
       "renderer_profile": "static-navigator",
-      "rendered_artifact": null,
-      "cross_repo_proof": null,
+      "rendered_artifact": "experiences/real/lcd-thesis-resources/release/site/index.html",
+      "cross_repo_proof": "experiences/real/lcd-thesis-resources/real-use-proof.json (GitHub Actions run 33278265492; parent source proof run 33278164562)",
       "operational_evidence": null,
-      "capabilities_reused": ["lcd-title-slug-index", "ids-selection", "facet-selection", "static-navigator"],
-      "incremental_work": "configuration/curation if exact resource identities are selected",
-      "blocker": "current index has entity_type but no authoritative thesis/resource semantic category in the inspected contract-check evidence",
-      "observed_friction": "membership may be curated by exact IDs without requiring a new ontology",
+      "capabilities_reused": [
+        "lcd-title-slug-index",
+        "ids-selection",
+        "static-navigator",
+        "deterministic-releases"
+      ],
+      "incremental_work": "configuration/curation only: four exact IDs over the already frozen real source release",
+      "blocker": "none for the current four-page curated subset; membership remains explicit human curation rather than an inferred thesis taxonomy",
+      "observed_friction": "none in the composition model; exact-ID curation was sufficient and avoided inventing producer taxonomy",
       "v2_candidate": null,
-      "engineering_evidence": ["LCD adapter and selection mechanics are already proven"],
-      "evidence_boundary": "no real thesis/resources membership was selected",
-      "next_real_action": "curate exact LCD source IDs from a verified live run before adding any producer taxonomy"
+      "engineering_evidence": [
+        "same trusted live source release reused from institutional experience run 33278164562",
+        "four exact live IDs built deterministically in GitHub Actions run 33278265492 with no new adapter, renderer, or kernel change"
+      ],
+      "evidence_boundary": "the curated collection asserts only membership of the four exact pages selected from the frozen live source; it does not create an authoritative thesis taxonomy for LCD",
+      "next_real_action": "review/use this curated subset; expand membership by explicit real IDs only when editorial intent requires it"
     },
     {
       "id": 10,
@@ -226,7 +321,10 @@
       "composition_maturity": "E0",
       "engineering_status": "blocked_capability",
       "existing_surface": null,
-      "source_authorities": ["paper-or-document-producer", "human-curation"],
+      "source_authorities": [
+        "paper-or-document-producer",
+        "human-curation"
+      ],
       "code_pins": {},
       "exact_source_release": null,
       "collection_release": null,
@@ -234,7 +332,10 @@
       "rendered_artifact": null,
       "cross_repo_proof": null,
       "operational_evidence": null,
-      "capabilities_reused": ["static-navigator", "ids-selection"],
+      "capabilities_reused": [
+        "static-navigator",
+        "ids-selection"
+      ],
       "incremental_work": "needs pedagogical groups/order if the course has sections or a prescribed sequence",
       "blocker": "no real course collection was selected and V1 has no governed grouping/order semantics",
       "observed_friction": "same ordering/grouping pressure as curated reading paths appears independently here",
@@ -250,8 +351,12 @@
       "composition_maturity": "E0",
       "engineering_status": "existing_vertical",
       "existing_surface": "repo.thesis Docusaurus research portal; README identifies a live research/thesis site",
-      "source_authorities": ["repo.thesis"],
-      "code_pins": {"repo.thesis": "7265018750db0f96b69efd4048aedad06ad803fc"},
+      "source_authorities": [
+        "repo.thesis"
+      ],
+      "code_pins": {
+        "repo.thesis": "7265018750db0f96b69efd4048aedad06ad803fc"
+      },
       "exact_source_release": null,
       "collection_release": null,
       "renderer_profile": "existing-docusaurus-vertical",
@@ -263,7 +368,9 @@
       "blocker": "not blocked; intentionally outside generic renderer ownership",
       "observed_friction": "research status, historical/current authority and curated trails are substantive vertical semantics",
       "v2_candidate": "ordered-groups-and-reading-trails",
-      "engineering_evidence": ["repository contains curated trails and explicit research-status/provenance semantics"],
+      "engineering_evidence": [
+        "repository contains curated trails and explicit research-status/provenance semantics"
+      ],
       "evidence_boundary": "the existing vertical is mature, but no Knowledge Experiences CollectionRelease exists, so composition maturity remains E0",
       "next_real_action": "keep the portal vertical; use it as evidence when another independent trail/group case is materialized"
     },
@@ -274,8 +381,12 @@
       "composition_maturity": "E0",
       "engineering_status": "existing_vertical",
       "existing_surface": "repo.journal Quartz publication garden",
-      "source_authorities": ["repo.journal"],
-      "code_pins": {"repo.journal": "11fc6ea42e13866cd952e4957c26dd2e55ef78d7"},
+      "source_authorities": [
+        "repo.journal"
+      ],
+      "code_pins": {
+        "repo.journal": "11fc6ea42e13866cd952e4957c26dd2e55ef78d7"
+      },
       "exact_source_release": null,
       "collection_release": null,
       "renderer_profile": "existing-quartz-vertical",
@@ -287,7 +398,9 @@
       "blocker": "not blocked; publication filtering/editorial review belong to the vertical and future W5b boundary",
       "observed_friction": "publication eligibility is editorial governance, not renderer configuration",
       "v2_candidate": null,
-      "engineering_evidence": ["repository documents publish:true filtering, draft/private exclusions and historical-evidence semantics"],
+      "engineering_evidence": [
+        "repository documents publish:true filtering, draft/private exclusions and historical-evidence semantics"
+      ],
       "evidence_boundary": "specific live deployment was not reverified by the Journal README evidence boundary",
       "next_real_action": "leave the Journal vertical; revisit only from a repeated publication workflow, not from V1 composition"
     },
@@ -298,8 +411,12 @@
       "composition_maturity": "E0",
       "engineering_status": "existing_vertical",
       "existing_surface": "repo.knowledge-ecosystem-docs Docusaurus architecture/control surface",
-      "source_authorities": ["repo.knowledge-ecosystem-docs"],
-      "code_pins": {"repo.knowledge-ecosystem-docs": "ab59145a0378edc5f56b61e03951f93ca018c60a"},
+      "source_authorities": [
+        "repo.knowledge-ecosystem-docs"
+      ],
+      "code_pins": {
+        "repo.knowledge-ecosystem-docs": "ab59145a0378edc5f56b61e03951f93ca018c60a"
+      },
       "exact_source_release": null,
       "collection_release": null,
       "renderer_profile": "technical-navigator-or-existing-docs-site",
@@ -311,7 +428,9 @@
       "blocker": "no concrete consumer need justifies duplicating the existing architecture docs surface",
       "observed_friction": "documents are a distinct producer family, but the existing vertical already solves its primary human experience",
       "v2_candidate": null,
-      "engineering_evidence": ["architecture authority already has a lightweight Docusaurus control surface configured for Vercel"],
+      "engineering_evidence": [
+        "architecture authority already has a lightweight Docusaurus control surface configured for Vercel"
+      ],
       "evidence_boundary": "no duplicate Knowledge Experiences build was attempted because it would add no demonstrated value",
       "next_real_action": "wait for a distinct docs-derived experience before adding a document adapter"
     },
@@ -322,7 +441,10 @@
       "composition_maturity": "E0",
       "engineering_status": "blocked_capability",
       "existing_surface": null,
-      "source_authorities": ["mixed-publication-and-paper-authorities", "human-curation"],
+      "source_authorities": [
+        "mixed-publication-and-paper-authorities",
+        "human-curation"
+      ],
       "code_pins": {},
       "exact_source_release": null,
       "collection_release": null,
@@ -330,7 +452,9 @@
       "rendered_artifact": null,
       "cross_repo_proof": null,
       "operational_evidence": null,
-      "capabilities_reused": ["static-navigator"],
+      "capabilities_reused": [
+        "static-navigator"
+      ],
       "incremental_work": "requires a real mixed-source attempt before choosing namespace/union semantics",
       "blocker": "CollectionSpec currently has one source and no governed multi-source union",
       "observed_friction": "mixed-source composition is a real model boundary, not an adapter detail",
@@ -346,7 +470,10 @@
       "composition_maturity": "E0",
       "engineering_status": "blocked_capability",
       "existing_surface": null,
-      "source_authorities": ["mixed-governed-evidence", "human-curation"],
+      "source_authorities": [
+        "mixed-governed-evidence",
+        "human-curation"
+      ],
       "code_pins": {},
       "exact_source_release": null,
       "collection_release": null,
@@ -354,7 +481,11 @@
       "rendered_artifact": null,
       "cross_repo_proof": null,
       "operational_evidence": null,
-      "capabilities_reused": ["static-navigator", "optional-knowledge-inspect", "optional-kb-artifacts"],
+      "capabilities_reused": [
+        "static-navigator",
+        "optional-knowledge-inspect",
+        "optional-kb-artifacts"
+      ],
       "incremental_work": "requires mixed-source membership plus explicit human/governed selection; intelligence remains optional",
       "blocker": "single-source CollectionSpec and no concrete governed selection receipt have been exercised for this workflow",
       "observed_friction": "multi-source provenance and curation authority repeat; chat/inspection is not the primary blocker",

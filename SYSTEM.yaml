@@ -65,11 +65,14 @@ census:
   ledger: docs/experience-census.v1.json
   count: 15
   composition_maturity_rule: real-source-only
+  maturity_snapshot:
+    E3: 2
+    E0: 13
   v2_candidates:
     - ordered-groups-and-reading-trails
     - multi-source-collections-and-curation-receipts
 
 status:
-  phase: v1.5-census-complete
-  next_gate: real-use-before-v2
+  phase: real-use-active
+  next_gate: second-real-source-domain
   implementation_policy: evidence-pulled

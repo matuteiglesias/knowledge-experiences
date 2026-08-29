@@ -1,75 +1,38 @@
-# Experience Census — V1.5
+# Experience Census — real-use frontier
 
-This is the pressure-test ledger for `knowledge-experiences`. The machine-readable authority for the fifteen rows is `docs/experience-census.v1.json`; this page explains how to read it.
+The machine-readable authority is `docs/experience-census.v1.json`. `E0`–`E4` remains strict: a concrete experience only advances on real-source evidence.
 
-## Two different kinds of maturity
+## Current frontier
 
-`E0`–`E4` remains deliberately strict and measures **concrete Knowledge Experiences composition maturity**:
+**2 experiences are now E3; 13 remain E0.** The first real-source tranche used one trusted live LCD producer run and produced two human-usable deterministic experiences.
 
-- `E0` — declared: intended authorities and renderer/profile are known;
-- `E1` — compiled: a reproducible `CollectionRelease` exists from real source material;
-- `E2` — rendered: a human can open/use the generated real-source experience;
-- `E3` — proven: the important real-source cross-repository seam has executable evidence;
-- `E4` — operational: deployed or repeatedly used by a real consumer.
-
-A sanitized integration proof is engineering evidence, not real-source maturity. Likewise, a mature pre-existing Thesis or Journal site does not magically become an E1 Knowledge Experiences collection when no CollectionRelease exists. V1.5 therefore records `engineering_status` separately.
-
-## Census result
-
-| # | Experience | KX maturity | Engineering status | Current disposition |
+| # | Experience | KX maturity | Engineering status | Evidence |
 |---|---|---|---|---|
-| 1 | Thesis bibliography | E0 | proven_sanitized | real approved Paper KB release needed; then configuration |
-| 2 | Thesis rapid paper review | E0 | proven_sanitized | Scroller handoff ready; real review release needed |
-| 3 | Author works | E0 | proven_sanitized | author subset is configuration-only once real catalog exists |
-| 4 | Working-paper series | E0 | blocked_producer_metadata | series/venue must become authoritative upstream |
-| 5 | Economic-complexity reading path | E0 | blocked_capability | ordered/grouped curation is not yet modeled |
-| 6 | FCV literature corpus | E0 | design_ready | approved corpus needed; static/private path already reusable |
-| 7 | Literature-review snapshot | E0 | proven_sanitized | complete review handoff ready; real release needed |
-| 8 | LCD institutional corpus | E0 | proven_contract_check | non-paper seam works; checked run is explicitly local_contract_check |
-| 9 | LCD thesis/resources subset | E0 | design_ready | curate exact real IDs before inventing taxonomy |
-| 10 | Course readings | E0 | blocked_capability | independently repeats ordered/grouped-reading pressure |
-| 11 | Economics of Aggregation programme | E0 | existing_vertical | keep Thesis/Docusaurus vertical |
-| 12 | Working-memory journal | E0 | existing_vertical | keep Quartz publication/editorial vertical |
-| 13 | Knowledge-ecosystem technical docs | E0 | existing_vertical | existing architecture docs surface already solves primary need |
-| 14 | Personal publications | E0 | blocked_capability | first real multi-source attempt needed |
-| 15 | Policy/research dossier | E0 | blocked_capability | multi-source + curation receipt pressure; intelligence optional |
+| 8 | LCD institutional corpus | **E3** | proven_live | 19 live public pages → `sha256:582187c7ac71a101` → static navigator; proof run 33278164562 |
+| 9 | LCD thesis/resources subset | **E3** | proven_live | same source release; 4 exact curated IDs → `sha256:01bbef6b349aefea`; proof run 33278265492 |
 
-## What the all-E0 result means
+The other 13 records remain governed in the machine ledger with their prior blockers/statuses.
 
-It does **not** mean V1 failed. It means the architecture and seams were developed faster than concrete real-source experience releases were admitted into this execution surface. We now know much more precisely which cases are cheap:
+## What changed
 
-- Thesis bibliography, Author works, FCV literature and full Literature-review snapshot are largely waiting for approved real producer releases, not another application.
-- LCD institutional browsing needs a verified live producer run, not another composition abstraction.
-- Thesis, Journal and ecosystem docs already have strong vertical human experiences and should not be rebuilt merely to increase a census score.
+The institutional experience crossed E1, E2 and E3 in one bounded run: the pinned LCD producer fetched the complete public WordPress **page** collection, produced a `completed_trusted` run, Knowledge Experiences froze its browse index into a `CollectionRelease`, and the existing static renderer produced a usable HTML artifact. The release deliberately excludes WordPress posts because repeated live probes returned HTTP 500 from `/wp-json/wp/v2/posts`; no post coverage is claimed.
 
-That is a useful stop signal. Inflating fixture proofs to E2/E3 would hide the real next job: **use the machinery on real approved material**.
+The thesis/resources experience is the stronger composability result. It reused the exact same source release and selected these four real identities: `lcd:page:1948`, `lcd:page:1951`, `lcd:page:2147`, `lcd:page:2562`. No adapter, renderer, producer projection or kernel change was needed: the marginal experience was **selection + curation + configuration**.
 
-## Repeated friction that may justify V2 later
+## Maturity semantics
 
-Two patterns are now stronger than isolated ideas.
+- `E0` — declared.
+- `E1` — reproducible `CollectionRelease` from real source material.
+- `E2` — human-usable rendered real-source artifact.
+- `E3` — important real-source seam has executable evidence.
+- `E4` — deployed or repeatedly used by a real consumer.
 
-**Ordered/grouped reading trails.** Economic-complexity reading paths (#5) and Course readings (#10) independently need curator-controlled sequence/group semantics, while the existing Economics of Aggregation vertical (#11) demonstrates that curated trails are genuinely useful. This is the strongest V2 candidate, but it should still be pulled by one real materialization rather than implemented from prose alone.
+Neither LCD experience is E4: checked-in artifacts and CI evidence are not the same as deployment or repeated external use.
 
-**Multi-source collections plus curation provenance.** Personal publications (#14) and Policy/research dossier (#15) both cross source-authority boundaries. The dossier adds explicit selection/governance pressure. This is a real composition-model frontier, but no real two-authority collection has yet been attempted, so namespace/union/receipt semantics remain premature.
+## Next frontier
 
-Weaker or producer-local observations should stay local: working-paper series metadata is a Paper KB producer gap; LCD record-level `content_hash` exposure is only one provenance case; selected Abstract Scroller subsets remain a bounded handoff limitation until a real selected-review experience needs them.
+The highest-information next move is a **second real-source domain**, preferably one of the already-proven Paper KB paths (bibliography, author works, or full review snapshot) using an explicitly approved real corpus. That tests whether the low marginal-cost pattern survives outside LCD rather than overfitting further around one producer.
 
-## Marginal-cost evidence
+## Remaining E0 cases
 
-The important result is already visible even without E1 claims:
-
-```text
-first paper experience    → producer projection + adapter + renderer baseline
-second author experience  → selection/configuration over the same release
-second paper renderer     → one bounded handoff; producer bytes remain producer-owned
-first non-paper producer  → one bounded adapter; existing selection/renderer reused unchanged
-mature vertical products  → classified, not rewritten
-```
-
-The model is therefore showing the desired direction: new experience families cost a bounded adapter/handoff, while nearby experiences increasingly become configuration and curation.
-
-## Next regime
-
-After V1.5, the default should be **real use → observation → selective evolution**, not immediate V2 construction. The most valuable next evidence is one approved real Paper KB experience and one verified live LCD experience. Only implement a V2 abstraction when a real use exposes repeated friction already visible in this ledger.
-
-The original required census names remain represented explicitly: Thesis bibliography, Author works, Working-paper series, LCD institutional corpus, Economics of Aggregation programme, and Policy/research dossier, together with the other nine cases.
+The machine ledger retains all remaining cases and their exact blockers: Thesis bibliography; Thesis rapid paper review; Author works; Working-paper series; Economic-complexity reading path; FCV literature corpus; Literature-review snapshot; Course readings; Economics of Aggregation programme; Working-memory journal; Knowledge-ecosystem technical docs; Personal publications; Policy/research dossier.

@@ -1,0 +1,18 @@
+{
+  "schema_id": "knowledge.experience-spec",
+  "schema_version": 1,
+  "experience_id": "lcd-institutional-live",
+  "title": "LCD — institutional pages",
+  "collection_spec": "lcd.collection.json",
+  "renderer": "static-navigator",
+  "visibility": "public",
+  "capabilities": {
+    "search": true,
+    "facets": [
+      "entity_type"
+    ]
+  },
+  "navigation": {
+    "default_sort": "title"
+  }
+}

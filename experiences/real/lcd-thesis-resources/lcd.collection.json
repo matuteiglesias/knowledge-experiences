@@ -1,0 +1,22 @@
+{
+  "schema_id": "knowledge.collection-spec",
+  "schema_version": 1,
+  "collection_id": "lcd-thesis-resources-live",
+  "title": "LCD — thesis resources",
+  "description": "Curated thesis-related LCD pages selected by exact identities from the trusted live institutional-page release.",
+  "source": {
+    "adapter": "lcd-title-slug-index",
+    "path": "source/title_slug_index.json",
+    "authority": "repo.lcd-uba-knowledgebase",
+    "release_id": "run:kx_live_lcd_pages_20260829T221634Z;git:dcaa61e338b284d43764b9c06a0f112629e958f6"
+  },
+  "selection": {
+    "mode": "ids",
+    "item_ids": [
+      "lcd:page:1948",
+      "lcd:page:1951",
+      "lcd:page:2147",
+      "lcd:page:2562"
+    ]
+  }
+}
