@@ -41,7 +41,7 @@ jobs:
           rm -rf data/lcd/raw/pages data/lcd/raw/posts data/lcd/reports
           PYTHONPATH=src python -m lcd_kb.cli fetch --entity page --base-url "$LIVE_BASE_URL" --per-page 100
           set +e
-          PYTHONPATH=src python -m lcd_kb.cli fetch --entity post --base-url "$LIVE_BASE_URL" --per-page 100
+          PYTHONPATH=src python -m lcd_kb.cli fetch --entity post --base-url "$LIVE_BASE_URL" --per-page 25
           POST_STATUS=$?
           set -e
           if [ "$POST_STATUS" -ne 0 ]; then
