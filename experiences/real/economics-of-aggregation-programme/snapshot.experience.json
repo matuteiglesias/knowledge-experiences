@@ -1,0 +1,16 @@
+{
+  "schema_id": "knowledge.experience-spec",
+  "schema_version": 1,
+  "experience_id": "economics-of-aggregation-frozen-index",
+  "title": "Economics of Aggregation — frozen research-programme index",
+  "collection_spec": "collection.json",
+  "renderer": "static-navigator",
+  "visibility": "public",
+  "capabilities": {
+    "search": true,
+    "facets": ["top_level"]
+  },
+  "navigation": {
+    "default_sort": "title"
+  }
+}
