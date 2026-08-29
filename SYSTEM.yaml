@@ -23,12 +23,13 @@ ecosystem:
   shared_interop_authority: repo.kb-contracts
   expected_producers:
     - repo.paper-kb
+    - repo.lcd-uba-knowledgebase
   expected_capabilities:
     - repo.knowledge-inspect
     - repo.kb-artifacts
   expected_renderers:
     - repo.abstract-scroller
-  historical_or_vertical_experiences:
+  vertical_experiences:
     - repo.thesis
     - repo.journal
 
@@ -42,6 +43,7 @@ interfaces:
     - jsonl
     - paper-catalog-jsonl
     - paper-review-jsonl
+    - lcd-title-slug-index
   renderers:
     - static-navigator
     - abstract-scroller
@@ -54,8 +56,12 @@ interfaces:
       contract: paper.review-record@1
       renderer: repo.abstract-scroller
       evidence: pinned producer/composer/renderer CI
+    - producer: repo.lcd-uba-knowledgebase
+      artifact: run-scoped title_slug_index.json
+      renderer: static-navigator
+      evidence: pinned cross-repo CI over local contract-check run
 
 status:
-  phase: v1.3-second-renderer
-  next_gate: v1.4-ecosystem-fan-out
+  phase: v1.4-ecosystem-fanout
+  next_gate: v1.5-experience-census
   implementation_policy: evidence-pulled

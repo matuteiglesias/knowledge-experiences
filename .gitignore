@@ -7,3 +7,4 @@ build/
 .proof/
 examples/paper-kb/generated.catalog.jsonl
 examples/paper-kb-review/generated/
+examples/lcd/generated/

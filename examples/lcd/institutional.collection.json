@@ -1,0 +1,14 @@
+{
+  "schema_id": "knowledge.collection-spec",
+  "schema_version": 1,
+  "collection_id": "lcd-institutional-index-proof",
+  "title": "LCD institutional knowledge index",
+  "description": "Run-scoped LCD page/post title index composed without changing producer semantics.",
+  "source": {
+    "adapter": "lcd-title-slug-index",
+    "path": "generated/title_slug_index.json",
+    "authority": "repo.lcd-uba-knowledgebase",
+    "release_id": "run:local_contract_check_20260424T161417Z;git:dcaa61e338b284d43764b9c06a0f112629e958f6"
+  },
+  "selection": {"mode": "all"}
+}
