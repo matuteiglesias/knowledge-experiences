@@ -1,0 +1,13 @@
+{
+  "body_copy_policy": "metadata and exact source pointers only; Markdown bodies remain producer-owned",
+  "excluded_unpublished_count": 0,
+  "record_count": 32,
+  "schema_id": "knowledge.git-markdown-source-receipt",
+  "schema_version": 1,
+  "scope_root": "docs",
+  "selection_mode": "all-markdown",
+  "source_authority": "repo.knowledge-ecosystem-docs",
+  "source_commit": "ab59145a0378edc5f56b61e03951f93ca018c60a",
+  "source_index_sha256": "372e345e376a1528faa7e7a2057b3f56bd1f317f0e7b8b442a2e8e958da55307",
+  "source_repo": "matuteiglesias/knowledge-ecosystem-docs"
+}

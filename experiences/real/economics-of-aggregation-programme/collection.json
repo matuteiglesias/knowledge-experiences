@@ -1,0 +1,16 @@
+{
+  "schema_id": "knowledge.collection-spec",
+  "schema_version": 1,
+  "collection_id": "economics-of-aggregation-programme",
+  "title": "Economics of Aggregation programme — exact document index",
+  "description": "Metadata-only index of exact versioned research-programme documents; repo.thesis retains content and status authority.",
+  "source": {
+    "adapter": "jsonl",
+    "path": "source/items.jsonl",
+    "authority": "repo.thesis",
+    "release_id": "git:7265018750db0f96b69efd4048aedad06ad803fc"
+  },
+  "selection": {
+    "mode": "all"
+  }
+}

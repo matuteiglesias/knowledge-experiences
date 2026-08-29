@@ -348,7 +348,7 @@
       "id": 11,
       "experience_id": "economics-of-aggregation-programme",
       "name": "Economics of Aggregation programme",
-      "composition_maturity": "E0",
+      "composition_maturity": "E1",
       "engineering_status": "existing_vertical",
       "existing_surface": "repo.thesis Docusaurus research portal; README identifies a live research/thesis site",
       "source_authorities": [
@@ -357,28 +357,33 @@
       "code_pins": {
         "repo.thesis": "7265018750db0f96b69efd4048aedad06ad803fc"
       },
-      "exact_source_release": null,
-      "collection_release": null,
+      "exact_source_release": "git:7265018750db0f96b69efd4048aedad06ad803fc",
+      "collection_release": "experiences/real/economics-of-aggregation-programme/release/collection.release.json#sha256:3c46140540fd493c",
       "renderer_profile": "existing-docusaurus-vertical",
       "rendered_artifact": null,
       "cross_repo_proof": null,
       "operational_evidence": null,
-      "capabilities_reused": [],
-      "incremental_work": "none justified in Knowledge Experiences",
-      "blocker": "not blocked; intentionally outside generic renderer ownership",
-      "observed_friction": "research status, historical/current authority and curated trails are substantive vertical semantics",
+      "capabilities_reused": [
+        "jsonl",
+        "deterministic-releases",
+        "exact-git-source-pinning"
+      ],
+      "incremental_work": "bounded Git-backed Markdown metadata snapshot plus the existing generic jsonl adapter; no duplicate Docusaurus renderer",
+      "blocker": "a distinct derived consumer is required before E2; the existing Docusaurus portal remains the authoritative human experience",
+      "observed_friction": "research status, historical/current authority and curated reading trails remain substantive upstream semantics and are not inferred by Knowledge Experiences",
       "v2_candidate": "ordered-groups-and-reading-trails",
       "engineering_evidence": [
-        "repository contains curated trails and explicit research-status/provenance semantics"
+        "repository contains curated trails and explicit research-status/provenance semantics",
+        "R2 exact Git snapshot 7265018750db0f96b69efd4048aedad06ad803fc produced 89 metadata records and CollectionRelease sha256:3c46140540fd493c"
       ],
-      "evidence_boundary": "the existing vertical is mature, but no Knowledge Experiences CollectionRelease exists, so composition maturity remains E0",
-      "next_real_action": "keep the portal vertical; use it as evidence when another independent trail/group case is materialized"
+      "evidence_boundary": "E1 covers a machine-readable metadata collection pointing at exact versioned thesis-programme documents; document bodies and status semantics remain repo.thesis-owned, and no second human UI is claimed",
+      "next_real_action": "consume this CollectionRelease in a genuinely distinct derived workflow before considering E2 or ordered-trail semantics"
     },
     {
       "id": 12,
       "experience_id": "working-memory-journal",
       "name": "Working-memory journal",
-      "composition_maturity": "E0",
+      "composition_maturity": "E1",
       "engineering_status": "existing_vertical",
       "existing_surface": "repo.journal Quartz publication garden",
       "source_authorities": [
@@ -387,28 +392,33 @@
       "code_pins": {
         "repo.journal": "11fc6ea42e13866cd952e4957c26dd2e55ef78d7"
       },
-      "exact_source_release": null,
-      "collection_release": null,
+      "exact_source_release": "git:11fc6ea42e13866cd952e4957c26dd2e55ef78d7",
+      "collection_release": "experiences/real/working-memory-journal/release/collection.release.json#sha256:1cdee66182d2514e",
       "renderer_profile": "existing-quartz-vertical",
       "rendered_artifact": null,
       "cross_repo_proof": null,
       "operational_evidence": null,
-      "capabilities_reused": [],
-      "incremental_work": "none justified in V1 composition",
-      "blocker": "not blocked; publication filtering/editorial review belong to the vertical and future W5b boundary",
-      "observed_friction": "publication eligibility is editorial governance, not renderer configuration",
+      "capabilities_reused": [
+        "jsonl",
+        "deterministic-releases",
+        "exact-git-source-pinning"
+      ],
+      "incremental_work": "bounded metadata snapshot of only notes with explicit publish:true using the existing generic jsonl adapter; Quartz remains the publication renderer",
+      "blocker": "a distinct downstream use is required before E2; editorial publication eligibility remains owned by repo.journal rather than Knowledge Experiences",
+      "observed_friction": "publication eligibility is real semantic governance; R2 therefore selects only explicit publish:true and refuses to reinterpret publish:false or draft material",
       "v2_candidate": null,
       "engineering_evidence": [
-        "repository documents publish:true filtering, draft/private exclusions and historical-evidence semantics"
+        "repository documents publish:true filtering, draft/private exclusions and historical-evidence semantics",
+        "R2 exact Git snapshot 11fc6ea42e13866cd952e4957c26dd2e55ef78d7 produced 2868 metadata records and CollectionRelease sha256:1cdee66182d2514e"
       ],
-      "evidence_boundary": "specific live deployment was not reverified by the Journal README evidence boundary",
-      "next_real_action": "leave the Journal vertical; revisit only from a repeated publication workflow, not from V1 composition"
+      "evidence_boundary": "E1 covers only metadata and exact Git pointers for the conservative explicit-publication subset; it does not assert a live deployment, republish note bodies, or redefine Quartz filtering",
+      "next_real_action": "use the release for a distinct publication/synthesis workflow and compare its membership with the vertical's own public output before raising maturity"
     },
     {
       "id": 13,
       "experience_id": "knowledge-ecosystem-technical-docs",
       "name": "Knowledge-ecosystem technical docs",
-      "composition_maturity": "E0",
+      "composition_maturity": "E1",
       "engineering_status": "existing_vertical",
       "existing_surface": "repo.knowledge-ecosystem-docs Docusaurus architecture/control surface",
       "source_authorities": [
@@ -417,22 +427,27 @@
       "code_pins": {
         "repo.knowledge-ecosystem-docs": "ab59145a0378edc5f56b61e03951f93ca018c60a"
       },
-      "exact_source_release": null,
-      "collection_release": null,
+      "exact_source_release": "git:ab59145a0378edc5f56b61e03951f93ca018c60a",
+      "collection_release": "experiences/real/knowledge-ecosystem-technical-docs/release/collection.release.json#sha256:899417efd880dd51",
       "renderer_profile": "technical-navigator-or-existing-docs-site",
       "rendered_artifact": null,
       "cross_repo_proof": null,
       "operational_evidence": null,
-      "capabilities_reused": [],
-      "incremental_work": "a bounded document adapter would be enough if a second derived navigator is actually useful",
-      "blocker": "no concrete consumer need justifies duplicating the existing architecture docs surface",
-      "observed_friction": "documents are a distinct producer family, but the existing vertical already solves its primary human experience",
+      "capabilities_reused": [
+        "jsonl",
+        "deterministic-releases",
+        "exact-git-source-pinning"
+      ],
+      "incremental_work": "bounded architecture-doc metadata snapshot plus the existing generic jsonl adapter; no duplicate technical navigator",
+      "blocker": "a distinct docs-derived consumer is required before E2; the existing architecture/control surface already solves primary human navigation",
+      "observed_friction": "none at the collection boundary; document semantics and architectural authority remain entirely upstream",
       "v2_candidate": null,
       "engineering_evidence": [
-        "architecture authority already has a lightweight Docusaurus control surface configured for Vercel"
+        "architecture authority already has a lightweight Docusaurus control surface configured for Vercel",
+        "R2 exact Git snapshot ab59145a0378edc5f56b61e03951f93ca018c60a produced 32 metadata records and CollectionRelease sha256:899417efd880dd51"
       ],
-      "evidence_boundary": "no duplicate Knowledge Experiences build was attempted because it would add no demonstrated value",
-      "next_real_action": "wait for a distinct docs-derived experience before adding a document adapter"
+      "evidence_boundary": "E1 is a reproducible metadata CollectionRelease over exact architecture documents, not a replacement docs site and not a copy of document bodies",
+      "next_real_action": "use this release as input to a distinct synthesis, agent-context, or cross-estate navigation task before adding a renderer"
     },
     {
       "id": 14,

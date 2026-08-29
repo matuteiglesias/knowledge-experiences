@@ -1,0 +1,13 @@
+{
+  "body_copy_policy": "metadata and exact source pointers only; Markdown bodies remain producer-owned",
+  "excluded_unpublished_count": 328,
+  "record_count": 2868,
+  "schema_id": "knowledge.git-markdown-source-receipt",
+  "schema_version": 1,
+  "scope_root": "content",
+  "selection_mode": "explicit-publish",
+  "source_authority": "repo.journal",
+  "source_commit": "11fc6ea42e13866cd952e4957c26dd2e55ef78d7",
+  "source_index_sha256": "16f4af8d1c7242fa8feaf50da9c07b0b7424e6222e97573e54b1934d2d60c3e6",
+  "source_repo": "matuteiglesias/journal"
+}

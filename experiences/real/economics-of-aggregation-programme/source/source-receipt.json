@@ -1,0 +1,13 @@
+{
+  "body_copy_policy": "metadata and exact source pointers only; Markdown bodies remain producer-owned",
+  "excluded_unpublished_count": 0,
+  "record_count": 89,
+  "schema_id": "knowledge.git-markdown-source-receipt",
+  "schema_version": 1,
+  "scope_root": "docs",
+  "selection_mode": "all-markdown",
+  "source_authority": "repo.thesis",
+  "source_commit": "7265018750db0f96b69efd4048aedad06ad803fc",
+  "source_index_sha256": "e2c897121a5ed1786ef995250dfd30f7e90041abf0d166e34b3dbe7afb408556",
+  "source_repo": "matuteiglesias/thesis"
+}
