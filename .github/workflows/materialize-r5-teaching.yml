@@ -23,23 +23,24 @@ jobs:
           python-version: '3.12'
       - name: Install Knowledge Experiences
         run: python -m pip install --no-deps -e .
-      - name: Checkout exact teaching producer
+      - name: Checkout exact repaired teaching producer
         run: |
           git clone -q https://github.com/matuteiglesias/ldd-uba.git /tmp/ldd-uba
-          git -C /tmp/ldd-uba checkout -q a67a9d89c1464e68f8b701c9d3ab44c775042bfc
-          test "$(git -C /tmp/ldd-uba rev-parse HEAD)" = "a67a9d89c1464e68f8b701c9d3ab44c775042bfc"
-      - name: Materialize exact exercise collection
+          git -C /tmp/ldd-uba checkout -q 1e8a3c400e1296055614e0dec627f7177c730537
+          test "$(git -C /tmp/ldd-uba rev-parse HEAD)" = "1e8a3c400e1296055614e0dec627f7177c730537"
+      - name: Materialize exact numbered exercise collection
         run: |
           python scripts/materialize_markdown_collection.py \
             --repo-root /tmp/ldd-uba \
             --source-repo matuteiglesias/ldd-uba \
             --authority repo.ldd-uba \
-            --commit a67a9d89c1464e68f8b701c9d3ab44c775042bfc \
+            --commit 1e8a3c400e1296055614e0dec627f7177c730537 \
             --scope-root content/notebooks \
+            --path-regex 'content/notebooks/[0-9]{2}\.md' \
             --mode all-markdown \
             --collection-id ldd-uba-exercise-catalog \
             --title 'LDD UBA — frozen teaching exercise catalog' \
-            --description 'Metadata-only index of the exact versioned teaching exercise pages; repo.ldd-uba retains pedagogical content and Hugo navigation authority.' \
+            --description 'Metadata-only index of the exact 60 numbered teaching exercise pages; repo.ldd-uba retains pedagogical content and Hugo navigation authority.' \
             --kind teaching-exercise \
             --out-dir experiences/real/ldd-uba-exercise-catalog
 
