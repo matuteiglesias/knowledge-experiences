@@ -244,7 +244,7 @@
       "id": 8,
       "experience_id": "lcd-institutional-corpus",
       "name": "LCD institutional corpus",
-      "composition_maturity": "E3",
+      "composition_maturity": "E4",
       "engineering_status": "proven_live",
       "existing_surface": "lcd-UBA-knowledgebase governed corpus/index machinery",
       "source_authorities": [
@@ -252,29 +252,31 @@
       ],
       "code_pins": {
         "repo.lcd-uba-knowledgebase": "dcaa61e338b284d43764b9c06a0f112629e958f6",
-        "repo.knowledge-experiences": "77d4a3687487a29148efba4f905b06adf4eab356"
+        "repo.knowledge-experiences": "ced555118ae2b6375267c27d7837954097c16d13"
       },
-      "exact_source_release": "run:kx_live_lcd_pages_20260829T221634Z;git:dcaa61e338b284d43764b9c06a0f112629e958f6",
-      "collection_release": "experiences/real/lcd-institutional/release/collection.release.json#sha256:582187c7ac71a101",
+      "exact_source_release": "run:r6_live_lcd_pages_20260829T231633Z;git:dcaa61e338b284d43764b9c06a0f112629e958f6",
+      "collection_release": "experiences/real/lcd-institutional/release/collection.release.json#sha256:a42200262d4f259a",
       "renderer_profile": "static-navigator",
       "rendered_artifact": "experiences/real/lcd-institutional/release/site/index.html",
-      "cross_repo_proof": "experiences/real/lcd-institutional/real-use-proof.json (GitHub Actions run 33278164562)",
-      "operational_evidence": null,
+      "cross_repo_proof": "experiences/real/lcd-institutional/real-use-proof.json (GitHub Actions run 33280584106)",
+      "operational_evidence": "experiences/real/lcd-institutional/operations/r6-governed-refresh.json",
       "capabilities_reused": [
         "lcd-title-slug-index",
         "static-navigator",
         "deterministic-releases"
       ],
-      "incremental_work": "no new composition capability; real producer run plus the existing V1 adapter/renderer recipe",
-      "blocker": "none for the page-scoped institutional experience; the public WordPress posts endpoint returned HTTP 500 during bootstrap probes and is explicitly outside this release",
-      "observed_friction": "live use exposed an unhealthy posts endpoint; scope was narrowed to the coherent complete public page collection without weakening provenance or validation",
+      "incremental_work": "second explicit live-source operation reused the existing producer, LCD adapter, Collection/Experience specs and static renderer; no composition capability was added",
+      "blocker": "none for governed refresh operation; deployment/audience adoption are separate future evidence and are not claimed by E4 here",
+      "observed_friction": "the second live refresh tested source stability, exact ID/content drift and downstream subset survival; the operation remained bounded to public WordPress pages and preserved the posts exclusion",
       "v2_candidate": "record-level-content-hash-provenance",
       "engineering_evidence": [
         "live LCD producer run kx_live_lcd_pages_20260829T221634Z completed_trusted over 19 public pages",
-        "Knowledge Experiences build and real-use proof passed in GitHub Actions run 33278164562"
+        "Knowledge Experiences build and real-use proof passed in GitHub Actions run 33278164562",
+        "R6 governed refresh moved from producer run kx_live_lcd_pages_20260829T221634Z to distinct trusted run r6_live_lcd_pages_20260829T231633Z",
+        "R6 compared source identity/content drift, rebuilt CollectionRelease sha256:a42200262d4f259a and ExperienceRelease sha256:3f4a7a631fe3cacd, and validated the existing LCD thesis/resources consumer against the refreshed source"
       ],
-      "evidence_boundary": "E3 applies to the complete public WordPress page collection captured by this exact trusted run; posts are not claimed",
-      "next_real_action": "review/use the frozen navigator and refresh only through another explicit trusted producer run when desired"
+      "evidence_boundary": "E4 here means the same real-source experience has completed a second explicit governed refresh cycle with source comparison, trusted producer evidence, deterministic rebuild and downstream compatibility validation; it does not claim deployment health, audience reach, or automatic refresh cadence",
+      "next_real_action": "use or circulate the refreshed institutional navigator, or run a later explicit refresh when there is source/update demand; do not schedule autonomous refresh until repeated operational need justifies it"
     },
     {
       "id": 9,
@@ -289,13 +291,13 @@
       ],
       "code_pins": {
         "repo.lcd-uba-knowledgebase": "dcaa61e338b284d43764b9c06a0f112629e958f6",
-        "repo.knowledge-experiences": "923deddabb532bc4637b3d562ba944ef0dc3680e"
+        "repo.knowledge-experiences": "ced555118ae2b6375267c27d7837954097c16d13"
       },
-      "exact_source_release": "run:kx_live_lcd_pages_20260829T221634Z;git:dcaa61e338b284d43764b9c06a0f112629e958f6",
-      "collection_release": "experiences/real/lcd-thesis-resources/release/collection.release.json#sha256:01bbef6b349aefea",
+      "exact_source_release": "run:r6_live_lcd_pages_20260829T231633Z;git:dcaa61e338b284d43764b9c06a0f112629e958f6",
+      "collection_release": "experiences/real/lcd-thesis-resources/release/collection.release.json#sha256:ea2408eddab680e1",
       "renderer_profile": "static-navigator",
       "rendered_artifact": "experiences/real/lcd-thesis-resources/release/site/index.html",
-      "cross_repo_proof": "experiences/real/lcd-thesis-resources/real-use-proof.json (GitHub Actions run 33278265492; parent source proof run 33278164562)",
+      "cross_repo_proof": "experiences/real/lcd-thesis-resources/real-use-proof.json (GitHub Actions run 33280584106; R6 downstream refresh validation)",
       "operational_evidence": null,
       "capabilities_reused": [
         "lcd-title-slug-index",
@@ -305,14 +307,15 @@
       ],
       "incremental_work": "configuration/curation only: four exact IDs over the already frozen real source release",
       "blocker": "none for the current four-page curated subset; membership remains explicit human curation rather than an inferred thesis taxonomy",
-      "observed_friction": "none in the composition model; exact-ID curation was sufficient and avoided inventing producer taxonomy",
+      "observed_friction": "R6 confirmed the same four exact curated IDs survive the refreshed live institutional source; this is downstream compatibility evidence, not an independent E4 use claim",
       "v2_candidate": null,
       "engineering_evidence": [
         "same trusted live source release reused from institutional experience run 33278164562",
-        "four exact live IDs built deterministically in GitHub Actions run 33278265492 with no new adapter, renderer, or kernel change"
+        "four exact live IDs built deterministically in GitHub Actions run 33278265492 with no new adapter, renderer, or kernel change",
+        "R6 rebuilt the same four curated IDs from refreshed trusted producer run r6_live_lcd_pages_20260829T231633Z and produced ExperienceRelease sha256:5c591abb4f47ba5e"
       ],
-      "evidence_boundary": "the curated collection asserts only membership of the four exact pages selected from the frozen live source; it does not create an authoritative thesis taxonomy for LCD",
-      "next_real_action": "review/use this curated subset; expand membership by explicit real IDs only when editorial intent requires it"
+      "evidence_boundary": "the curated collection remains E3: R6 proves it still composes from the refreshed trusted parent source, but no separate operational demand/use is claimed for this subset",
+      "next_real_action": "review/use this refreshed curated subset or expand membership only by explicit real IDs when editorial intent requires it"
     },
     {
       "id": 10,

@@ -59,8 +59,9 @@ Repeated V2 candidates remain:
 - **R3 — two E2 snapshots:** Thesis and Journal gained distinct portable frozen navigators using the existing static renderer.
 - **R4 — persistent Git E3 seams:** both snapshots became executable exact-source cross-repository proofs rather than checked-in artifacts only.
 - **R5 — teaching discovery:** `repo.ldd-uba` entered as the first post-seed census case. Real materialization exposed upstream count drift and structural Hugo `_index.md` files; the source authority was repaired and KX added only a provenance-bearing path filter before accepting the exact 60-exercise E3 seam.
+- **R6 — first operational refresh:** LCD institutional browsing completed a second trusted live-source refresh, source-diff comparison, deterministic rebuild and downstream subset validation; #8 therefore becomes the first narrowly scoped E4.
 
-After R5 the live census has **16 governed experiences: 5×E3 + 1×E1 + 10×E0**. Empty rungs are allowed; maturity is evidence-driven rather than score-driven.
+After R6 the live census has **16 governed experiences: 1×E4 + 4×E3 + 1×E1 + 10×E0**. Empty rungs are allowed; maturity is evidence-driven rather than score-driven.
 
 ## Current operating regime
 
