@@ -24,20 +24,11 @@ jobs:
       - name: Promote evidence into governed census
         run: python scripts/promote_lcd_real_use.py
       - name: Preserve all census cases in human summary
-        run: |
-          cat >> docs/EXPERIENCE_CENSUS.md <<'EOF'
-
-## Remaining E0 cases
-
-The machine ledger retains all remaining cases and their exact blockers: Thesis bibliography; Thesis rapid paper review; Author works; Working-paper series; Economic-complexity reading path; FCV literature corpus; Literature-review snapshot; Course readings; Economics of Aggregation programme; Working-memory journal; Knowledge-ecosystem technical docs; Personal publications; Policy/research dossier.
-EOF
+        run: printf '\n## Remaining E0 cases\n\nThe machine ledger retains all remaining cases and their exact blockers: Thesis bibliography; Thesis rapid paper review; Author works; Working-paper series; Economic-complexity reading path; FCV literature corpus; Literature-review snapshot; Course readings; Economics of Aggregation programme; Working-memory journal; Knowledge-ecosystem technical docs; Personal publications; Policy/research dossier.\n' >> docs/EXPERIENCE_CENSUS.md
       - name: Validate promoted repository state
         run: make check
       - name: Remove one-shot bootstrap workflows
-        run: |
-          rm .github/workflows/materialize-lcd-live.yml
-          rm .github/workflows/materialize-lcd-thesis-subset.yml
-          rm .github/workflows/promote-lcd-real-use.yml
+        run: rm .github/workflows/materialize-lcd-live.yml .github/workflows/materialize-lcd-thesis-subset.yml .github/workflows/promote-lcd-real-use.yml
       - name: Commit governed real-use promotion
         run: |
           git config user.name 'github-actions[bot]'
