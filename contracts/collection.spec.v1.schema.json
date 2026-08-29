@@ -26,8 +26,13 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "mode": {"enum": ["all", "ids"]},
-        "item_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+        "mode": {"enum": ["all", "ids", "facets"]},
+        "item_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "facets": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"type": ["string", "number", "boolean"]}
+        }
       }
     }
   }

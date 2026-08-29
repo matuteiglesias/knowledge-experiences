@@ -1,0 +1,82 @@
+name: Paper KB catalog experience proof
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prove:
+    runs-on: ubuntu-latest
+    env:
+      PAPER_KB_COMMIT: ecf09f19c3211de85eea6e4f81a0c2a48f378fc0
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Knowledge Experiences
+        run: python -m pip install --no-deps -e .
+      - name: Checkout pinned Paper KB producer
+        run: |
+          git clone -q https://github.com/matuteiglesias/paper-kb.git /tmp/paper-kb
+          git -C /tmp/paper-kb checkout -q "$PAPER_KB_COMMIT"
+          test "$(git -C /tmp/paper-kb rev-parse HEAD)" = "$PAPER_KB_COMMIT"
+      - name: Produce sanitized canonical catalog records with real Paper KB code
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/.proof/chunk_sets"
+          cd /tmp/paper-kb
+          PYTHONPATH=. python - <<'PY'
+          import os
+          from pathlib import Path
+          from pipeline.writers.chunk_set_writer import write_chunk_set_artifact
+
+          root = Path(os.environ["GITHUB_WORKSPACE"]) / ".proof" / "chunk_sets"
+          rows = [
+              ("ada-1", "paper:ada-1", "Composable Knowledge", ["Ada Example"], 2026, "Example Working Papers"),
+              ("ada-2", "paper:ada-2", "Governed Interfaces", ["Ada Example", "Ben Builder"], 2025, "Example Working Papers"),
+              ("other", "paper:other", "Independent Evidence", ["Other Author"], 2024, "Other Series"),
+          ]
+          for run_id, uid, title, authors, year, venue in rows:
+              write_chunk_set_artifact(
+                  [{"chunk_id": f"{run_id}-chunk", "paper_id": uid, "paper_uid": uid, "text": "Sanitized proof chunk.", "chunk_index": 0, "metadata": {}}],
+                  source_items=[f"{run_id}.tei.xml"],
+                  run_id=run_id,
+                  out_dir=root,
+                  paper_meta={"paper_uid": uid, "paper_id": uid, "title": title, "authors": authors, "year": year, "venue": venue, "tags": ["proof"]},
+              )
+          PY
+          PYTHONPATH=. python -m pipeline.projections.catalog_records \
+            --chunk-set-dir "$GITHUB_WORKSPACE/.proof/chunk_sets" \
+            --out "$GITHUB_WORKSPACE/examples/paper-kb/generated.catalog.jsonl"
+      - name: Build both experiences from the same producer release
+        run: |
+          kx doctor examples/paper-kb/catalog.experience.json
+          kx doctor examples/paper-kb/ada.experience.json
+          kx build examples/paper-kb/catalog.experience.json --out /tmp/catalog-experience
+          kx build examples/paper-kb/ada.experience.json --out /tmp/ada-experience
+      - name: Assert producer identity and marginal author selection
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          pin = os.environ["PAPER_KB_COMMIT"]
+          catalog = json.loads(Path("/tmp/catalog-experience/collection.release.json").read_text())
+          ada = json.loads(Path("/tmp/ada-experience/collection.release.json").read_text())
+          assert catalog["source"]["authority"] == "repo.paper-kb"
+          assert catalog["source"]["release_id"] == pin
+          assert ada["source"]["release_id"] == pin
+          assert len(catalog["items"]) == 3
+          assert [item["item_id"] for item in ada["items"]] == ["paper:ada-1", "paper:ada-2"]
+          assert all("Ada Example" in item["contributors"] for item in ada["items"])
+          assert all("author" in item["facets"] for item in catalog["items"])
+          html = Path("/tmp/ada-experience/site/index.html").read_text()
+          assert "Ada Example" in html
+          assert "Other Author" not in html
+          print("Paper KB -> Knowledge Experiences catalog/author proof accepted")
+          PY

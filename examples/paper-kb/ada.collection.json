@@ -1,0 +1,14 @@
+{
+  "schema_id": "knowledge.collection-spec",
+  "schema_version": 1,
+  "collection_id": "paper-kb-proof-ada-works",
+  "title": "Ada Example — Works",
+  "description": "Second experience over the same producer release, differing only by declarative author facet selection.",
+  "source": {
+    "adapter": "paper-catalog-jsonl",
+    "path": "generated.catalog.jsonl",
+    "authority": "repo.paper-kb",
+    "release_id": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0"
+  },
+  "selection": {"mode": "facets", "facets": {"author": "Ada Example"}}
+}

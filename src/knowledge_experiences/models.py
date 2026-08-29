@@ -59,6 +59,26 @@ def _string_list(value: Any, label: str) -> tuple[str, ...]:
     return tuple(out)
 
 
+def _facet_selector_mapping(value: Any, label: str) -> tuple[tuple[str, str | int | float | bool], ...]:
+    data = _expect_mapping(value, label)
+    out: list[tuple[str, str | int | float | bool]] = []
+    for key, wanted in sorted(data.items()):
+        if not isinstance(key, str) or not key.strip():
+            raise ValidationError(f"{label} keys must be non-empty strings")
+        if isinstance(wanted, bool):
+            normalized: str | int | float | bool = wanted
+        elif isinstance(wanted, (str, int, float)):
+            normalized = wanted.strip() if isinstance(wanted, str) else wanted
+            if isinstance(normalized, str) and not normalized:
+                raise ValidationError(f"{label}.{key} must be non-empty")
+        else:
+            raise ValidationError(f"{label}.{key} must be a string, number, or boolean")
+        out.append((key.strip(), normalized))
+    if not out:
+        raise ValidationError(f"{label} must be non-empty")
+    return tuple(out)
+
+
 @dataclass(frozen=True)
 class SourceSpec:
     adapter: str
@@ -91,30 +111,36 @@ class SourceSpec:
 class SelectionSpec:
     mode: str = "all"
     item_ids: tuple[str, ...] = ()
+    facets: tuple[tuple[str, str | int | float | bool], ...] = ()
 
     @classmethod
     def from_dict(cls, raw: Any) -> "SelectionSpec":
         if raw is None:
             return cls()
         data = _expect_mapping(raw, "selection")
-        allowed = {"mode", "item_ids"}
+        allowed = {"mode", "item_ids", "facets"}
         extra = set(data) - allowed
         if extra:
             raise ValidationError(f"selection has unknown fields: {sorted(extra)}")
         mode = data.get("mode", "all")
-        if mode not in {"all", "ids"}:
-            raise ValidationError("selection.mode must be 'all' or 'ids'")
+        if mode not in {"all", "ids", "facets"}:
+            raise ValidationError("selection.mode must be 'all', 'ids', or 'facets'")
         ids = _string_list(data.get("item_ids"), "selection.item_ids")
+        facets = _facet_selector_mapping(data.get("facets"), "selection.facets") if mode == "facets" else ()
         if mode == "ids" and not ids:
             raise ValidationError("selection.item_ids must be non-empty when mode='ids'")
-        if mode == "all" and ids:
+        if mode != "ids" and ids:
             raise ValidationError("selection.item_ids is only valid when mode='ids'")
-        return cls(mode=mode, item_ids=ids)
+        if mode != "facets" and data.get("facets") not in (None, {}):
+            raise ValidationError("selection.facets is only valid when mode='facets'")
+        return cls(mode=mode, item_ids=ids, facets=facets)
 
     def to_dict(self) -> dict[str, Any]:
         out: dict[str, Any] = {"mode": self.mode}
         if self.mode == "ids":
             out["item_ids"] = list(self.item_ids)
+        if self.mode == "facets":
+            out["facets"] = {key: value for key, value in self.facets}
         return out
 
 
@@ -177,20 +203,15 @@ class ExperienceSpec:
     @classmethod
     def from_dict(cls, raw: Any) -> "ExperienceSpec":
         data = _expect_mapping(raw, "ExperienceSpec")
-        allowed = {
-            "schema_id", "schema_version", "experience_id", "title", "collection_spec", "renderer",
-            "visibility", "capabilities", "navigation"
-        }
+        allowed = {"schema_id", "schema_version", "experience_id", "title", "collection_spec", "renderer", "visibility", "capabilities", "navigation"}
         extra = set(data) - allowed
         if extra:
             raise ValidationError(f"ExperienceSpec has unknown fields: {sorted(extra)}")
         if data.get("schema_id") != cls.schema_id or data.get("schema_version") != cls.schema_version:
             raise ValidationError("ExperienceSpec schema_id/schema_version mismatch")
-
         visibility = data.get("visibility", "private")
         if visibility not in {"private", "public"}:
             raise ValidationError("ExperienceSpec.visibility must be 'private' or 'public'")
-
         capabilities = _expect_mapping(data.get("capabilities", {}), "capabilities")
         cap_extra = set(capabilities) - {"search", "facets"}
         if cap_extra:
@@ -199,7 +220,6 @@ class ExperienceSpec:
         if not isinstance(search, bool):
             raise ValidationError("capabilities.search must be boolean")
         facets = _string_list(capabilities.get("facets"), "capabilities.facets")
-
         navigation = _expect_mapping(data.get("navigation", {}), "navigation")
         nav_extra = set(navigation) - {"default_sort"}
         if nav_extra:
@@ -207,7 +227,6 @@ class ExperienceSpec:
         default_sort = navigation.get("default_sort", "title")
         if default_sort not in {"title", "date", "source"}:
             raise ValidationError("navigation.default_sort must be title, date, or source")
-
         return cls(
             experience_id=_required_str(data, "experience_id", "ExperienceSpec"),
             title=_optional_str(data, "title", "ExperienceSpec"),
@@ -237,10 +256,7 @@ class ExperienceSpec:
 
 def validate_item(raw: Any) -> dict[str, Any]:
     data = _expect_mapping(raw, "item")
-    allowed = {
-        "item_id", "kind", "title", "subtitle", "summary", "date", "contributors", "tags",
-        "facets", "canonical_url", "source_ref"
-    }
+    allowed = {"item_id", "kind", "title", "subtitle", "summary", "date", "contributors", "tags", "facets", "canonical_url", "source_ref"}
     extra = set(data) - allowed
     if extra:
         raise ValidationError(f"item has unknown fields: {sorted(extra)}")
@@ -258,7 +274,6 @@ def validate_item(raw: Any) -> dict[str, Any]:
     canonical_url = _optional_url(data, "canonical_url", "item")
     if canonical_url is not None:
         out["canonical_url"] = canonical_url
-
     facets = _expect_mapping(data.get("facets", {}), "item.facets")
     normalized_facets: dict[str, Any] = {}
     for key, value in facets.items():
@@ -271,16 +286,12 @@ def validate_item(raw: Any) -> dict[str, Any]:
         else:
             raise ValidationError(f"item.facets.{key} must be scalar, null, or scalar array")
     out["facets"] = normalized_facets
-
     source_ref = data.get("source_ref")
     if source_ref is not None:
         sr = _expect_mapping(source_ref, "item.source_ref")
         if set(sr) - {"authority", "object_id", "url"}:
             raise ValidationError("item.source_ref has unknown fields")
-        normalized = {
-            "authority": _required_str(sr, "authority", "item.source_ref"),
-            "object_id": _required_str(sr, "object_id", "item.source_ref"),
-        }
+        normalized = {"authority": _required_str(sr, "authority", "item.source_ref"), "object_id": _required_str(sr, "object_id", "item.source_ref")}
         url = _optional_url(sr, "url", "item.source_ref")
         if url is not None:
             normalized["url"] = url
