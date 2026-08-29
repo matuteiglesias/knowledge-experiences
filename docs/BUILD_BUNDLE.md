@@ -5,10 +5,8 @@
 Turn the seed architecture into a real composition capability by forcing it through heterogeneous experiences.
 
 ```text
-SEED → V1 KERNEL → REAL PROOFS → PARALLEL FAN-OUT → EXPERIENCE CENSUS → V2
+SEED → V1 KERNEL → REAL PROOFS → PARALLEL FAN-OUT → EXPERIENCE CENSUS → REAL USE → SELECTIVE V2
 ```
-
-The repository should mature by **use pressure**, not speculative platform design.
 
 ## Wave S0 — Seed constitution
 
@@ -30,33 +28,40 @@ Producer-owned Paper KB catalog seam, author facet selection and pinned producer
 
 **Status:** accepted and merged on 2026-08-29.
 
-Pinned Paper KB → Knowledge Experiences → Abstract Scroller handoff. Producer review bytes pass intact, renderer commit is verified, `paper_uid` survives to snapshot `doc_id`, and `kx doctor` proves deterministic external rendering. Selected review subsets remain intentionally unsupported downstream.
+Pinned Paper KB → Knowledge Experiences → Abstract Scroller handoff. Producer review bytes pass intact, renderer commit is verified, `paper_uid` survives to snapshot `doc_id`, and external rendering is deterministic.
 
 ## Wave V1.4 — Ecosystem fan-out
 
-**Status:** implemented in this tranche; accept only after repository CI and LCD pinned proof are green.
+**Status:** accepted and merged on 2026-08-29.
 
-Lane A adds the first non-paper consumer seam by reusing the existing LCD run-scoped `title_slug_index.json`; no new producer contract or mixed-source core abstraction is required.
-
-Lane B classifies Thesis and Journal as mature vertical experiences to adopt rather than replatform. Thesis owns curated research/status semantics; Journal owns publication filtering and working-memory garden semantics.
-
-Lane C records Knowledge Inspect as an optional non-edge for this wave because no selected experience requires intelligence on the critical path.
-
-Lane D records KB Artifacts as an optional non-edge for this wave because no selected experience yet requires governed evidence-selection receipts.
-
-See `docs/V1_4_FANOUT.md`.
+LCD supplied the first non-paper bounded adapter without a new core abstraction. Thesis and Journal were classified as vertical exceptions. Knowledge Inspect and KB Artifacts remained deliberate optional non-edges for this wave.
 
 ## Wave V1.5 — Experience census pressure test
 
-**Status:** next gate after V1.4 merge.
+**Status:** complete in this tranche; accept only when `scripts/check_census.py`, repository tests and all prior integration proofs remain green.
 
-Attempt all cases in `docs/EXPERIENCE_CENSUS.md` and record maturity honestly: source/release, collection release, renderer, maturity E0–E4, new code/contracts/adapters, reused capabilities, friction and V2 lesson.
+The fifteen-case authority is `docs/experience-census.v1.json`, summarized in `docs/EXPERIENCE_CENSUS.md` and interpreted in `docs/V1_5_CENSUS_FINDINGS.md`.
 
-Success is not fifteen deployed apps. Success is evidence that heterogeneous experiences increasingly require selection/configuration/curation rather than bespoke applications.
+Key governance decision: E0–E4 remains real-source composition maturity. Sanitized proofs and mature pre-existing verticals are separately visible through `engineering_status`; they do not inflate the maturity score.
+
+Census result at 2026-08-29: all fifteen concrete experiences remain E0 under the strict rule, while five have reusable/proven mechanics and three are mature vertical surfaces. The gap is now mostly real-source adoption rather than missing architecture.
+
+Repeated V2 candidates:
+
+- `ordered-groups-and-reading-trails` — pressure from economic-complexity path + course readings, with Thesis as vertical evidence;
+- `multi-source-collections-and-curation-receipts` — pressure from personal publications + policy/research dossier.
+
+## Post-V1 operating regime
+
+**Default next gate: real use before V2.**
+
+Materialize approved real-source experiences with the existing kernel, observe friction, then evolve selectively. Priority evidence is one real Paper KB experience and one verified live LCD experience because both should require little or no new platform code.
 
 ## Wave V2 — Evidence-pulled reconciliation
 
-Do not design V2 before census evidence exists. Classify friction as configuration, source projection, adapter, renderer capability, composition-model, or genuinely vertical product need. Expand core semantics only for repeated patterns or unavoidable invariants.
+**Status:** eligible for evidence review, deliberately not started.
+
+Do not build a broad V2 from the census table alone. Pull one candidate only when a real use makes its repeated friction concrete. Do not add an orchestrator, database, auth platform, vector store, chat requirement, universal domain object model or publication engine by default.
 
 ## Wave W5b — Editorial/publication frontier
 
@@ -66,4 +71,4 @@ Do not design V2 before census evidence exists. Classify friction as configurati
 
 ## Stop rule
 
-Stop a wave when evidence is sufficient to unlock the next real experience. The program fails if domain truth or renderer internals migrate here, optional AI becomes mandatory, or each experience still needs bespoke application code. It succeeds when later experiences increasingly become **selection + configuration + bounded curation**.
+V1 succeeds if real use can now start cheaply and architecture stays legible. Architecture work should stop when the next useful action is to supply real governed material rather than another abstraction. That is the current state.
