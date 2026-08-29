@@ -1,0 +1,45 @@
+repository:
+  id: repo.knowledge-experiences
+  github: matuteiglesias/knowledge-experiences
+  lifecycle: active
+  role: knowledge experience composition authority
+
+authority:
+  owns:
+    - collection membership recipes and frozen collection releases
+    - experience composition recipes and frozen experience releases
+    - renderer capability declarations and adapter handoff semantics
+    - reproducibility/provenance of experience builds
+  does_not_own:
+    - producer domain semantics or producer-owned schemas
+    - shared knowledge interoperability contracts
+    - evidence truth or evidence-selection policy
+    - semantic inspection or inference
+    - renderer implementation internals
+    - editorial claims, intellectual stance, or automated publication judgment
+
+ecosystem:
+  architecture_authority: repo.knowledge-ecosystem-docs
+  shared_interop_authority: repo.kb-contracts
+  expected_producers:
+    - repo.paper-kb
+  expected_capabilities:
+    - repo.knowledge-inspect
+    - repo.kb-artifacts
+  expected_renderers:
+    - repo.abstract-scroller
+  historical_or_vertical_experiences:
+    - repo.thesis
+    - repo.journal
+
+interfaces:
+  planned_v1:
+    - knowledge.collection-spec@1
+    - knowledge.collection-release@1
+    - knowledge.experience-spec@1
+    - knowledge.experience-release@1
+
+status:
+  phase: seed
+  next_gate: v1-kernel-first-real-experience
+  implementation_policy: evidence-pulled
