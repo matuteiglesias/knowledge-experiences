@@ -14,11 +14,19 @@ ENGINEERING = {
     "proven_live",
     "proven_sanitized",
     "proven_contract_check",
+    "proven_real_source_seam",
     "blocked_producer_metadata",
     "blocked_capability",
     "design_ready",
     "existing_vertical",
     "declared",
+}
+PROVEN_ENGINEERING = {
+    "proven_live",
+    "proven_sanitized",
+    "proven_contract_check",
+    "proven_real_source_seam",
+    "existing_vertical",
 }
 REQUIRED = {
     "id", "experience_id", "name", "composition_maturity", "engineering_status",
@@ -79,7 +87,7 @@ def main() -> int:
         if level >= 4 and not row["operational_evidence"]:
             fail(f"row {row['id']}: E4 requires operational_evidence")
 
-        if row["engineering_status"] in {"proven_live", "proven_sanitized", "proven_contract_check", "existing_vertical"} and not row["engineering_evidence"]:
+        if row["engineering_status"] in PROVEN_ENGINEERING and not row["engineering_evidence"]:
             fail(f"row {row['id']}: engineering status requires evidence")
 
     counts = Counter(row["composition_maturity"] for row in rows)
