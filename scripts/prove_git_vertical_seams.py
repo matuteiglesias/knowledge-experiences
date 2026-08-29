@@ -2,9 +2,9 @@
 """Rebuild accepted Git-backed vertical experiences from exact upstream commits.
 
 This is a cross-repository proof, not a new source adapter. It reuses the bounded
-Markdown materializer plus the accepted CollectionSpec/ExperienceSpec and fails
+Markdown materializer plus accepted CollectionSpec/ExperienceSpec files and fails
 closed unless source projection, frozen releases and rendered artifact reproduce
-exactly from the pinned producer checkout.
+exactly from each pinned producer checkout.
 """
 from __future__ import annotations
 
@@ -43,6 +43,18 @@ CASES = {
         "description": "Conservative metadata-only subset of exact versioned journal notes carrying explicit publish:true; Quartz remains publication authority.",
         "kind": "journal-note",
     },
+    "ldd": {
+        "dir": "ldd-uba-exercise-catalog",
+        "source_repo": "matuteiglesias/ldd-uba",
+        "authority": "repo.ldd-uba",
+        "commit": "a67a9d89c1464e68f8b701c9d3ab44c775042bfc",
+        "scope_root": "content/notebooks",
+        "mode": "all-markdown",
+        "collection_id": "ldd-uba-exercise-catalog",
+        "title": "LDD UBA — frozen teaching exercise catalog",
+        "description": "Metadata-only index of the exact versioned teaching exercise pages; repo.ldd-uba retains pedagogical content and Hugo navigation authority.",
+        "kind": "teaching-exercise",
+    },
 }
 
 
@@ -76,11 +88,12 @@ def prove_case(name: str, source_root: Path) -> dict:
         raise SystemExit(f"{name}: checkout mismatch {actual_commit} != {cfg['commit']}")
 
     accepted = ROOT / "experiences" / "real" / cfg["dir"]
-    accepted_e2 = json.loads((accepted / "e2-proof.json").read_text(encoding="utf-8"))
+    accepted_collection = json.loads((accepted / "release" / "collection.release.json").read_text(encoding="utf-8"))
+    accepted_experience = json.loads((accepted / "release" / "experience.release.json").read_text(encoding="utf-8"))
+    accepted_artifact = accepted / "release" / "site" / "index.html"
 
-    with tempfile.TemporaryDirectory(prefix=f"kx-r4-{name}-") as tmp_raw:
-        tmp = Path(tmp_raw)
-        regenerated = tmp / cfg["dir"]
+    with tempfile.TemporaryDirectory(prefix=f"kx-git-seam-{name}-") as tmp_raw:
+        regenerated = Path(tmp_raw) / cfg["dir"]
         run(
             "python",
             str(ROOT / "scripts" / "materialize_markdown_collection.py"),
@@ -107,37 +120,38 @@ def prove_case(name: str, source_root: Path) -> dict:
 
         assert_same(regenerated / "release" / "collection.release.json", accepted / "release" / "collection.release.json", f"{name} collection release")
         assert_same(regenerated / "release" / "experience.release.json", accepted / "release" / "experience.release.json", f"{name} experience release")
-        assert_same(regenerated / "release" / "site" / "index.html", accepted / "release" / "site" / "index.html", f"{name} rendered artifact")
-
-        release = json.loads((regenerated / "release" / "experience.release.json").read_text(encoding="utf-8"))
-        artifact_sha = sha256(regenerated / "release" / "site" / "index.html")
-        if release.get("release_id") != accepted_e2.get("experience_release_id"):
-            raise SystemExit(f"{name}: regenerated ExperienceRelease id differs from accepted E2 proof")
-        if artifact_sha != accepted_e2.get("rendered_artifact_sha256"):
-            raise SystemExit(f"{name}: regenerated artifact hash differs from accepted E2 proof")
+        assert_same(regenerated / "release" / "site" / "index.html", accepted_artifact, f"{name} rendered artifact")
 
     return {
         "case": name,
         "source_repo": cfg["source_repo"],
         "source_commit": cfg["commit"],
-        "collection_release_id": accepted_e2["collection_release_id"],
-        "experience_release_id": accepted_e2["experience_release_id"],
-        "rendered_artifact_sha256": accepted_e2["rendered_artifact_sha256"],
+        "collection_release_id": accepted_collection["release_id"],
+        "experience_release_id": accepted_experience["release_id"],
+        "rendered_artifact_sha256": sha256(accepted_artifact),
         "result": "pass",
     }
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--thesis-root", required=True)
-    parser.add_argument("--journal-root", required=True)
+    parser.add_argument("--thesis-root")
+    parser.add_argument("--journal-root")
+    parser.add_argument("--ldd-root")
     parser.add_argument("--write-proofs", action="store_true")
     args = parser.parse_args()
 
-    results = [
-        prove_case("thesis", Path(args.thesis_root)),
-        prove_case("journal", Path(args.journal_root)),
-    ]
+    requested = []
+    if args.thesis_root:
+        requested.append(("thesis", Path(args.thesis_root)))
+    if args.journal_root:
+        requested.append(("journal", Path(args.journal_root)))
+    if args.ldd_root:
+        requested.append(("ldd", Path(args.ldd_root)))
+    if not requested:
+        raise SystemExit("provide at least one producer checkout")
+
+    results = [prove_case(name, root) for name, root in requested]
     if args.write_proofs:
         for result in results:
             cfg = CASES[result["case"]]
