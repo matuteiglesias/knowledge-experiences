@@ -1,0 +1,53 @@
+name: Materialize R3 frozen E2 snapshots
+
+on:
+  push:
+    branches: [real-use/r3-two-e2-snapshots]
+    paths:
+      - '.github/workflows/materialize-r3-two-e2.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: real-use/r3-two-e2-snapshots
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Knowledge Experiences
+        run: python -m pip install --no-deps -e .
+      - name: Prove deterministic frozen snapshots
+        run: |
+          kx doctor experiences/real/economics-of-aggregation-programme/snapshot.experience.json
+          kx doctor experiences/real/working-memory-journal/snapshot.experience.json
+      - name: Build accepted human artifacts
+        run: |
+          rm -rf experiences/real/economics-of-aggregation-programme/release/site experiences/real/economics-of-aggregation-programme/release/experience.release.json
+          rm -rf experiences/real/working-memory-journal/release/site experiences/real/working-memory-journal/release/experience.release.json
+          kx build experiences/real/economics-of-aggregation-programme/snapshot.experience.json --out experiences/real/economics-of-aggregation-programme/release
+          kx build experiences/real/working-memory-journal/snapshot.experience.json --out experiences/real/working-memory-journal/release
+      - name: Record E2 proofs and promote census
+        run: |
+          python scripts/record_r3_e2_proofs.py
+          python scripts/promote_r3_e2.py
+      - name: Validate repository
+        run: make check
+      - name: Remove one-shot R3 machinery
+        run: |
+          rm .github/workflows/materialize-r3-two-e2.yml
+          rm scripts/record_r3_e2_proofs.py
+          rm scripts/promote_r3_e2.py
+      - name: Commit governed R3 evidence
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'R3: render two frozen E2 snapshots'
+          git push origin HEAD:real-use/r3-two-e2-snapshots
