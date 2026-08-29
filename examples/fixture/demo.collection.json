@@ -1,0 +1,16 @@
+{
+  "schema_id": "knowledge.collection-spec",
+  "schema_version": 1,
+  "collection_id": "demo-knowledge",
+  "title": "Knowledge Experiences Fixture",
+  "description": "Small deterministic corpus used only to bootstrap composition mechanics.",
+  "source": {
+    "adapter": "jsonl",
+    "path": "items.jsonl",
+    "authority": "fixture.demo",
+    "release_id": "fixture-v1"
+  },
+  "selection": {
+    "mode": "all"
+  }
+}

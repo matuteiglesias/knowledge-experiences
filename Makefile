@@ -1,4 +1,23 @@
-.PHONY: check
+.PHONY: check seed-check test doctor example clean
 
-check:
-	python3 scripts/check_seed.py
+PYTHON ?= python3
+PYTHONPATH_ENV := PYTHONPATH=src
+
+check: seed-check test doctor
+
+seed-check:
+	$(PYTHON) scripts/check_seed.py
+
+test:
+	$(PYTHONPATH_ENV) $(PYTHON) -m unittest discover -s tests -v
+
+doctor:
+	$(PYTHONPATH_ENV) $(PYTHON) -m knowledge_experiences.cli doctor examples/fixture/demo.experience.json
+
+example:
+	rm -rf dist/example
+	$(PYTHONPATH_ENV) $(PYTHON) -m knowledge_experiences.cli build examples/fixture/demo.experience.json --out dist/example
+	@echo "Open dist/example/site/index.html"
+
+clean:
+	rm -rf dist .pytest_cache .mypy_cache

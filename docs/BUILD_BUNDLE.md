@@ -12,7 +12,7 @@ The repository should mature by **use pressure**, not by speculative platform de
 
 ## Wave S0 — Seed constitution
 
-**Status:** this seed PR.
+**Status:** accepted and merged on 2026-08-29.
 
 Required:
 
@@ -29,29 +29,32 @@ Required:
 
 ## Wave V1.1 — Composition kernel
 
+**Status:** accepted and merged on 2026-08-29 when this bundle is present on `main` with the executable kernel and green repository checks.
+
 **Mission:** make composition executable without external service dependencies.
 
-Implement:
+Implemented:
 
 - small Python package and CLI;
 - draft local schemas/models for `CollectionSpec`, `CollectionRelease`, `ExperienceSpec`, `ExperienceRelease`;
-- deterministic validation;
-- source adapter interface;
-- renderer adapter interface;
-- hashes/provenance for frozen releases;
-- `kx validate`, `kx compile-collection`, `kx build`, `kx doctor` or equivalently small operator commands;
-- boring static navigator reference renderer;
-- tests and CI.
+- deterministic fail-closed validation;
+- source adapter interface plus JSONL reference adapter;
+- renderer adapter interface plus self-contained static navigator;
+- SHA-256 source/spec/artifact provenance and content-derived release IDs;
+- `kx validate`, `kx compile-collection`, `kx build`, `kx doctor`;
+- deterministic fixture, tests and CI.
 
-Start from fixtures only to bootstrap mechanics, then immediately cross into a real producer in V1.2.
+The V1 selector remains deliberately limited to `all` or explicit item IDs. Rich filtering is deferred to real producer/census pressure.
 
-**DoD:** one local example can compile and render deterministically, and reruns over the same inputs are content-stable.
+**DoD:** the fixture compiles and renders deterministically; `kx doctor` independently rebuilds twice and requires complete file-hash equality.
 
 **Forbidden:** database, vector store, chat, generalized plugin framework, auth platform, hosted orchestrator.
 
 ---
 
 ## Wave V1.2 — First real producer: Paper KB catalog seam
+
+**Status:** next gate.
 
 **Mission:** prove that a real governed paper corpus can become multiple experiences without making this repo a paper authority.
 
