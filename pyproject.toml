@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "knowledge-experiences"
+version = "0.1.0"
+description = "Thin composition authority for governed knowledge experiences."
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+kx = "knowledge_experiences.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

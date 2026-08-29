@@ -33,13 +33,17 @@ ecosystem:
     - repo.journal
 
 interfaces:
-  planned_v1:
+  implemented_v1:
     - knowledge.collection-spec@1
     - knowledge.collection-release@1
     - knowledge.experience-spec@1
     - knowledge.experience-release@1
+  source_adapters:
+    - jsonl
+  renderers:
+    - static-navigator
 
 status:
-  phase: seed
-  next_gate: v1-kernel-first-real-experience
+  phase: v1.1-composition-kernel
+  next_gate: v1.2-paper-kb-catalog-seam
   implementation_policy: evidence-pulled

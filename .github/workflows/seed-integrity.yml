@@ -1,4 +1,4 @@
-name: Seed integrity
+name: Repository checks
 
 on:
   pull_request:
@@ -17,4 +17,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - run: python -m pip install --no-deps -e .
       - run: make check
+      - run: kx validate examples/fixture/demo.experience.json

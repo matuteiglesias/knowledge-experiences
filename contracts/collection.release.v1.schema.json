@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "knowledge.collection-release@1",
+  "title": "knowledge.collection-release@1",
+  "type": "object",
+  "required": ["schema_id", "schema_version", "collection_id", "release_id", "title", "source", "items"],
+  "properties": {
+    "schema_id": {"const": "knowledge.collection-release"},
+    "schema_version": {"const": 1},
+    "collection_id": {"type": "string", "minLength": 1},
+    "release_id": {"type": "string", "minLength": 1},
+    "payload_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "spec_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "title": {"type": "string", "minLength": 1},
+    "description": {"type": ["string", "null"]},
+    "source": {"type": "object"},
+    "items": {"type": "array", "items": {"type": "object"}}
+  }
+}

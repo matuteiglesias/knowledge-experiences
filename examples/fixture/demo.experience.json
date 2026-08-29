@@ -1,0 +1,16 @@
+{
+  "schema_id": "knowledge.experience-spec",
+  "schema_version": 1,
+  "experience_id": "demo-static-navigator",
+  "title": "Knowledge Experiences — deterministic fixture",
+  "collection_spec": "demo.collection.json",
+  "renderer": "static-navigator",
+  "visibility": "public",
+  "capabilities": {
+    "search": true,
+    "facets": ["year", "topic"]
+  },
+  "navigation": {
+    "default_sort": "date"
+  }
+}

@@ -50,14 +50,16 @@ CollectionSpec
 "all works by author X"
         ↓ compile against exact producer release
 CollectionRelease
-"these 143 exact source objects, from this source identity/hash"
+"these exact source objects, from this source identity/hash"
 ```
 
 A collection release may project display metadata needed by renderers, but source semantics remain authoritative upstream.
 
+V1.1 intentionally does **not** implement the example's author selector yet. Its executable selection semantics are only `all` and explicit item IDs; V1.2 must discover author/series requirements from a real Paper KB seam rather than pre-designing a query language.
+
 ### ExperienceSpec vs ExperienceRelease
 
-An `ExperienceSpec` declares how humans should interact with a collection: renderer, visibility, facets, ordering, trails, and optional capabilities. An `ExperienceRelease` freezes the resolved renderer handoff and reproducibility evidence.
+An `ExperienceSpec` declares how humans should interact with a collection: renderer, visibility, configured facets and basic navigation. An `ExperienceRelease` freezes the resolved renderer handoff and reproducibility evidence.
 
 ### Experience vs Publication
 
@@ -67,32 +69,39 @@ An experience may be private (research workbench, course preparation, personal l
 
 Search, facets, chronology, stable links, excerpts, and provenance should work without requiring semantic retrieval or chat. Knowledge Inspect, semantic search, summaries, or chat are opt-in capabilities pulled by an experience need.
 
-## V1 planned interface family
+## V1 local interface family
 
-These names are provisional until V1 implementation and real proofs harden them:
+V1.1 implements these local, repository-owned interfaces:
 
 - `knowledge.collection-spec@1`
 - `knowledge.collection-release@1`
 - `knowledge.experience-spec@1`
 - `knowledge.experience-release@1`
 
-Do **not** register them in `kb-contracts` merely because they cross components inside this repo. They are owned here unless a real ecosystem-wide interoperability requirement emerges.
+They remain draft/local until real producer/renderer proofs demonstrate what should harden. Do **not** register them in `kb-contracts` merely because they cross components inside this repo. Shared ownership requires a real ecosystem-wide interoperability need.
+
+Frozen releases have no wall-clock timestamp in their identity-bearing payload. Release IDs derive from canonical content, source/spec hashes, exact selected membership and rendered artifact hashes. `kx doctor` proves repeat builds are content-stable.
+
+## Adapter boundaries
+
+V1.1 has deliberately tiny adapter registries, not a generalized plugin framework.
+
+- Source side: `jsonl` is a reference adapter over a generic display projection. Real producer semantics stay upstream and may be projected at the boundary.
+- Renderer side: `static-navigator` is the reference renderer. Abstract Scroller and vertical products remain external authorities until proven handoffs are added.
 
 ## Reference renderer
 
-V1 should include one deliberately boring static navigator. Its purpose is not to become a universal UI. Its purpose is to establish a cheap baseline capable of:
+The boring static navigator establishes a cheap E2 baseline with:
 
 - text search;
 - configured facets;
-- sorting;
-- list/card views;
-- item detail/excerpt;
-- stable item links;
+- title/date/source sorting;
+- item summaries and contributors/tags;
+- stable item anchors;
 - source/provenance link-out;
-- featured items, groups, or reading trails when declared;
 - responsive desktop/mobile use.
 
-No chat, vector database, authentication platform, recommendation engine, or online backend belongs in the reference renderer by default.
+It produces one self-contained HTML artifact. No chat, vector database, authentication platform, recommendation engine, framework runtime, or online backend belongs in the reference renderer by default.
 
 ## Architectural invariants
 
