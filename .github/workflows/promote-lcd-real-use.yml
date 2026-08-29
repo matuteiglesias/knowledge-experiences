@@ -24,7 +24,8 @@ jobs:
       - name: Promote evidence into governed census
         run: python scripts/promote_lcd_real_use.py
       - name: Preserve all census cases in human summary
-        run: printf '\n## Remaining E0 cases\n\nThe machine ledger retains all remaining cases and their exact blockers: Thesis bibliography; Thesis rapid paper review; Author works; Working-paper series; Economic-complexity reading path; FCV literature corpus; Literature-review snapshot; Course readings; Economics of Aggregation programme; Working-memory journal; Knowledge-ecosystem technical docs; Personal publications; Policy/research dossier.\n' >> docs/EXPERIENCE_CENSUS.md
+        run: |
+          printf '\n## Remaining E0 cases\n\nThe machine ledger retains all remaining cases and their exact blockers: Thesis bibliography; Thesis rapid paper review; Author works; Working-paper series; Economic-complexity reading path; FCV literature corpus; Literature-review snapshot; Course readings; Economics of Aggregation programme; Working-memory journal; Knowledge-ecosystem technical docs; Personal publications; Policy/research dossier.\n' >> docs/EXPERIENCE_CENSUS.md
       - name: Validate promoted repository state
         run: make check
       - name: Remove one-shot bootstrap workflows
