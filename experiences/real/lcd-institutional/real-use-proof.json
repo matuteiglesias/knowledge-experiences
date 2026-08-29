@@ -1,0 +1,15 @@
+{
+  "collection_release_id": "sha256:582187c7ac71a101",
+  "experience_id": "lcd-institutional-live",
+  "experience_release_id": "sha256:e5f0d7ad9f42ab8f",
+  "github_run_id": "33278164562",
+  "knowledge_experiences_commit": "77d4a3687487a29148efba4f905b06adf4eab356",
+  "producer_git_commit": "dcaa61e338b284d43764b9c06a0f112629e958f6",
+  "producer_run_id": "kx_live_lcd_pages_20260829T221634Z",
+  "records": 19,
+  "rendered_artifact": "release/site/index.html",
+  "rendered_artifact_sha256": "71e18f6b0fbee3b464bd076b9f7cc76ab3253ead3e1255dacaa5eaca41284eeb",
+  "result": "pass",
+  "schema_id": "knowledge.real-experience-proof",
+  "schema_version": 1
+}
