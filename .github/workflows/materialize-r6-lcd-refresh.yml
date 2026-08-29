@@ -1,0 +1,319 @@
+name: Materialize R6 LCD operational refresh
+
+on:
+  push:
+    branches: [real-use/r6-lcd-operational-refresh]
+    paths:
+      - '.github/workflows/materialize-r6-lcd-refresh.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    env:
+      LCD_COMMIT: dcaa61e338b284d43764b9c06a0f112629e958f6
+      LCD_REPO: https://github.com/matuteiglesias/lcd-UBA-knowledgebase.git
+      LIVE_BASE_URL: https://lcd.exactas.uba.ar
+      INST_ROOT: experiences/real/lcd-institutional
+      SUBSET_ROOT: experiences/real/lcd-thesis-resources
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: real-use/r6-lcd-operational-refresh
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Knowledge Experiences
+        run: python -m pip install --no-deps -e .
+      - name: Preserve accepted R1 state for explicit comparison
+        run: |
+          cp -a "$INST_ROOT" /tmp/lcd-institutional-before-r6
+          cp -a "$SUBSET_ROOT" /tmp/lcd-thesis-resources-before-r6
+      - name: Checkout pinned LCD producer
+        run: |
+          git clone -q "$LCD_REPO" /tmp/lcd-kb
+          git -C /tmp/lcd-kb checkout -q "$LCD_COMMIT"
+          test "$(git -C /tmp/lcd-kb rev-parse HEAD)" = "$LCD_COMMIT"
+          python -m pip install --no-deps -e /tmp/lcd-kb
+      - name: Fetch current complete public page surface and build distinct trusted run
+        run: |
+          cd /tmp/lcd-kb
+          rm -rf data/lcd/raw/pages data/lcd/raw/posts data/lcd/reports
+          PYTHONPATH=src python -m lcd_kb.cli fetch --entity page --base-url "$LIVE_BASE_URL" --per-page 100
+          mkdir -p data/lcd/raw/posts
+          RUN_ID="r6_live_lcd_pages_$(date -u +%Y%m%dT%H%M%SZ)"
+          PYTHONPATH=src python -m lcd_kb.cli build --run-id "$RUN_ID"
+          echo "RUN_ID=$RUN_ID" >> "$GITHUB_ENV"
+      - name: Verify trusted live provenance and replace institutional source snapshot
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, shutil
+          from pathlib import Path
+
+          repo = Path('/tmp/lcd-kb')
+          run_id = os.environ['RUN_ID']
+          commit = os.environ['LCD_COMMIT']
+          base_url = os.environ['LIVE_BASE_URL']
+          root = Path(os.environ['GITHUB_WORKSPACE']) / os.environ['INST_ROOT']
+          source_dir = root / 'source'
+          source_dir.mkdir(parents=True, exist_ok=True)
+
+          fetch = json.loads((repo / 'data/lcd/reports/page_fetch_summary.json').read_text())
+          latest = json.loads((repo / 'data/lcd/registry/latest_trusted.json').read_text())
+          run_dir = repo / 'data/lcd/runs' / run_id
+          manifest = json.loads((run_dir / 'registry/run_manifest.json').read_text())
+          status = json.loads((run_dir / 'registry/run_status.json').read_text())
+          index_path = run_dir / 'indexes/title_slug_index.json'
+          index = json.loads(index_path.read_text())
+
+          assert fetch['base_url'] == base_url
+          assert fetch['error_count'] == 0
+          assert fetch['max_pages'] is None
+          assert fetch['bounded_warning'] is False
+          assert fetch['records_fetched'] >= 5
+          assert latest['run_id'] == run_id and latest['status'] == 'completed_trusted'
+          assert manifest['run_id'] == run_id
+          assert manifest['result'] == 'pass'
+          assert manifest['run_status'] == 'completed_trusted'
+          assert manifest['trust_level'] == 'trusted'
+          assert manifest['entity_counts']['page'] == fetch['records_fetched']
+          assert manifest['entity_counts']['post'] == 0
+          assert status['run_id'] == run_id and status['status'] == 'completed_trusted'
+          assert len(index) == fetch['records_fetched']
+          assert all(row['entity_type'] == 'page' for row in index)
+          assert all(str(row['source_url']).startswith(base_url + '/') for row in index)
+
+          shutil.copyfile(index_path, source_dir / 'title_slug_index.json')
+          index_sha = hashlib.sha256((source_dir / 'title_slug_index.json').read_bytes()).hexdigest()
+          receipt = {
+              'schema_id': 'knowledge.real-source-receipt',
+              'schema_version': 1,
+              'producer': 'repo.lcd-uba-knowledgebase',
+              'producer_git_commit': commit,
+              'producer_run_id': run_id,
+              'producer_run_status': manifest['run_status'],
+              'producer_trust_level': manifest['trust_level'],
+              'source_system': 'wordpress_rest',
+              'source_base_url': base_url,
+              'source_scope': 'complete public WordPress page collection at producer run time',
+              'excluded_surface': 'WordPress posts remain outside this page-scoped experience and were not fetched in R6',
+              'page_records_fetched': fetch['records_fetched'],
+              'index_records': len(index),
+              'index_sha256': index_sha,
+              'producer_started_at': manifest['started_at'],
+              'producer_completed_at': manifest['completed_at'],
+              'copy_scope': 'public browsing index only; normalized page bodies and chunks are not copied into Knowledge Experiences',
+          }
+          (source_dir / 'producer-receipt.json').write_text(json.dumps(receipt, indent=2, ensure_ascii=False, sort_keys=True) + '\n')
+          print(json.dumps(receipt, indent=2, ensure_ascii=False))
+          PY
+      - name: Rebuild refreshed institutional experience
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path(os.environ['INST_ROOT'])
+          receipt = json.loads((root / 'source/producer-receipt.json').read_text())
+          release_id = f"run:{receipt['producer_run_id']};git:{receipt['producer_git_commit']}"
+          collection = json.loads((root / 'lcd.collection.json').read_text())
+          collection['source']['release_id'] = release_id
+          (root / 'lcd.collection.json').write_text(json.dumps(collection, indent=2, ensure_ascii=False) + '\n')
+          PY
+          rm -rf "$INST_ROOT/release"
+          kx doctor "$INST_ROOT/lcd.experience.json"
+          kx build "$INST_ROOT/lcd.experience.json" --out "$INST_ROOT/release"
+      - name: Record refreshed institutional proof
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          root = Path(os.environ['INST_ROOT'])
+          receipt = json.loads((root / 'source/producer-receipt.json').read_text())
+          collection = json.loads((root / 'release/collection.release.json').read_text())
+          experience = json.loads((root / 'release/experience.release.json').read_text())
+          source = json.loads((root / 'source/title_slug_index.json').read_text())
+          html_path = root / 'release/site/index.html'
+          html = html_path.read_text()
+          assert collection['source']['release_id'] == f"run:{receipt['producer_run_id']};git:{receipt['producer_git_commit']}"
+          assert collection['source']['sha256'] == receipt['index_sha256']
+          assert len(collection['items']) == receipt['index_records'] == len(source)
+          assert 'Plan de estudios' in html or 'Materias' in html
+          assert 'lcd.exactas.uba.ar' in html
+          proof = {
+              'schema_id': 'knowledge.real-experience-proof',
+              'schema_version': 1,
+              'experience_id': 'lcd-institutional-live',
+              'github_run_id': os.environ['GITHUB_RUN_ID'],
+              'knowledge_experiences_commit': os.environ['GITHUB_SHA'],
+              'producer_git_commit': receipt['producer_git_commit'],
+              'producer_run_id': receipt['producer_run_id'],
+              'collection_release_id': collection['release_id'],
+              'experience_release_id': experience['release_id'],
+              'rendered_artifact': 'release/site/index.html',
+              'rendered_artifact_sha256': hashlib.sha256(html_path.read_bytes()).hexdigest(),
+              'records': len(source),
+              'result': 'pass',
+          }
+          (root / 'real-use-proof.json').write_text(json.dumps(proof, indent=2, sort_keys=True) + '\n')
+          print(json.dumps(proof, indent=2))
+          PY
+      - name: Rebuild existing curated LCD derivative from refreshed source
+        run: |
+          cp "$INST_ROOT/source/title_slug_index.json" "$SUBSET_ROOT/source/title_slug_index.json"
+          cp "$INST_ROOT/source/producer-receipt.json" "$SUBSET_ROOT/source/producer-receipt.json"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path(os.environ['SUBSET_ROOT'])
+          receipt = json.loads((root / 'source/producer-receipt.json').read_text())
+          collection = json.loads((root / 'lcd.collection.json').read_text())
+          assert collection['selection']['mode'] == 'ids'
+          assert len(collection['selection']['item_ids']) == 4
+          collection['source']['release_id'] = f"run:{receipt['producer_run_id']};git:{receipt['producer_git_commit']}"
+          (root / 'lcd.collection.json').write_text(json.dumps(collection, indent=2, ensure_ascii=False) + '\n')
+          PY
+          rm -rf "$SUBSET_ROOT/release"
+          kx doctor "$SUBSET_ROOT/lcd.experience.json"
+          kx build "$SUBSET_ROOT/lcd.experience.json" --out "$SUBSET_ROOT/release"
+      - name: Record refreshed curated derivative proof
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          root = Path(os.environ['SUBSET_ROOT'])
+          receipt = json.loads((root / 'source/producer-receipt.json').read_text())
+          collection = json.loads((root / 'release/collection.release.json').read_text())
+          experience = json.loads((root / 'release/experience.release.json').read_text())
+          html_path = root / 'release/site/index.html'
+          assert len(collection['items']) == 4
+          wanted = {'lcd:page:1948', 'lcd:page:1951', 'lcd:page:2147', 'lcd:page:2562'}
+          assert {row['item_id'] for row in collection['items']} == wanted
+          proof = {
+              'schema_id': 'knowledge.real-experience-proof',
+              'schema_version': 1,
+              'experience_id': 'lcd-thesis-resources-live',
+              'github_run_id': os.environ['GITHUB_RUN_ID'],
+              'knowledge_experiences_commit': os.environ['GITHUB_SHA'],
+              'producer_git_commit': receipt['producer_git_commit'],
+              'producer_run_id': receipt['producer_run_id'],
+              'collection_release_id': collection['release_id'],
+              'experience_release_id': experience['release_id'],
+              'rendered_artifact': 'release/site/index.html',
+              'rendered_artifact_sha256': hashlib.sha256(html_path.read_bytes()).hexdigest(),
+              'records': 4,
+              'result': 'pass',
+          }
+          (root / 'real-use-proof.json').write_text(json.dumps(proof, indent=2, sort_keys=True) + '\n')
+          print(json.dumps(proof, indent=2))
+          PY
+      - name: Compare R1 and R6 states and write operational receipt
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          prev_root = Path('/tmp/lcd-institutional-before-r6')
+          cur_root = Path(os.environ['INST_ROOT'])
+          subset_root = Path(os.environ['SUBSET_ROOT'])
+          prev_receipt = json.loads((prev_root / 'source/producer-receipt.json').read_text())
+          prev_proof = json.loads((prev_root / 'real-use-proof.json').read_text())
+          prev_rows = json.loads((prev_root / 'source/title_slug_index.json').read_text())
+          cur_receipt = json.loads((cur_root / 'source/producer-receipt.json').read_text())
+          cur_proof = json.loads((cur_root / 'real-use-proof.json').read_text())
+          cur_rows = json.loads((cur_root / 'source/title_slug_index.json').read_text())
+          subset_proof = json.loads((subset_root / 'real-use-proof.json').read_text())
+
+          assert prev_receipt['producer_run_id'] != cur_receipt['producer_run_id']
+          assert cur_receipt['producer_run_status'] == 'completed_trusted'
+          assert cur_receipt['producer_trust_level'] == 'trusted'
+          assert cur_proof['result'] == 'pass' and subset_proof['result'] == 'pass'
+
+          old = {int(row['source_id']): row for row in prev_rows}
+          new = {int(row['source_id']): row for row in cur_rows}
+          common = sorted(set(old) & set(new))
+          added = sorted(set(new) - set(old))
+          removed = sorted(set(old) - set(new))
+          content_changed = [i for i in common if old[i].get('content_hash') != new[i].get('content_hash')]
+          metadata_changed = [
+              i for i in common
+              if any(old[i].get(k) != new[i].get(k) for k in ('title', 'slug', 'source_url', 'entity_type'))
+          ]
+          op = {
+              'schema_id': 'knowledge.operational-refresh',
+              'schema_version': 1,
+              'operation_id': 'r6-lcd-institutional-governed-refresh',
+              'operation_kind': 'governed_refresh',
+              'trigger_kind': 'explicit_operator_requested_refresh',
+              'github_run_id': os.environ['GITHUB_RUN_ID'],
+              'knowledge_experiences_seed_commit': os.environ['GITHUB_SHA'],
+              'producer': 'repo.lcd-uba-knowledgebase',
+              'previous': {
+                  'accepted_kx_commit': 'e931d23adaf77213eaaa8c9abd2ea25da17ec6b9',
+                  'producer_run_id': prev_receipt['producer_run_id'],
+                  'producer_run_status': prev_receipt['producer_run_status'],
+                  'producer_trust_level': prev_receipt['producer_trust_level'],
+                  'records': prev_receipt['index_records'],
+                  'index_sha256': prev_receipt['index_sha256'],
+                  'collection_release_id': prev_proof['collection_release_id'],
+                  'experience_release_id': prev_proof['experience_release_id'],
+                  'rendered_artifact_sha256': prev_proof['rendered_artifact_sha256'],
+              },
+              'current': {
+                  'producer_run_id': cur_receipt['producer_run_id'],
+                  'producer_run_status': cur_receipt['producer_run_status'],
+                  'producer_trust_level': cur_receipt['producer_trust_level'],
+                  'records': cur_receipt['index_records'],
+                  'index_sha256': cur_receipt['index_sha256'],
+                  'collection_release_id': cur_proof['collection_release_id'],
+                  'experience_release_id': cur_proof['experience_release_id'],
+                  'rendered_artifact_sha256': cur_proof['rendered_artifact_sha256'],
+              },
+              'source_diff': {
+                  'comparison_performed': True,
+                  'added_source_ids': added,
+                  'removed_source_ids': removed,
+                  'content_changed_source_ids': content_changed,
+                  'metadata_changed_source_ids': metadata_changed,
+              },
+              'downstream_validation': {
+                  'lcd-thesis-resources': {
+                      'result': 'pass',
+                      'records': subset_proof['records'],
+                      'collection_release_id': subset_proof['collection_release_id'],
+                      'experience_release_id': subset_proof['experience_release_id'],
+                      'rendered_artifact_sha256': subset_proof['rendered_artifact_sha256'],
+                  }
+              },
+              'policy': {
+                  'source_scope': 'complete public WordPress page collection only',
+                  'posts_excluded': True,
+                  'auto_schedule_added': False,
+                  'deployment_claimed': False,
+                  'audience_use_claimed': False,
+              },
+              'result': 'pass',
+          }
+          out = cur_root / 'operations'
+          out.mkdir(parents=True, exist_ok=True)
+          (out / 'r6-governed-refresh.json').write_text(json.dumps(op, indent=2, sort_keys=True) + '\n')
+          print(json.dumps(op, indent=2))
+          PY
+      - name: Promote only the independently operated institutional experience to E4
+        run: python scripts/promote_r6_lcd_e4.py
+      - name: Validate repository after operational promotion
+        run: make check
+      - name: Remove one-shot R6 machinery
+        run: |
+          rm .github/workflows/materialize-r6-lcd-refresh.yml
+          rm scripts/promote_r6_lcd_e4.py
+      - name: Commit governed R6 operational evidence
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'R6: operate first governed E4 refresh'
+          git push origin HEAD:real-use/r6-lcd-operational-refresh
