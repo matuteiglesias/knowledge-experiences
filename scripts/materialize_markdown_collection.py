@@ -3,7 +3,9 @@
 
 This helper does not define document-domain semantics. It snapshots only explicit
 metadata and stable source pointers from an exact Git checkout into the existing
-Knowledge Experiences generic JSONL display projection.
+Knowledge Experiences generic JSONL display projection. Optional path filtering
+is an explicit source-boundary rule recorded in the receipt; it does not infer
+producer taxonomy.
 """
 from __future__ import annotations
 
@@ -62,19 +64,22 @@ def first_heading(text: str) -> str | None:
     return None
 
 
-def tracked_markdown(repo_root: Path, scope_root: str) -> list[Path]:
+def tracked_markdown(repo_root: Path, scope_root: str, path_regex: str | None = None) -> list[Path]:
     proc = subprocess.run(
         ["git", "-C", str(repo_root), "ls-files", scope_root],
         check=True,
         text=True,
         capture_output=True,
     )
+    matcher = re.compile(path_regex) if path_regex else None
     paths = []
     for raw in proc.stdout.splitlines():
         path = Path(raw)
         if path.suffix.lower() not in {".md", ".mdx"}:
             continue
         if any(part in EXCLUDED_PARTS for part in path.parts):
+            continue
+        if matcher is not None and matcher.fullmatch(path.as_posix()) is None:
             continue
         paths.append(path)
     return sorted(paths, key=lambda p: p.as_posix())
@@ -91,6 +96,7 @@ def main() -> int:
     parser.add_argument("--authority", required=True)
     parser.add_argument("--commit", required=True)
     parser.add_argument("--scope-root", required=True)
+    parser.add_argument("--path-regex", help="optional full-match regex over repo-relative paths")
     parser.add_argument("--mode", choices=["all-markdown", "explicit-publish"], required=True)
     parser.add_argument("--collection-id", required=True)
     parser.add_argument("--title", required=True)
@@ -111,7 +117,7 @@ def main() -> int:
 
     records = []
     excluded_unpublished = 0
-    for rel in tracked_markdown(repo_root, args.scope_root):
+    for rel in tracked_markdown(repo_root, args.scope_root, args.path_regex):
         text = (repo_root / rel).read_text(encoding="utf-8")
         meta = frontmatter(text)
         if args.mode == "explicit-publish":
@@ -191,6 +197,8 @@ def main() -> int:
         "body_copy_policy": "metadata and exact source pointers only; Markdown bodies remain producer-owned",
         "source_index_sha256": sha256_file(items_path),
     }
+    if args.path_regex:
+        receipt["path_regex"] = args.path_regex
     (source_dir / "source-receipt.json").write_text(
         json.dumps(receipt, indent=2, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8"
     )
