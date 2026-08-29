@@ -1,4 +1,5 @@
 name: Materialize R4 Git vertical E3 proofs
+# One-shot promotion runner; removed after governed R4 evidence is committed.
 
 on:
   push:
