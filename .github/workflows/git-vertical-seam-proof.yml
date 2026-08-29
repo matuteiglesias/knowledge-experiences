@@ -44,8 +44,8 @@ jobs:
           test "$(git -C /tmp/journal rev-parse HEAD)" = "11fc6ea42e13866cd952e4957c26dd2e55ef78d7"
 
           git clone -q https://github.com/matuteiglesias/ldd-uba.git /tmp/ldd-uba
-          git -C /tmp/ldd-uba checkout -q a67a9d89c1464e68f8b701c9d3ab44c775042bfc
-          test "$(git -C /tmp/ldd-uba rev-parse HEAD)" = "a67a9d89c1464e68f8b701c9d3ab44c775042bfc"
+          git -C /tmp/ldd-uba checkout -q 1e8a3c400e1296055614e0dec627f7177c730537
+          test "$(git -C /tmp/ldd-uba rev-parse HEAD)" = "1e8a3c400e1296055614e0dec627f7177c730537"
       - name: Reproduce accepted source-to-experience seams
         run: |
           python scripts/prove_git_vertical_seams.py \
