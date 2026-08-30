@@ -1,54 +1,60 @@
 {
   "schema_version": 1,
-  "as_of": "2026-08-29",
+  "as_of": "2026-08-30",
   "maturity_semantics": "E0-E4 measures concrete Knowledge Experiences composition maturity. Sanitized interface proofs and pre-existing vertical products are recorded separately and do not inflate maturity.",
   "experiences": [
     {
       "id": 1,
       "experience_id": "thesis-bibliography",
       "name": "Thesis bibliography",
-      "composition_maturity": "E0",
-      "engineering_status": "proven_sanitized",
-      "existing_surface": null,
+      "composition_maturity": "E3",
+      "engineering_status": "proven_real_source_seam",
+      "existing_surface": "repo.paper-kb fixture/corpora/tesis-cited catalog projection",
       "source_authorities": [
         "repo.paper-kb"
       ],
       "code_pins": {
-        "repo.paper-kb": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0"
+        "repo.paper-kb": "e82e82deb646f30707306cd13ff8ba279c8bad50"
       },
-      "exact_source_release": null,
-      "collection_release": null,
+      "exact_source_release": "paper-kb@e82e82deb646f30707306cd13ff8ba279c8bad50:fixture/corpora/tesis-cited/catalog/paper.catalog-record.v1.jsonl#sha256:648d8461929629e5b13385510048f77ead7000b98318fdf87d22fe9332f28a1f",
+      "collection_release": "experiences/real/thesis-bibliography/release/collection.release.json#sha256:a766463507d2f5cc",
       "renderer_profile": "static-navigator",
-      "rendered_artifact": null,
-      "cross_repo_proof": "paper-kb-catalog-proof",
+      "rendered_artifact": "experiences/real/thesis-bibliography/release/site/index.html",
+      "cross_repo_proof": "experiences/real/thesis-bibliography/e3-proof.json + scripts/prove_real_paper_corpora.py",
       "operational_evidence": null,
       "capabilities_reused": [
         "paper-catalog-jsonl",
+        "all-selection",
+        "author-facet",
         "static-navigator",
-        "deterministic-releases"
+        "deterministic-releases",
+        "exact-git-cross-repo-proof"
       ],
-      "incremental_work": "configuration once an approved real thesis corpus/catalog release is available",
-      "blocker": "no approved real thesis bibliography catalog artifact is available in this execution surface",
-      "observed_friction": "none in the composition model",
+      "incremental_work": "configuration and exact-source freezing only; no KX capability change",
+      "blocker": "none for the bounded 19-paper bibliography experience",
+      "observed_friction": "none in KX; the real Paper KB catalog composed with the existing adapter and renderer unchanged",
       "v2_candidate": null,
       "engineering_evidence": [
-        "real Paper KB writer/catalog projection feeds the compositor in pinned CI using sanitized records"
+        "exact tesis-cited catalog contains 19 real paper records at SHA-256 648d8461929629e5b13385510048f77ead7000b98318fdf87d22fe9332f28a1f",
+        "CollectionRelease sha256:a766463507d2f5cc contains all 19 records",
+        "ExperienceRelease sha256:a6289e933594e505 renders deterministic HTML",
+        "persistent R8 proof rebuilds from exact paper-kb@e82e82deb646f30707306cd13ff8ba279c8bad50 and byte-compares the frozen outputs"
       ],
-      "evidence_boundary": "sanitized producer-generated proof is not real thesis source material",
-      "next_real_action": "materialize one approved thesis Paper KB catalog release and build the existing recipe"
+      "evidence_boundary": "E3 proves one exact real thesis bibliography fixture through a deterministic human experience; no recurring refresh, deployment or audience use is claimed",
+      "next_real_action": "use or circulate the bibliography, or rebuild after a governed source change; do not add composition capability without observed need"
     },
     {
       "id": 2,
       "experience_id": "thesis-rapid-paper-review",
       "name": "Thesis rapid paper review",
       "composition_maturity": "E0",
-      "engineering_status": "proven_sanitized",
+      "engineering_status": "blocked_producer_metadata",
       "existing_surface": null,
       "source_authorities": [
         "repo.paper-kb"
       ],
       "code_pins": {
-        "repo.paper-kb": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0",
+        "repo.paper-kb": "e82e82deb646f30707306cd13ff8ba279c8bad50",
         "repo.abstract-scroller": "6a738edd28d21bf54d6c52943883fee19f4cc033"
       },
       "exact_source_release": null,
@@ -63,49 +69,55 @@
         "renderer-ref-pinning"
       ],
       "incremental_work": "configuration once an approved real review artifact is available",
-      "blocker": "no approved real thesis paper.review-record release is available in this execution surface",
-      "observed_friction": "external renderer intentionally accepts full-source membership only",
+      "blocker": "a real governed review projection is now available, but its current records lack substantive abstract/date/venue metadata needed for the intended review experience",
+      "observed_friction": "real tesis-cited review records preserve identity/title but expose null abstract, date and venue fields; this is producer-metadata pressure rather than a KX composition gap",
       "v2_candidate": "selected-external-renderer-handoff",
       "engineering_evidence": [
-        "pinned three-repository proof preserves paper_uid through final Scroller tile doc_id"
+        "pinned three-repository proof preserves paper_uid through final Scroller tile doc_id",
+        "R8 inspected the real tesis-cited paper.review-record@1 projection: 19 records are governed, but substantive review metadata is currently sparse/null"
       ],
-      "evidence_boundary": "proof uses sanitized Paper KB records, so the concrete thesis experience remains E0",
-      "next_real_action": "run the existing handoff over an approved thesis review release before designing subset semantics"
+      "evidence_boundary": "the real producer review surface exists, but R8 deliberately does not promote a title-only review experience; no KX capability is inferred from missing upstream paper metadata",
+      "next_real_action": "improve or preserve authoritative review metadata upstream in Paper KB, then rerun the real review experience before considering any KX capability change"
     },
     {
       "id": 3,
       "experience_id": "author-works",
       "name": "Author works",
-      "composition_maturity": "E0",
-      "engineering_status": "proven_sanitized",
-      "existing_surface": null,
+      "composition_maturity": "E3",
+      "engineering_status": "proven_real_source_seam",
+      "existing_surface": "repo.paper-kb fixture/corpora/tesis-cited catalog projection",
       "source_authorities": [
         "repo.paper-kb"
       ],
       "code_pins": {
-        "repo.paper-kb": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0"
+        "repo.paper-kb": "e82e82deb646f30707306cd13ff8ba279c8bad50"
       },
-      "exact_source_release": null,
-      "collection_release": null,
+      "exact_source_release": "paper-kb@e82e82deb646f30707306cd13ff8ba279c8bad50:fixture/corpora/tesis-cited/catalog/paper.catalog-record.v1.jsonl#sha256:648d8461929629e5b13385510048f77ead7000b98318fdf87d22fe9332f28a1f",
+      "collection_release": "experiences/real/author-works/release/collection.release.json#sha256:646d6b43072e15b4",
       "renderer_profile": "static-navigator",
-      "rendered_artifact": null,
-      "cross_repo_proof": "paper-kb-catalog-proof",
+      "rendered_artifact": "experiences/real/author-works/release/site/index.html",
+      "cross_repo_proof": "experiences/real/author-works/e3-proof.json + scripts/prove_real_paper_corpora.py",
       "operational_evidence": null,
       "capabilities_reused": [
         "paper-catalog-jsonl",
         "facet-selection",
         "author-facet",
-        "static-navigator"
+        "static-navigator",
+        "deterministic-releases",
+        "exact-git-cross-repo-proof"
       ],
-      "incremental_work": "configuration-only for an author represented in an approved catalog release",
-      "blocker": "no approved real author corpus release selected for this census run",
-      "observed_friction": "none after Paper KB introduced producer-owned author metadata projection",
+      "incremental_work": "configuration-only reuse of the producer-owned author facet over the same real 19-paper source",
+      "blocker": "none for the bounded author-works experience",
+      "observed_friction": "none; existing facet selection reduced the real 19-paper source to the two Angus Deaton records without kernel changes",
       "v2_candidate": null,
       "engineering_evidence": [
-        "same sanitized producer release builds full catalog and author subset with no second application"
+        "real tesis-cited producer metadata contains Angus Deaton on exactly two records selected by the existing author facet",
+        "CollectionRelease sha256:646d6b43072e15b4 preserves paper_340915ba55 and paper_7eac0538e3",
+        "ExperienceRelease sha256:799a247b0ed2f161 renders the real author subset",
+        "persistent R8 proof rebuilds and reasserts exact author membership from paper-kb@e82e82deb646f30707306cd13ff8ba279c8bad50"
       ],
-      "evidence_boundary": "author reuse is mechanically proven but not materialized for a real author corpus",
-      "next_real_action": "choose one approved author corpus and instantiate the existing facet recipe"
+      "evidence_boundary": "E3 proves real author-facet reuse inside the bounded thesis corpus; it does not claim a complete author bibliography, profile system, refresh cycle or public deployment",
+      "next_real_action": "use the bounded author view or test another real author only when useful; do not generalize into an author-profile platform without demand"
     },
     {
       "id": 4,
@@ -185,48 +197,55 @@
       "id": 6,
       "experience_id": "fcv-literature-corpus",
       "name": "FCV literature corpus",
-      "composition_maturity": "E0",
-      "engineering_status": "design_ready",
-      "existing_surface": null,
+      "composition_maturity": "E3",
+      "engineering_status": "proven_real_source_seam",
+      "existing_surface": "repo.paper-kb fixture/corpora/eric-mv consumer fixture",
       "source_authorities": [
         "repo.paper-kb"
       ],
       "code_pins": {
-        "repo.paper-kb": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0"
+        "repo.paper-kb": "e82e82deb646f30707306cd13ff8ba279c8bad50"
       },
-      "exact_source_release": null,
-      "collection_release": null,
-      "renderer_profile": "private-static-navigator-or-paper-workbench",
-      "rendered_artifact": null,
-      "cross_repo_proof": null,
+      "exact_source_release": "paper-kb@e82e82deb646f30707306cd13ff8ba279c8bad50:fixture/corpora/eric-mv/catalog/paper.catalog-record.v1.jsonl#sha256:273a484b873d5ae6f9041b24e3c8b4906d23d0683b26941c95713665353f1b41;consumer-fixture:7-chunk-sets",
+      "collection_release": "experiences/real/fcv-literature-corpus/release/collection.release.json#sha256:010486a65a5888d2",
+      "renderer_profile": "private-static-navigator",
+      "rendered_artifact": "experiences/real/fcv-literature-corpus/release/site/index.html",
+      "cross_repo_proof": "experiences/real/fcv-literature-corpus/e3-proof.json + scripts/prove_real_paper_corpora.py",
       "operational_evidence": null,
       "capabilities_reused": [
         "paper-catalog-jsonl",
+        "all-selection",
+        "author-facet",
         "visibility-metadata",
-        "static-navigator"
+        "static-navigator",
+        "deterministic-releases",
+        "exact-git-cross-repo-proof"
       ],
-      "incremental_work": "mostly configuration after an explicitly approved corpus is available",
-      "blocker": "no approved FCV corpus artifact was accessed during this census",
-      "observed_friction": "private local use is feasible; richer workbench demand is not yet demonstrated",
+      "incremental_work": "configuration and exact-source freezing only; no richer workbench or KX capability was required",
+      "blocker": "none for the bounded seven-paper FCV seed experience; broader FCV coverage is a corpus-growth question, not a composition blocker",
+      "observed_friction": "none in KX; seven real papers composed with the existing catalog seam while the upstream consumer fixture independently preserves seven canonical chunk sets",
       "v2_candidate": null,
       "engineering_evidence": [
-        "paper composition path is already proven generically"
+        "eric-mv consumer fixture at paper-kb@e82e82deb646f30707306cd13ff8ba279c8bad50 records seven source PDFs and seven canonical chunk sets",
+        "exact catalog SHA-256 273a484b873d5ae6f9041b24e3c8b4906d23d0683b26941c95713665353f1b41 contains seven records, all with Eric Mvukiyehe as contributor",
+        "CollectionRelease sha256:010486a65a5888d2 and ExperienceRelease sha256:8a7b561e877d1c82 render the bounded seed corpus",
+        "persistent R8 proof rebuilds the experience from the exact producer pin and byte-compares final artifacts"
       ],
-      "evidence_boundary": "no FCV source papers or derived corpus were inspected or processed here",
-      "next_real_action": "use an explicitly approved FCV Paper KB release and observe whether static browsing is sufficient"
+      "evidence_boundary": "E3 proves a seven-paper FCV seed corpus, not complete FCV literature coverage, recurring operation, deployment or workbench demand",
+      "next_real_action": "use this seed corpus in actual FCV research work and grow it through governed Paper KB corpus updates when concrete literature needs appear"
     },
     {
       "id": 7,
       "experience_id": "literature-review-snapshot",
       "name": "Literature-review snapshot",
       "composition_maturity": "E0",
-      "engineering_status": "proven_sanitized",
+      "engineering_status": "blocked_producer_metadata",
       "existing_surface": null,
       "source_authorities": [
         "repo.paper-kb"
       ],
       "code_pins": {
-        "repo.paper-kb": "ecf09f19c3211de85eea6e4f81a0c2a48f378fc0",
+        "repo.paper-kb": "e82e82deb646f30707306cd13ff8ba279c8bad50",
         "repo.abstract-scroller": "6a738edd28d21bf54d6c52943883fee19f4cc033"
       },
       "exact_source_release": null,
@@ -241,14 +260,15 @@
         "deterministic-external-rendering"
       ],
       "incremental_work": "configuration once a real review release is selected",
-      "blocker": "no concrete real literature-review source release selected",
-      "observed_friction": "selected subsets would require a producer-domain subset projection or another justified seam",
+      "blocker": "a real governed review projection is now available, but its current records lack substantive abstract/date/venue metadata needed for the intended review experience",
+      "observed_friction": "real tesis-cited review records preserve identity/title but expose null abstract, date and venue fields; this is producer-metadata pressure rather than a KX composition gap",
       "v2_candidate": "selected-external-renderer-handoff",
       "engineering_evidence": [
-        "real Scroller compiler and manifest validator are exercised in pinned CI"
+        "real Scroller compiler and manifest validator are exercised in pinned CI",
+        "R8 inspected the real tesis-cited paper.review-record@1 projection: 19 records are governed, but substantive review metadata is currently sparse/null"
       ],
-      "evidence_boundary": "sanitized interface proof does not make a concrete literature review E1/E2",
-      "next_real_action": "materialize one complete approved review release through the existing handoff"
+      "evidence_boundary": "the real producer review surface exists, but R8 deliberately does not promote a title-only review experience; no KX capability is inferred from missing upstream paper metadata",
+      "next_real_action": "improve or preserve authoritative review metadata upstream in Paper KB, then rerun the real review experience before considering any KX capability change"
     },
     {
       "id": 8,
