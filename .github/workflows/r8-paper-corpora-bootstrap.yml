@@ -1,0 +1,178 @@
+name: R8 bootstrap real Paper KB experiences
+
+on:
+  push:
+    branches: [real-use/r8-paper-corpora-fanout]
+    paths:
+      - 'experiences/real/thesis-bibliography/**'
+      - 'experiences/real/author-works/**'
+      - 'experiences/real/fcv-literature-corpus/**'
+      - '.github/workflows/r8-paper-corpora-bootstrap.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    env:
+      PAPER_KB_COMMIT: e82e82deb646f30707306cd13ff8ba279c8bad50
+      TESIS_CATALOG_SHA256: 648d8461929629e5b13385510048f77ead7000b98318fdf87d22fe9332f28a1f
+      ERIC_CATALOG_SHA256: 273a484b873d5ae6f9041b24e3c8b4906d23d0683b26941c95713665353f1b41
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Knowledge Experiences
+        run: python -m pip install --no-deps -e .
+      - name: Checkout exact Paper KB fixture release
+        run: |
+          git clone -q https://github.com/matuteiglesias/paper-kb.git /tmp/paper-kb
+          git -C /tmp/paper-kb checkout -q "$PAPER_KB_COMMIT"
+          test "$(git -C /tmp/paper-kb rev-parse HEAD)" = "$PAPER_KB_COMMIT"
+          test "$(sha256sum /tmp/paper-kb/fixture/corpora/tesis-cited/catalog/paper.catalog-record.v1.jsonl | cut -d' ' -f1)" = "$TESIS_CATALOG_SHA256"
+          test "$(sha256sum /tmp/paper-kb/fixture/corpora/eric-mv/catalog/paper.catalog-record.v1.jsonl | cut -d' ' -f1)" = "$ERIC_CATALOG_SHA256"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path('/tmp/paper-kb/fixture/corpora/eric-mv/fixture-manifest.json').read_text())
+          assert manifest['fixture_level'] == 'consumer'
+          assert manifest['source_pdf_count'] == 7
+          assert manifest['chunk_set_count'] == 7
+          PY
+      - name: Freeze exact producer projections
+        run: |
+          mkdir -p experiences/real/thesis-bibliography/source
+          mkdir -p experiences/real/fcv-literature-corpus/source
+          cp /tmp/paper-kb/fixture/corpora/tesis-cited/catalog/paper.catalog-record.v1.jsonl \
+            experiences/real/thesis-bibliography/source/paper.catalog-record.v1.jsonl
+          cp /tmp/paper-kb/fixture/corpora/eric-mv/catalog/paper.catalog-record.v1.jsonl \
+            experiences/real/fcv-literature-corpus/source/paper.catalog-record.v1.jsonl
+      - name: Build all three real experiences
+        run: |
+          rm -rf \
+            experiences/real/thesis-bibliography/release \
+            experiences/real/author-works/release \
+            experiences/real/fcv-literature-corpus/release
+          for exp in thesis-bibliography author-works fcv-literature-corpus; do
+            kx doctor "experiences/real/$exp/snapshot.experience.json"
+            kx build "experiences/real/$exp/snapshot.experience.json" --out "experiences/real/$exp/release"
+          done
+      - name: Assert real-source membership and generate E3 receipts
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          root = Path('experiences/real')
+          pin = os.environ['PAPER_KB_COMMIT']
+          thesis_source = root / 'thesis-bibliography/source/paper.catalog-record.v1.jsonl'
+          eric_source = root / 'fcv-literature-corpus/source/paper.catalog-record.v1.jsonl'
+
+          def sha(path: Path) -> str:
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+
+          assert sha(thesis_source) == os.environ['TESIS_CATALOG_SHA256']
+          assert sha(eric_source) == os.environ['ERIC_CATALOG_SHA256']
+
+          expected = {
+              'thesis-bibliography': {
+                  'source': thesis_source,
+                  'source_fixture': 'tesis-cited',
+                  'source_count': 19,
+                  'selected_count': 19,
+                  'source_sha256': os.environ['TESIS_CATALOG_SHA256'],
+                  'selection': 'all',
+              },
+              'author-works': {
+                  'source': thesis_source,
+                  'source_fixture': 'tesis-cited',
+                  'source_count': 19,
+                  'selected_count': 2,
+                  'source_sha256': os.environ['TESIS_CATALOG_SHA256'],
+                  'selection': 'author=Angus Deaton',
+              },
+              'fcv-literature-corpus': {
+                  'source': eric_source,
+                  'source_fixture': 'eric-mv',
+                  'source_count': 7,
+                  'selected_count': 7,
+                  'source_sha256': os.environ['ERIC_CATALOG_SHA256'],
+                  'selection': 'all',
+              },
+          }
+
+          for exp, meta in expected.items():
+              release_dir = root / exp / 'release'
+              collection = json.loads((release_dir / 'collection.release.json').read_text())
+              experience = json.loads((release_dir / 'experience.release.json').read_text())
+              assert collection['source']['authority'] == 'repo.paper-kb'
+              assert pin in collection['source']['release_id']
+              assert collection['source']['sha256'] == meta['source_sha256']
+              assert len(collection['items']) == meta['selected_count']
+              html = release_dir / 'site/index.html'
+              assert html.is_file() and html.stat().st_size > 0
+
+              if exp == 'author-works':
+                  assert {item['item_id'] for item in collection['items']} == {'paper_340915ba55', 'paper_7eac0538e3'}
+                  assert all('Angus Deaton' in item['contributors'] for item in collection['items'])
+              if exp == 'fcv-literature-corpus':
+                  assert all('Eric Mvukiyehe' in item['contributors'] for item in collection['items'])
+
+              source_receipt = {
+                  'schema_id': 'knowledge.paper-kb-source-receipt',
+                  'schema_version': 1,
+                  'producer': 'repo.paper-kb',
+                  'producer_git_commit': pin,
+                  'producer_fixture': meta['source_fixture'],
+                  'producer_artifact': f"fixture/corpora/{meta['source_fixture']}/catalog/paper.catalog-record.v1.jsonl",
+                  'producer_artifact_sha256': meta['source_sha256'],
+                  'source_projection': str(meta['source']),
+                  'source_item_count': meta['source_count'],
+                  'selection': meta['selection'],
+                  'selected_item_count': meta['selected_count'],
+              }
+              (root / exp / 'source-receipt.json').write_text(json.dumps(source_receipt, indent=2, sort_keys=True) + '\n')
+
+              proof = {
+                  'schema_id': 'knowledge.e3-cross-repo-proof',
+                  'schema_version': 1,
+                  'proof': 'paper-kb-real-fixture-to-frozen-experience',
+                  'result': 'pass',
+                  'source_repo': 'matuteiglesias/paper-kb',
+                  'source_commit': pin,
+                  'source_fixture': meta['source_fixture'],
+                  'source_artifact_sha256': meta['source_sha256'],
+                  'source_item_count': meta['source_count'],
+                  'selected_item_count': meta['selected_count'],
+                  'selection': meta['selection'],
+                  'collection_release_id': collection['release_id'],
+                  'experience_release_id': experience['release_id'],
+                  'rendered_artifact_sha256': sha(html),
+              }
+              if exp == 'fcv-literature-corpus':
+                  proof['consumer_fixture_chunk_set_count'] = 7
+              (root / exp / 'e3-proof.json').write_text(json.dumps(proof, indent=2, sort_keys=True) + '\n')
+
+              print(exp, collection['release_id'], experience['release_id'], sha(html))
+          PY
+      - name: Commit frozen R8 evidence once
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            experiences/real/thesis-bibliography \
+            experiences/real/author-works \
+            experiences/real/fcv-literature-corpus
+          if git diff --cached --quiet; then
+            echo 'No generated R8 evidence changed.'
+            exit 0
+          fi
+          git commit -m 'R8: materialize real Paper KB experiences [skip ci]'
+          git push origin HEAD:${GITHUB_REF_NAME}
