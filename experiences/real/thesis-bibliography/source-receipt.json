@@ -1,0 +1,13 @@
+{
+  "producer": "repo.paper-kb",
+  "producer_artifact": "fixture/corpora/tesis-cited/catalog/paper.catalog-record.v1.jsonl",
+  "producer_artifact_sha256": "648d8461929629e5b13385510048f77ead7000b98318fdf87d22fe9332f28a1f",
+  "producer_fixture": "tesis-cited",
+  "producer_git_commit": "e82e82deb646f30707306cd13ff8ba279c8bad50",
+  "schema_id": "knowledge.paper-kb-source-receipt",
+  "schema_version": 1,
+  "selected_item_count": 19,
+  "selection": "all",
+  "source_item_count": 19,
+  "source_projection": "experiences/real/thesis-bibliography/source/paper.catalog-record.v1.jsonl"
+}

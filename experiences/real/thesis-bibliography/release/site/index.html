@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thesis bibliography</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color-scheme:light dark}
+body{margin:0;background:Canvas;color:CanvasText}
+main{max-width:1040px;margin:auto;padding:2rem 1rem 4rem}
+header{margin-bottom:1.5rem}
+h1{font-size:clamp(1.8rem,5vw,3rem);margin:.2rem 0}
+.meta{opacity:.7}.controls{display:grid;grid-template-columns:minmax(12rem,1fr) auto;gap:.75rem;margin:1.2rem 0}
+input,select{font:inherit;padding:.7rem;border:1px solid color-mix(in srgb,CanvasText 25%,transparent);border-radius:.5rem;background:Canvas}
+.facets{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1rem}.facets label{display:flex;gap:.35rem;align-items:center}
+#items{display:grid;gap:.8rem}.card{border:1px solid color-mix(in srgb,CanvasText 18%,transparent);border-radius:.7rem;padding:1rem}
+.card h2{font-size:1.08rem;margin:.1rem 0 .35rem}.card p{margin:.35rem 0;line-height:1.45}.chips{display:flex;flex-wrap:wrap;gap:.35rem}.chip{font-size:.78rem;padding:.15rem .45rem;border-radius:999px;background:color-mix(in srgb,CanvasText 9%,transparent)}
+a{color:inherit}.empty{opacity:.7;padding:2rem 0}
+@media(max-width:640px){.controls{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<p class="meta" id="release"></p>
+<h1 id="title"></h1>
+<p id="description"></p>
+</header>
+<section class="controls">
+<input id="search" type="search" placeholder="Search title, summary, contributors…" aria-label="Search">
+<select id="sort" aria-label="Sort">
+<option value="title">Title</option>
+<option value="date">Date</option>
+<option value="source">Source</option>
+</select>
+</section>
+<section class="facets" id="facets"></section>
+<section id="items"></section>
+</main>
+<script id="kx-data" type="application/json">{"collection_id":"thesis-bibliography","collection_release_id":"sha256:a766463507d2f5cc","config":{"default_sort":"title","facets":["author"],"search":true,"visibility":"private"},"description":"Nineteen papers from the governed tesis-cited Paper KB fixture, preserved as one exact bibliographic source release.","items":[{"contributors":["Jun-Peng Jiang","Si-Yang Liu","Hao-Run Cai","Qile Zhou","Han-Jia Ye"],"facets":{"author":["Jun-Peng Jiang","Si-Yang Liu","Hao-Run Cai","Qile Zhou","Han-Jia Ye"]},"item_id":"paper_128812daa4","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_128812daa4"},"tags":[],"title":"Representation Learning for Tabular Data: A Comprehensive Survey"},{"contributors":["Vadim Borisov","Tobias Leemann","Kathrin Seßler","Johannes Haug","Martin Pawelczyk","Gjergji Kasneci"],"facets":{"author":["Vadim Borisov","Tobias Leemann","Kathrin Seßler","Johannes Haug","Martin Pawelczyk","Gjergji Kasneci"]},"item_id":"paper_1c049998c3","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_1c049998c3"},"tags":[],"title":"Deep Neural Networks and Tabular Data: A Survey"},{"contributors":["Nora Lustig","Andrea Vigorito","Inequality Vigorito","Facundo Alvaredo","François Bourguignon","Mauricio De Rosa","Francisco Ferreira","Emmanuel Flachaire","Stephen Jenkins","Graciela Sanroman","Mathias Silva","Philippe Kerm","Paulo Verme","Joan Vilá"],"facets":{"author":["Nora Lustig","Andrea Vigorito","Inequality Vigorito","Facundo Alvaredo","François Bourguignon","Mauricio De Rosa","Francisco Ferreira","Emmanuel Flachaire","Stephen Jenkins","Graciela Sanroman","Mathias Silva","Philippe Kerm","Paulo Verme","Joan Vilá"]},"item_id":"paper_2efc11a378","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_2efc11a378"},"tags":[],"title":"The \"Missing Rich\" in Household Surveys: Causes and Correction Approaches Extended Version with Technical Appendixes"},{"contributors":["Angus Deaton"],"facets":{"author":["Angus Deaton"]},"item_id":"paper_340915ba55","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_340915ba55"},"tags":[],"title":"Household Surveys, Consumption, and the Measurement of Poverty"},{"contributors":["Neeti Pokhriyal","Omar Zambrano","Jennifer Linares","Hugo Hernández","Felipe Library"],"facets":{"author":["Neeti Pokhriyal","Omar Zambrano","Jennifer Linares","Hugo Hernández","Felipe Library"]},"item_id":"paper_3d71558b74","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_3d71558b74"},"tags":[],"title":"Estimating and Forecasting Income Poverty and Inequality in Haiti using Satellite Imagery and Mobile Phone data"},{"contributors":["Pei Xue","Tianshun Li"],"facets":{"author":["Pei Xue","Tianshun Li"]},"item_id":"paper_5509a434ee","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_5509a434ee"},"tags":[],"title":"A supervised variational autoencoder framework for dimensionality reduction and predictive modeling in high-dimensional socioeconomic data"},{"contributors":["Chris Elbers","Jean Lanjouw","Peter Lanjouw"],"facets":{"author":["Chris Elbers","Jean Lanjouw","Peter Lanjouw"]},"item_id":"paper_6d178dba40","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_6d178dba40"},"tags":[],"title":"MICRO-LEVEL ESTIMATION OF POVERTY AND INEQUALITY"},{"contributors":["Daniela Gomez-Cravioto","Ramon Diaz-Ramos","Neil Hernandez-Gress","Jose Preciado","Hector Ceballos"],"facets":{"author":["Daniela Gomez-Cravioto","Ramon Diaz-Ramos","Neil Hernandez-Gress","Jose Preciado","Hector Ceballos"]},"item_id":"paper_70ab083def","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_70ab083def"},"tags":[],"title":"Supervised machine learning predictive analytics for alumni income"},{"contributors":["Shajara Ul‐durar","Konstantinos Dimitriadis","Noman Arshed","Marco De Sisto","Hamidreza Harati"],"facets":{"author":["Shajara Ul‐durar","Konstantinos Dimitriadis","Noman Arshed","Marco De Sisto","Hamidreza Harati"]},"item_id":"paper_7176054ca2","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_7176054ca2"},"tags":[],"title":"Distributional and Tail‐Dependent Perspectives in Economic Relationships: A Review of Quantile Regression Application"},{"contributors":["Nicolás Abbate","Leonardo Gasparini","Franco Ronchetti","Facundo Quiroga"],"facets":{"author":["Nicolás Abbate","Leonardo Gasparini","Franco Ronchetti","Facundo Quiroga"]},"item_id":"paper_748063eee0","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_748063eee0"},"tags":[],"title":"Deep learning with satellite images enables high-resolution income estimation: A case study of Buenos Aires"},{"contributors":["Alessandro Tarozzi","Angus Deaton"],"facets":{"author":["Alessandro Tarozzi","Angus Deaton"]},"item_id":"paper_7eac0538e3","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_7eac0538e3"},"tags":[],"title":"Using Census and Survey Data to Estimate Poverty and Inequality for Small Areas"},{"contributors":["Yuan Zhao","Ronak Paul","Sean Reid","Carolina Coimbra Vieira","Chris Wolfe","Yan Zhang","Rumi Chunara"],"facets":{"author":["Yuan Zhao","Ronak Paul","Sean Reid","Carolina Coimbra Vieira","Chris Wolfe","Yan Zhang","Rumi Chunara"]},"item_id":"paper_84251d85e5","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_84251d85e5"},"tags":[],"title":"Constructing Social Vulnerability Indexes with Increased Data and Machine Learning Highlight the Importance of Wealth Across Global Contexts"},{"contributors":["Vladimir Hlasny","Lidia Ceriani","Paolo Verme"],"facets":{"author":["Vladimir Hlasny","Lidia Ceriani","Paolo Verme"]},"item_id":"paper_9a294caf51","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_9a294caf51"},"tags":[],"title":"Bottom incomes and the measurement of poverty and inequality *"},{"contributors":["Paul Corral","Heath Henderson","Sandra Segovia"],"facets":{"author":["Paul Corral","Heath Henderson","Sandra Segovia"]},"item_id":"paper_9b28a5da38","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_9b28a5da38"},"tags":[],"title":"Poverty Mapping in the Age of Machine Learning"},{"contributors":["Nora Lustig"],"facets":{"author":["Nora Lustig"]},"item_id":"paper_a029188383","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_a029188383"},"tags":[],"title":"Measuring the Distribution of Household Income, Consumption and Wealth: State of Play and Measurement Challenges"},{"contributors":["Maria Sahakyan","Zeyar Aung","Talal Rahwan"],"facets":{"author":["Maria Sahakyan","Zeyar Aung","Talal Rahwan"]},"item_id":"paper_b291930ece","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_b291930ece"},"tags":[],"title":"Explainable Artificial Intelligence for Tabular Data: A Survey"},{"contributors":["Giulio Grossi","Emilia Rocco"],"facets":{"author":["Giulio Grossi","Emilia Rocco"]},"item_id":"paper_bb694a01f4","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_bb694a01f4"},"tags":[],"title":"Developing a Synthetic Socio-Economic Index through Autoencoders: Evidence from Florence's Suburban Areas"},{"contributors":["Roger Koenker","Kevin Hallock","William Mckinley"],"facets":{"author":["Roger Koenker","Kevin Hallock","William Mckinley"]},"item_id":"paper_e7a7e60fef","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_e7a7e60fef"},"tags":[],"title":"Quantile Regression"},{"contributors":["Ravi Varma","Kumar Bevara","Isabelle Wagenvoord","Farahnaz Hosseini","Himanshu Sharma","Vandana Nunna","Ting Xiao"],"facets":{"author":["Ravi Varma","Kumar Bevara","Isabelle Wagenvoord","Farahnaz Hosseini","Himanshu Sharma","Vandana Nunna","Ting Xiao"]},"item_id":"paper_e980a82fb9","kind":"paper","source_ref":{"authority":"repo.paper-kb","object_id":"paper_e980a82fb9"},"tags":[],"title":"Census2Vec: Enhancing Socioeconomic Predictive Models with Geo-Embedded Data"}],"title":"Thesis bibliography"}</script>
+<script>
+const data=JSON.parse(document.getElementById("kx-data").textContent);
+const state={query:"",sort:data.config.default_sort,facets:{}};
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+document.getElementById("title").textContent=data.title;
+document.getElementById("description").textContent=data.description||"";
+document.getElementById("release").textContent=`${data.collection_id} · ${data.collection_release_id} · ${data.config.visibility}`;
+const search=document.getElementById("search");
+if(!data.config.search) search.hidden=true;
+search.addEventListener("input",e=>{state.query=e.target.value.toLowerCase();render()});
+const sort=document.getElementById("sort"); sort.value=state.sort; sort.addEventListener("change",e=>{state.sort=e.target.value;render()});
+const facetRoot=document.getElementById("facets");
+for(const key of data.config.facets){
+  const values=[...new Set(data.items.flatMap(x=>{const v=x.facets?.[key];return Array.isArray(v)?v:(v===undefined||v===null?[]:[v])}).map(String))].sort();
+  if(!values.length) continue;
+  const label=document.createElement("label");
+  label.innerHTML=`<span>${esc(key)}</span>`;
+  const sel=document.createElement("select"); sel.innerHTML=`<option value="">All</option>`+values.map(v=>`<option>${esc(v)}</option>`).join("");
+  sel.addEventListener("change",e=>{state.facets[key]=e.target.value;render()}); label.appendChild(sel); facetRoot.appendChild(label);
+}
+function matches(item){
+  const hay=[item.title,item.subtitle,item.summary,...(item.contributors||[]),...(item.tags||[])].filter(Boolean).join(" ").toLowerCase();
+  if(state.query && !hay.includes(state.query)) return false;
+  for(const [key,want] of Object.entries(state.facets)){
+    if(!want) continue;
+    const raw=item.facets?.[key]; const vals=(Array.isArray(raw)?raw:[raw]).filter(v=>v!==undefined&&v!==null).map(String);
+    if(!vals.includes(want)) return false;
+  }
+  return true;
+}
+function sourceLabel(item){return item.source_ref?.authority||""}
+function sorted(items){
+  return [...items].sort((a,b)=>{
+    if(state.sort==="date") return String(b.date||"").localeCompare(String(a.date||""))||a.title.localeCompare(b.title);
+    if(state.sort==="source") return sourceLabel(a).localeCompare(sourceLabel(b))||a.title.localeCompare(b.title);
+    return a.title.localeCompare(b.title);
+  });
+}
+function card(item){
+  const href=item.canonical_url||item.source_ref?.url;
+  const title=href?`<a href="${esc(href)}">${esc(item.title)}</a>`:esc(item.title);
+  const chips=[...(item.contributors||[]),...(item.tags||[])].map(x=>`<span class="chip">${esc(x)}</span>`).join("");
+  return `<article class="card" id="${encodeURIComponent(item.item_id)}"><h2>${title}</h2>${item.subtitle?`<p>${esc(item.subtitle)}</p>`:""}${item.summary?`<p>${esc(item.summary)}</p>`:""}${chips?`<div class="chips">${chips}</div>`:""}<p class="meta">${esc(item.date||"")} ${esc(sourceLabel(item))}</p></article>`;
+}
+function render(){
+  const items=sorted(data.items.filter(matches)); const root=document.getElementById("items");
+  root.innerHTML=items.length?items.map(card).join(""):`<p class="empty">No matching items.</p>`;
+}
+render();
+</script>
+</body>
+</html>

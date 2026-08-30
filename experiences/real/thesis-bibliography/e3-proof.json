@@ -1,0 +1,16 @@
+{
+  "collection_release_id": "sha256:a766463507d2f5cc",
+  "experience_release_id": "sha256:a6289e933594e505",
+  "proof": "paper-kb-real-fixture-to-frozen-experience",
+  "rendered_artifact_sha256": "9e004afd0f5fc1b410e1fee1d7f7830db7ff676b3cdc10d9003434a74f319052",
+  "result": "pass",
+  "schema_id": "knowledge.e3-cross-repo-proof",
+  "schema_version": 1,
+  "selected_item_count": 19,
+  "selection": "all",
+  "source_artifact_sha256": "648d8461929629e5b13385510048f77ead7000b98318fdf87d22fe9332f28a1f",
+  "source_commit": "e82e82deb646f30707306cd13ff8ba279c8bad50",
+  "source_fixture": "tesis-cited",
+  "source_item_count": 19,
+  "source_repo": "matuteiglesias/paper-kb"
+}
