@@ -4,7 +4,7 @@ The machine-readable authority is `docs/experience-census.v1.json`. The original
 
 ## Current frontier
 
-**16 governed experiences: 1 is E4, 4 are E3, 1 is E1, and 10 remain E0.** R6 creates the first E4 through a second explicit trusted live-source refresh, not through stronger CI alone.
+**16 governed experiences: 1 is E4, 5 are E3, 1 is E1, and 9 remain E0.** R7 promotes the previously blocked economic-complexity reading path after a real producer-curated trail proved sequence is semantic.
 
 | # | Experience | Maturity | Engineering status | Current evidence |
 |---|---|---|---|---|
@@ -12,7 +12,7 @@ The machine-readable authority is `docs/experience-census.v1.json`. The original
 | 2 | Thesis rapid paper review | **E0** | proven_sanitized | declared / prior engineering evidence |
 | 3 | Author works | **E0** | proven_sanitized | declared / prior engineering evidence |
 | 4 | Working-paper series | **E0** | blocked_producer_metadata | declared / prior engineering evidence |
-| 5 | Economic-complexity reading path | **E0** | blocked_capability | declared / prior engineering evidence |
+| 5 | Economic-complexity reading path | **E3** | proven_real_source_seam | six exact Thesis Trail B steps → `sha256:b1fe6ed6d4ee4230` with producer order preserved |
 | 6 | FCV literature corpus | **E0** | design_ready | declared / prior engineering evidence |
 | 7 | Literature-review snapshot | **E0** | proven_sanitized | declared / prior engineering evidence |
 | 8 | LCD institutional corpus | **E4** | proven_live | second governed live refresh → `sha256:3f4a7a631fe3cacd` + source-diff/downstream operation receipt |
@@ -34,3 +34,7 @@ The thesis/resources subset deliberately remains E3. It was rebuilt as a downstr
 ## Next frontier
 
 The strongest scientific target remains a genuinely approved real Paper KB corpus. Other E3 experiences should cross E4 only after their own real refresh, circulation or recurring workflow creates independent operational evidence.
+
+## R7 interpretation
+
+The first V2 capability was earned by a real representational failure. `repo.thesis` already declares Trail B as a six-step editorial sequence; V1 could select the IDs but canonicalized and re-sorted them, erasing the reading path. R7 adds only `ordered_ids` plus `curated` navigation. Grouping remains deliberately absent. No second E4 is claimed without a second independent operational event.

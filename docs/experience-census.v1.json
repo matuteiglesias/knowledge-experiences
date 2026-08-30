@@ -145,31 +145,41 @@
       "id": 5,
       "experience_id": "economic-complexity-reading-path",
       "name": "Economic-complexity reading path",
-      "composition_maturity": "E0",
-      "engineering_status": "blocked_capability",
-      "existing_surface": null,
+      "composition_maturity": "E3",
+      "engineering_status": "proven_real_source_seam",
+      "existing_surface": "repo.thesis producer-curated Trail B in docs/intro.md",
       "source_authorities": [
-        "repo.paper-kb",
+        "repo.thesis",
         "human-curation"
       ],
-      "code_pins": {},
-      "exact_source_release": null,
-      "collection_release": null,
+      "code_pins": {
+        "repo.thesis": "7265018750db0f96b69efd4048aedad06ad803fc"
+      },
+      "exact_source_release": "git:7265018750db0f96b69efd4048aedad06ad803fc;authority:docs/intro.md#Trail-B",
+      "collection_release": "experiences/real/economic-complexity-reading-path/release/collection.release.json#sha256:1301c8bd650a44c7",
       "renderer_profile": "curated-static-navigator",
-      "rendered_artifact": null,
-      "cross_repo_proof": null,
+      "rendered_artifact": "experiences/real/economic-complexity-reading-path/release/site/index.html",
+      "cross_repo_proof": "experiences/real/economic-complexity-reading-path/e3-proof.json + scripts/prove_ordered_thesis_trail.py",
       "operational_evidence": null,
       "capabilities_reused": [
-        "paper-catalog-jsonl",
-        "static-navigator"
+        "git-markdown-metadata-projection",
+        "ordered-ids-selection",
+        "curated-order-rendering",
+        "static-navigator",
+        "exact-git-cross-repo-proof"
       ],
-      "incremental_work": "requires explicit human-curated order/trail semantics beyond unordered membership",
-      "blocker": "V1 membership canonicalizes by item_id and has no governed ordered trail/group model",
-      "observed_friction": "curation order is meaning, not merely a sort choice",
-      "v2_candidate": "ordered-groups-and-reading-trails",
-      "engineering_evidence": [],
-      "evidence_boundary": "the idea is declared; no concrete economic-complexity collection was materialized",
-      "next_real_action": "create one real curated reading path and capture the smallest ordering/grouping requirement"
+      "incremental_work": "small V2 capability only: ordered_ids plus curated navigation",
+      "blocker": "none for this six-step trail; grouping remains absent until a real grouped case requires it",
+      "observed_friction": "V1 ids selection and renderer sorting destroyed producer editorial order; real Thesis Trail B made order semantic",
+      "v2_candidate": null,
+      "engineering_evidence": [
+        "exact producer Trail B has six ordered links",
+        "ordered CollectionRelease sha256:1301c8bd650a44c7 preserves all six resolved IDs",
+        "ExperienceRelease sha256:b1fe6ed6d4ee4230 preserves curated order",
+        "persistent exact-source proof pins final artifact b41299b32c17453069ffd8a5cbccf5cd2e22e78683f2317ad1be773efe4c2bfe"
+      ],
+      "evidence_boundary": "E3 proves the exact six-step Thesis Trail B through ordered selection; no grouping, recurring use, deployment, or E4 operation is claimed",
+      "next_real_action": "use/circulate the ordered trail or test a genuinely grouped course source; add groups only if ordered_ids is insufficient"
     },
     {
       "id": 6,

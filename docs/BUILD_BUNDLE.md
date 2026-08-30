@@ -88,3 +88,10 @@ Do not build a broad V2 from the census table alone. Pull one candidate only whe
 ## Stop rule
 
 The kernel is no longer the development frontier. New work should primarily supply real governed material, prove genuinely useful new experiences, observe operational use, or repair drift exposed by those uses. Architecture changes remain justified only when repeated real friction demands them.
+
+## R6–R7 frontier extension
+
+- **R6 — first E4:** LCD institutional browsing completed a second governed live refresh, source comparison, deterministic rebuild and downstream validation; its dependent subset remained E3.
+- **R7 — first evidence-pulled V2:** a real six-step Thesis Trail B proved curator order is semantic. KX added only `ordered_ids` selection and `curated` navigation. Group/module semantics remain parked.
+
+Current live census after R7: **1×E4 + 5×E3 + 1×E1 + 9×E0**.

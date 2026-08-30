@@ -1,79 +1,9 @@
-from __future__ import annotations
-
-import html
-import json
-from pathlib import Path
-from typing import Any, Protocol
-
-from .models import ExperienceSpec, ValidationError
-
-
-class RendererAdapter(Protocol):
-    name: str
-
-    def render(
-        self,
-        *,
-        collection_release: dict[str, Any],
-        experience_spec: ExperienceSpec,
-        out_dir: Path,
-    ) -> list[Path]:
-        ...
-
-
-def _safe_embedded_json(value: Any) -> str:
-    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")).replace("<", "\\u003c")
-
-
-class StaticNavigatorRenderer:
-    name = "static-navigator"
-
-    def render(
-        self,
-        *,
-        collection_release: dict[str, Any],
-        experience_spec: ExperienceSpec,
-        out_dir: Path,
-    ) -> list[Path]:
-        out_dir = Path(out_dir)
-        out_dir.mkdir(parents=True, exist_ok=True)
-        title = experience_spec.title or collection_release["title"]
-        payload = {
-            "title": title,
-            "description": collection_release.get("description"),
-            "collection_id": collection_release["collection_id"],
-            "collection_release_id": collection_release["release_id"],
-            "items": collection_release["items"],
-            "config": {
-                "search": experience_spec.search,
-                "facets": list(experience_spec.facets),
-                "default_sort": experience_spec.default_sort,
-                "visibility": experience_spec.visibility,
-            },
-        }
-        embedded = _safe_embedded_json(payload)
-        page = _HTML_TEMPLATE.replace("__TITLE__", html.escape(title)).replace("__DATA__", embedded)
-        path = out_dir / "index.html"
-        path.write_text(page, encoding="utf-8")
-        return [path]
-
-
-_RENDERERS: dict[str, RendererAdapter] = {"static-navigator": StaticNavigatorRenderer()}
-
-
-def get_renderer(name: str) -> RendererAdapter:
-    try:
-        return _RENDERERS[name]
-    except KeyError as exc:
-        raise ValidationError(f"unsupported renderer: {name!r}") from exc
-
-
-_HTML_TEMPLATE = r'''<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>__TITLE__</title>
+<title>Understand the location-quotient problem</title>
 <style>
 :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color-scheme:light dark}
 body{margin:0;background:Canvas;color:CanvasText}
@@ -108,7 +38,7 @@ a{color:inherit}.empty{opacity:.7;padding:2rem 0}
 <section class="facets" id="facets"></section>
 <section id="items"></section>
 </main>
-<script id="kx-data" type="application/json">__DATA__</script>
+<script id="kx-data" type="application/json">{"collection_id":"economic-complexity-reading-path","collection_release_id":"sha256:1301c8bd650a44c7","config":{"default_sort":"curated","facets":[],"search":true,"visibility":"public"},"description":"Six-step producer-curated Trail B from the exact Thesis programme; editorial sequence is collection meaning.","items":[{"canonical_url":"https://github.com/matuteiglesias/thesis/blob/7265018750db0f96b69efd4048aedad06ad803fc/docs/Location-Quotients/chapter2_18.md","contributors":[],"facets":{"source_path":"docs/Location-Quotients/chapter2_18.md","top_level":"Location-Quotients"},"item_id":"repo.thesis:docs/Location-Quotients/chapter2_18.md","kind":"research-document","source_ref":{"authority":"repo.thesis","object_id":"docs/Location-Quotients/chapter2_18.md","url":"https://github.com/matuteiglesias/thesis/blob/7265018750db0f96b69efd4048aedad06ad803fc/docs/Location-Quotients/chapter2_18.md"},"tags":["mathematics","economics","volatility"],"title":"Observations in the LQ Problem"},{"canonical_url":"https://github.com/matuteiglesias/thesis/blob/7265018750db0f96b69efd4048aedad06ad803fc/docs/Location-Quotients/chapter2_06.md","contributors":[],"facets":{"source_path":"docs/Location-Quotients/chapter2_06.md","top_level":"Location-Quotients"},"item_id":"repo.thesis:docs/Location-Quotients/chapter2_06.md","kind":"research-document","source_ref":{"authority":"repo.thesis","object_id":"docs/Location-Quotients/chapter2_06.md","url":"https://github.com/matuteiglesias/thesis/blob/7265018750db0f96b69efd4048aedad06ad803fc/docs/Location-Quotients/chapter2_06.md"},"tags":["Economics","Data Analysis","Location Quotient"],"title":"A Convenient Framework for Working with Location Quotient Values"},{"canonical_url":"https://github.com/matuteiglesias/thesis/blob/7265018750db0f96b69efd4048aedad06ad803fc/docs/Location-Quotients/chapter2_12.md","contributors":[],"facets":{"source_path":"docs/Location-Quotients/chapter2_12.md","top_level":"Location-Quotients"},"item_id":"repo.thesis:docs/Location-Quotients/chapter2_12.md","kind":"research-document","source_ref":{"authority":"repo.thesis","object_id":"docs/Location-Quotients/chapter2_12.md","url":"https://github.com/matuteiglesias/thesis/blob/7265018750db0f96b69efd4048aedad06ad803fc/docs/Location-Quotients/chapter2_12.md"},"tags":["pLQ","economics","trade","patents"],"title":"Characterization of pLQ"},{"canonical_url":"https://github.com/matuteiglesias/thesis/blob/7265018750db0f96b69efd4048aedad06ad803fc/docs/Location-Quotients/chapter2_08.md","contributors":[],"facets":{"source_path":"docs/Location-Quotients/chapter2_08.md","top_level":"Location-Quotients"},"item_id":"repo.thesis:docs/Location-Quotients/chapter2_08.md","kind":"research-document","source_ref":{"authority":"repo.thesis","object_id":"docs/Location-Quotients/chapter2_08.md","url":"https://github.com/matuteiglesias/thesis/blob/7265018750db0f96b69efd4048aedad06ad803fc/docs/Location-Quotients/chapter2_08.md"},"tags":["economics","probability","location quotient"],"title":"The Probabilistic Location Quotient"},{"canonical_url":"https://github.com/matuteiglesias/thesis/blob/7265018750db0f96b69efd4048aedad06ad803fc/docs/Location-Quotients/chapter2_07.md","contributors":[],"facets":{"source_path":"docs/Location-Quotients/chapter2_07.md","top_level":"Location-Quotients"},"item_id":"repo.thesis:docs/Location-Quotients/chapter2_07.md","kind":"research-document","source_ref":{"authority":"repo.thesis","object_id":"docs/Location-Quotients/chapter2_07.md","url":"https://github.com/matuteiglesias/thesis/blob/7265018750db0f96b69efd4048aedad06ad803fc/docs/Location-Quotients/chapter2_07.md"},"tags":["empirical","data analysis","logarithmic transformation"],"title":"Empirical Distributions"},{"canonical_url":"https://github.com/matuteiglesias/thesis/blob/7265018750db0f96b69efd4048aedad06ad803fc/docs/Location-Quotients/chapter2_19.md","contributors":[],"facets":{"source_path":"docs/Location-Quotients/chapter2_19.md","top_level":"Location-Quotients"},"item_id":"repo.thesis:docs/Location-Quotients/chapter2_19.md","kind":"research-document","source_ref":{"authority":"repo.thesis","object_id":"docs/Location-Quotients/chapter2_19.md","url":"https://github.com/matuteiglesias/thesis/blob/7265018750db0f96b69efd4048aedad06ad803fc/docs/Location-Quotients/chapter2_19.md"},"tags":["location-quotients","empirical-analysis","size-distortions"],"title":"Conclusion on Location Quotients"}],"title":"Understand the location-quotient problem"}</script>
 <script>
 const data=JSON.parse(document.getElementById("kx-data").textContent);
 const state={query:"",sort:data.config.default_sort,facets:{}};
@@ -162,4 +92,3 @@ render();
 </script>
 </body>
 </html>
-'''

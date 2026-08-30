@@ -68,14 +68,14 @@ census:
   composition_maturity_rule: real-source-only
   maturity_snapshot:
     E4: 1
-    E3: 4
+    E3: 5
     E1: 1
-    E0: 10
+    E0: 9
   v2_candidates:
-    - ordered-groups-and-reading-trails
+    - grouped-reading-semantics-if-real-demand
     - multi-source-collections-and-curation-receipts
 
 status:
-  phase: first-operational-experience
-  next_gate: paper-real-corpus-or-independent-operational-use
+  phase: first-operational-plus-evidence-pulled-v2
+  next_gate: paper-real-corpus-or-real-grouped-or-multi-source-pressure
   implementation_policy: evidence-pulled

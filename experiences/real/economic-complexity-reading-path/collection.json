@@ -1,0 +1,24 @@
+{
+  "schema_id": "knowledge.collection-spec",
+  "schema_version": 1,
+  "collection_id": "economic-complexity-reading-path",
+  "title": "Economic complexity — location-quotient problem reading path",
+  "description": "Six-step producer-curated Trail B from the exact Thesis programme; editorial sequence is collection meaning.",
+  "source": {
+    "adapter": "jsonl",
+    "path": "../economics-of-aggregation-programme/source/items.jsonl",
+    "authority": "repo.thesis",
+    "release_id": "git:7265018750db0f96b69efd4048aedad06ad803fc"
+  },
+  "selection": {
+    "mode": "ordered_ids",
+    "item_ids": [
+      "repo.thesis:docs/Location-Quotients/chapter2_18.md",
+      "repo.thesis:docs/Location-Quotients/chapter2_06.md",
+      "repo.thesis:docs/Location-Quotients/chapter2_12.md",
+      "repo.thesis:docs/Location-Quotients/chapter2_08.md",
+      "repo.thesis:docs/Location-Quotients/chapter2_07.md",
+      "repo.thesis:docs/Location-Quotients/chapter2_19.md"
+    ]
+  }
+}

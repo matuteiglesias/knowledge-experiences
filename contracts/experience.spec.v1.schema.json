@@ -4,28 +4,81 @@
   "title": "knowledge.experience-spec@1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_id", "schema_version", "experience_id", "collection_spec", "renderer"],
+  "required": [
+    "schema_id",
+    "schema_version",
+    "experience_id",
+    "collection_spec",
+    "renderer"
+  ],
   "properties": {
-    "schema_id": {"const": "knowledge.experience-spec"},
-    "schema_version": {"const": 1},
-    "experience_id": {"type": "string", "minLength": 1},
-    "title": {"type": ["string", "null"]},
-    "collection_spec": {"type": "string", "minLength": 1},
-    "renderer": {"type": "string", "minLength": 1},
-    "renderer_ref": {"type": ["string", "null"], "minLength": 1},
-    "visibility": {"enum": ["private", "public"]},
+    "schema_id": {
+      "const": "knowledge.experience-spec"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "experience_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "collection_spec": {
+      "type": "string",
+      "minLength": 1
+    },
+    "renderer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "renderer_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "visibility": {
+      "enum": [
+        "private",
+        "public"
+      ]
+    },
     "capabilities": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "search": {"type": "boolean"},
-        "facets": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+        "search": {
+          "type": "boolean"
+        },
+        "facets": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
       }
     },
     "navigation": {
       "type": "object",
       "additionalProperties": false,
-      "properties": {"default_sort": {"enum": ["title", "date", "source"]}}
+      "properties": {
+        "default_sort": {
+          "enum": [
+            "title",
+            "date",
+            "source",
+            "curated"
+          ]
+        }
+      }
     }
   }
 }

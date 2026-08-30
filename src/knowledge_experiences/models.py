@@ -123,21 +123,21 @@ class SelectionSpec:
         if extra:
             raise ValidationError(f"selection has unknown fields: {sorted(extra)}")
         mode = data.get("mode", "all")
-        if mode not in {"all", "ids", "facets"}:
-            raise ValidationError("selection.mode must be 'all', 'ids', or 'facets'")
+        if mode not in {"all", "ids", "ordered_ids", "facets"}:
+            raise ValidationError("selection.mode must be 'all', 'ids', 'ordered_ids', or 'facets'")
         ids = _string_list(data.get("item_ids"), "selection.item_ids")
         facets = _facet_selector_mapping(data.get("facets"), "selection.facets") if mode == "facets" else ()
-        if mode == "ids" and not ids:
-            raise ValidationError("selection.item_ids must be non-empty when mode='ids'")
-        if mode != "ids" and ids:
-            raise ValidationError("selection.item_ids is only valid when mode='ids'")
+        if mode in {"ids", "ordered_ids"} and not ids:
+            raise ValidationError("selection.item_ids must be non-empty when mode is 'ids' or 'ordered_ids'")
+        if mode not in {"ids", "ordered_ids"} and ids:
+            raise ValidationError("selection.item_ids is only valid when mode is 'ids' or 'ordered_ids'")
         if mode != "facets" and data.get("facets") not in (None, {}):
             raise ValidationError("selection.facets is only valid when mode='facets'")
         return cls(mode=mode, item_ids=ids, facets=facets)
 
     def to_dict(self) -> dict[str, Any]:
         out: dict[str, Any] = {"mode": self.mode}
-        if self.mode == "ids":
+        if self.mode in {"ids", "ordered_ids"}:
             out["item_ids"] = list(self.item_ids)
         if self.mode == "facets":
             out["facets"] = {key: value for key, value in self.facets}
@@ -226,8 +226,8 @@ class ExperienceSpec:
         if nav_extra:
             raise ValidationError(f"navigation has unknown fields: {sorted(nav_extra)}")
         default_sort = navigation.get("default_sort", "title")
-        if default_sort not in {"title", "date", "source"}:
-            raise ValidationError("navigation.default_sort must be title, date, or source")
+        if default_sort not in {"title", "date", "source", "curated"}:
+            raise ValidationError("navigation.default_sort must be title, date, source, or curated")
         return cls(
             experience_id=_required_str(data, "experience_id", "ExperienceSpec"),
             title=_optional_str(data, "title", "ExperienceSpec"),
