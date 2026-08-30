@@ -1,0 +1,16 @@
+{
+  "schema_id": "knowledge.collection-spec",
+  "schema_version": 1,
+  "collection_id": "thesis-bibliography",
+  "title": "Thesis bibliography",
+  "description": "Nineteen papers from the governed tesis-cited Paper KB fixture, preserved as one exact bibliographic source release.",
+  "source": {
+    "adapter": "paper-catalog-jsonl",
+    "path": "source/paper.catalog-record.v1.jsonl",
+    "authority": "repo.paper-kb",
+    "release_id": "paper-kb:e82e82deb646f30707306cd13ff8ba279c8bad50:tesis-cited:catalog:sha256:648d8461929629e5b13385510048f77ead7000b98318fdf87d22fe9332f28a1f"
+  },
+  "selection": {
+    "mode": "all"
+  }
+}
