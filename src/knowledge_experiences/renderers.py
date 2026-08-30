@@ -52,7 +52,15 @@ class StaticNavigatorRenderer:
             },
         }
         embedded = _safe_embedded_json(payload)
-        page = _HTML_TEMPLATE.replace("__TITLE__", html.escape(title)).replace("__DATA__", embedded)
+        curated = experience_spec.default_sort == "curated"
+        curated_option = '<option value="curated">Curated order</option>\n' if curated else ""
+        curated_branch = '  if(state.sort==="curated") return [...items];\n' if curated else ""
+        page = (
+            _HTML_TEMPLATE.replace("__TITLE__", html.escape(title))
+            .replace("__DATA__", embedded)
+            .replace("__CURATED_SORT_OPTION__", curated_option)
+            .replace("__CURATED_SORT_BRANCH__", curated_branch)
+        )
         path = out_dir / "index.html"
         path.write_text(page, encoding="utf-8")
         return [path]
@@ -102,8 +110,7 @@ a{color:inherit}.empty{opacity:.7;padding:2rem 0}
 <option value="title">Title</option>
 <option value="date">Date</option>
 <option value="source">Source</option>
-<option value="curated">Curated order</option>
-</select>
+__CURATED_SORT_OPTION__</select>
 </section>
 <section class="facets" id="facets"></section>
 <section id="items"></section>
@@ -141,8 +148,7 @@ function matches(item){
 }
 function sourceLabel(item){return item.source_ref?.authority||""}
 function sorted(items){
-  if(state.sort==="curated") return [...items];
-  return [...items].sort((a,b)=>{
+__CURATED_SORT_BRANCH__  return [...items].sort((a,b)=>{
     if(state.sort==="date") return String(b.date||"").localeCompare(String(a.date||""))||a.title.localeCompare(b.title);
     if(state.sort==="source") return sourceLabel(a).localeCompare(sourceLabel(b))||a.title.localeCompare(b.title);
     return a.title.localeCompare(b.title);
