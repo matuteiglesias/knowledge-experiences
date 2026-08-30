@@ -1,0 +1,16 @@
+{
+  "schema_id": "knowledge.experience-spec",
+  "schema_version": 1,
+  "experience_id": "thesis-bibliography",
+  "title": "Thesis bibliography",
+  "collection_spec": "collection.json",
+  "renderer": "static-navigator",
+  "visibility": "private",
+  "capabilities": {
+    "search": true,
+    "facets": ["author"]
+  },
+  "navigation": {
+    "default_sort": "title"
+  }
+}
