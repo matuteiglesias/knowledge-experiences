@@ -1,0 +1,76 @@
+name: Repair R7 literal trail resolver
+
+on:
+  push:
+    branches: [real-use/r7-ordered-thesis-trail]
+    paths:
+      - '.github/workflows/retry-r7-literal-trail-v2.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: real-use/r7-ordered-thesis-trail
+      - name: Patch implementation workflow against literal Trail B
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('.github/workflows/implement-r7-ordered-trail.yml')
+          text = p.read_text()
+
+          replacements = {
+              "'lq-misleads'": "'convenient-framework-location-quotient'",
+              "'weighted-multi-product-lq'": "'characterization-of-plq'",
+              "'designing-plq'": "'probabilistic-location-quotient'",
+              "'measurement-robustness'": "'Location-Quotients/empirical-distributions'",
+              "'selection-diagnostics'": "'Location-Quotients/conclusion-location-quotients'",
+          }
+          for old, new in replacements.items():
+              if old not in text:
+                  raise SystemExit(f'missing old trail token: {old}')
+              text = text.replace(old, new)
+
+          def once(old, new):
+              global text
+              if text.count(old) != 1:
+                  raise SystemExit(f'expected one occurrence of {old!r}, found {text.count(old)}')
+              text = text.replace(old, new)
+
+          once('          slugs = [', '          targets = [')
+          once('          for slug in slugs:\n              token = f\'(./{slug})\'', '          for target in targets:\n              token = f\'(./{target})\'')
+          once("          if positions != sorted(positions) or len(set(positions)) != len(positions):\n              raise SystemExit('producer Trail B link order is not the expected six-step sequence')\n\n          slug_paths = {}",
+               "          if positions != sorted(positions) or len(set(positions)) != len(positions):\n              raise SystemExit('producer Trail B link order is not the expected six-step sequence')\n\n          slug_keys = [target.rsplit('/', 1)[-1] for target in targets]\n          slug_paths = {}")
+          once("              match = re.search(r'(?m)^slug:\\s*/([^\\s]+)\\s*$', text)", "              match = re.search(r'(?m)^slug:\\s*/?([^\\s]+)\\s*$', text)")
+          once("              if match and match.group(1) in slugs:\n                  slug = match.group(1)", "              if match and match.group(1) in slug_keys:\n                  slug = match.group(1)")
+          once("          missing = [slug for slug in slugs if slug not in slug_paths]", "          missing = [slug for slug in slug_keys if slug not in slug_paths]")
+          once("          ordered_paths = [slug_paths[slug] for slug in slugs]", "          ordered_paths = [slug_paths[slug] for slug in slug_keys]")
+          once("              'ordered_slugs': slugs,", "              'ordered_link_targets': targets,")
+
+          once('          SLUGS = [', '          TARGETS = [')
+          once("              positions = [intro.find(f'(./{slug})') for slug in SLUGS]", "              positions = [intro.find(f'(./{target})') for target in TARGETS]")
+          once("              if any(p < 0 for p in positions) or positions != sorted(positions):\n                  raise SystemExit('producer Trail B links missing or reordered')\n              mapping = {}",
+               "              if any(p < 0 for p in positions) or positions != sorted(positions):\n                  raise SystemExit('producer Trail B links missing or reordered')\n              slug_keys = [target.rsplit('/', 1)[-1] for target in TARGETS]\n              mapping = {}")
+          once("                  match = re.search(r'(?m)^slug:\\s*/([^\\s]+)\\s*$', text)", "                  match = re.search(r'(?m)^slug:\\s*/?([^\\s]+)\\s*$', text)")
+          once("                  if match and match.group(1) in SLUGS:\n                      if match.group(1) in mapping:\n                          raise SystemExit(f'duplicate slug {match.group(1)}')\n                      mapping[match.group(1)] = path.relative_to(root).as_posix()",
+               "                  if match and match.group(1) in slug_keys:\n                      if match.group(1) in mapping:\n                          raise SystemExit(f'duplicate slug {match.group(1)}')\n                      mapping[match.group(1)] = path.relative_to(root).as_posix()")
+          once("              missing = [slug for slug in SLUGS if slug not in mapping]", "              missing = [slug for slug in slug_keys if slug not in mapping]")
+          once("              return [mapping[slug] for slug in SLUGS]", "              return [mapping[slug] for slug in slug_keys]")
+          once("'ordered_steps':len(SLUGS)", "'ordered_steps':len(TARGETS)")
+
+          p.write_text(text)
+          PY
+      - name: Commit resolver repair and retrigger implementation
+        run: |
+          rm .github/workflows/retry-r7-literal-trail.yml .github/workflows/retry-r7-literal-trail-v2.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'R7: resolve literal Trail B targets fail-closed'
+          git push origin HEAD:real-use/r7-ordered-thesis-trail
