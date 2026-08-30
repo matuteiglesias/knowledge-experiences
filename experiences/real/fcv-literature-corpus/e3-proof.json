@@ -1,0 +1,17 @@
+{
+  "collection_release_id": "sha256:010486a65a5888d2",
+  "consumer_fixture_chunk_set_count": 7,
+  "experience_release_id": "sha256:8a7b561e877d1c82",
+  "proof": "paper-kb-real-fixture-to-frozen-experience",
+  "rendered_artifact_sha256": "c933aaa087e52dd9fbc868ccfe7fcfe2990575fa3014222d2f04423798c9a82f",
+  "result": "pass",
+  "schema_id": "knowledge.e3-cross-repo-proof",
+  "schema_version": 1,
+  "selected_item_count": 7,
+  "selection": "all",
+  "source_artifact_sha256": "273a484b873d5ae6f9041b24e3c8b4906d23d0683b26941c95713665353f1b41",
+  "source_commit": "e82e82deb646f30707306cd13ff8ba279c8bad50",
+  "source_fixture": "eric-mv",
+  "source_item_count": 7,
+  "source_repo": "matuteiglesias/paper-kb"
+}

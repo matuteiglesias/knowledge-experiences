@@ -1,0 +1,19 @@
+{
+  "schema_id": "knowledge.collection-spec",
+  "schema_version": 1,
+  "collection_id": "author-works",
+  "title": "Angus Deaton works in the thesis corpus",
+  "description": "A real author-facet projection over the governed tesis-cited Paper KB catalog; the source corpus has nineteen papers and this collection selects the two records attributed to Angus Deaton.",
+  "source": {
+    "adapter": "paper-catalog-jsonl",
+    "path": "../thesis-bibliography/source/paper.catalog-record.v1.jsonl",
+    "authority": "repo.paper-kb",
+    "release_id": "paper-kb:e82e82deb646f30707306cd13ff8ba279c8bad50:tesis-cited:catalog:sha256:648d8461929629e5b13385510048f77ead7000b98318fdf87d22fe9332f28a1f"
+  },
+  "selection": {
+    "mode": "facets",
+    "facets": {
+      "author": "Angus Deaton"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+name: R8 real Paper KB corpus proof
+
+on:
+  pull_request:
+    paths:
+      - 'experiences/real/thesis-bibliography/**'
+      - 'experiences/real/author-works/**'
+      - 'experiences/real/fcv-literature-corpus/**'
+      - 'scripts/prove_real_paper_corpora.py'
+      - 'docs/experience-census.v1.json'
+      - 'docs/EXPERIENCE_CENSUS.md'
+      - 'docs/R8_PAPER_CORPORA_FANOUT.md'
+      - '.github/workflows/r8-real-paper-corpora-proof.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'experiences/real/thesis-bibliography/**'
+      - 'experiences/real/author-works/**'
+      - 'experiences/real/fcv-literature-corpus/**'
+      - 'scripts/prove_real_paper_corpora.py'
+      - 'docs/experience-census.v1.json'
+      - 'docs/EXPERIENCE_CENSUS.md'
+      - 'docs/R8_PAPER_CORPORA_FANOUT.md'
+      - '.github/workflows/r8-real-paper-corpora-proof.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prove:
+    runs-on: ubuntu-latest
+    env:
+      PAPER_KB_COMMIT: e82e82deb646f30707306cd13ff8ba279c8bad50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Knowledge Experiences
+        run: python -m pip install --no-deps -e .
+      - name: Checkout exact Paper KB fixture release
+        run: |
+          git clone -q https://github.com/matuteiglesias/paper-kb.git /tmp/paper-kb
+          git -C /tmp/paper-kb checkout -q "$PAPER_KB_COMMIT"
+          test "$(git -C /tmp/paper-kb rev-parse HEAD)" = "$PAPER_KB_COMMIT"
+      - name: Reprove exact real-source fan-out
+        run: python scripts/prove_real_paper_corpora.py --paper-kb-root /tmp/paper-kb
+      - name: Validate governed census
+        run: python scripts/check_census.py

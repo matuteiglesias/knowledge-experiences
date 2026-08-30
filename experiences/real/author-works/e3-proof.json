@@ -1,0 +1,16 @@
+{
+  "collection_release_id": "sha256:646d6b43072e15b4",
+  "experience_release_id": "sha256:799a247b0ed2f161",
+  "proof": "paper-kb-real-fixture-to-frozen-experience",
+  "rendered_artifact_sha256": "d78670e5b9c9b72a18a8839540332d6ede710d1ada0390502db16ac88d8f618b",
+  "result": "pass",
+  "schema_id": "knowledge.e3-cross-repo-proof",
+  "schema_version": 1,
+  "selected_item_count": 2,
+  "selection": "author=Angus Deaton",
+  "source_artifact_sha256": "648d8461929629e5b13385510048f77ead7000b98318fdf87d22fe9332f28a1f",
+  "source_commit": "e82e82deb646f30707306cd13ff8ba279c8bad50",
+  "source_fixture": "tesis-cited",
+  "source_item_count": 19,
+  "source_repo": "matuteiglesias/paper-kb"
+}

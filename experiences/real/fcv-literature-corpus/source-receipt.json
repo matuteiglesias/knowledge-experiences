@@ -1,0 +1,13 @@
+{
+  "producer": "repo.paper-kb",
+  "producer_artifact": "fixture/corpora/eric-mv/catalog/paper.catalog-record.v1.jsonl",
+  "producer_artifact_sha256": "273a484b873d5ae6f9041b24e3c8b4906d23d0683b26941c95713665353f1b41",
+  "producer_fixture": "eric-mv",
+  "producer_git_commit": "e82e82deb646f30707306cd13ff8ba279c8bad50",
+  "schema_id": "knowledge.paper-kb-source-receipt",
+  "schema_version": 1,
+  "selected_item_count": 7,
+  "selection": "all",
+  "source_item_count": 7,
+  "source_projection": "experiences/real/fcv-literature-corpus/source/paper.catalog-record.v1.jsonl"
+}
