@@ -67,6 +67,36 @@ class KernelTest(unittest.TestCase):
             release = compile_collection(spec_path)
             self.assertEqual([item["item_id"] for item in release["items"]], ["demo:1", "demo:3"])
 
+    def test_ordered_ids_preserve_declared_sequence(self) -> None:
+        raw = json.loads((FIXTURE / "demo.collection.json").read_text(encoding="utf-8"))
+        raw["selection"] = {"mode": "ordered_ids", "item_ids": ["demo:3", "demo:1"]}
+        with tempfile.TemporaryDirectory() as td:
+            td = Path(td)
+            (td / "items.jsonl").write_bytes((FIXTURE / "items.jsonl").read_bytes())
+            spec = td / "collection.json"
+            spec.write_text(json.dumps(raw), encoding="utf-8")
+            release = compile_collection(spec)
+            self.assertEqual([x["item_id"] for x in release["items"]], ["demo:3", "demo:1"])
+
+    def test_curated_sort_preserves_release_order(self) -> None:
+        collection = json.loads((FIXTURE / "demo.collection.json").read_text(encoding="utf-8"))
+        collection["selection"] = {"mode": "ordered_ids", "item_ids": ["demo:3", "demo:1"]}
+        experience = json.loads((FIXTURE / "demo.experience.json").read_text(encoding="utf-8"))
+        experience["collection_spec"] = "collection.json"
+        experience["navigation"] = {"default_sort": "curated"}
+        with tempfile.TemporaryDirectory() as td:
+            td = Path(td)
+            (td / "items.jsonl").write_bytes((FIXTURE / "items.jsonl").read_bytes())
+            (td / "collection.json").write_text(json.dumps(collection), encoding="utf-8")
+            (td / "experience.json").write_text(json.dumps(experience), encoding="utf-8")
+            out = td / "release"
+            build_experience(td / "experience.json", out)
+            release = json.loads((out / "collection.release.json").read_text(encoding="utf-8"))
+            self.assertEqual([x["item_id"] for x in release["items"]], ["demo:3", "demo:1"])
+            html = (out / "site/index.html").read_text(encoding="utf-8")
+            self.assertIn('"default_sort":"curated"', html)
+            self.assertLess(html.index("demo:3"), html.index("demo:1"))
+
     def test_missing_selected_id_fails_closed(self) -> None:
         raw = json.loads((FIXTURE / "demo.collection.json").read_text(encoding="utf-8"))
         raw["selection"] = {"mode": "ids", "item_ids": ["missing"]}

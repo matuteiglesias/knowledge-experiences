@@ -5,7 +5,9 @@ on:
     paths:
       - 'scripts/materialize_markdown_collection.py'
       - 'scripts/prove_git_vertical_seams.py'
+      - 'scripts/prove_ordered_thesis_trail.py'
       - 'experiences/real/economics-of-aggregation-programme/**'
+      - 'experiences/real/economic-complexity-reading-path/**'
       - 'experiences/real/working-memory-journal/**'
       - 'experiences/real/ldd-uba-exercise-catalog/**'
       - '.github/workflows/git-vertical-seam-proof.yml'
@@ -14,7 +16,9 @@ on:
     paths:
       - 'scripts/materialize_markdown_collection.py'
       - 'scripts/prove_git_vertical_seams.py'
+      - 'scripts/prove_ordered_thesis_trail.py'
       - 'experiences/real/economics-of-aggregation-programme/**'
+      - 'experiences/real/economic-complexity-reading-path/**'
       - 'experiences/real/working-memory-journal/**'
       - 'experiences/real/ldd-uba-exercise-catalog/**'
       - '.github/workflows/git-vertical-seam-proof.yml'
@@ -52,3 +56,5 @@ jobs:
             --thesis-root /tmp/thesis \
             --journal-root /tmp/journal \
             --ldd-root /tmp/ldd-uba
+      - name: Reproduce producer-curated ordered Thesis trail
+        run: python scripts/prove_ordered_thesis_trail.py --thesis-root /tmp/thesis

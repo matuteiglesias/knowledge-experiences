@@ -36,7 +36,7 @@ def _facet_matches(raw: Any, wanted: Any) -> bool:
 def _select_items(spec: CollectionSpec, items: tuple[dict[str, Any], ...]) -> list[dict[str, Any]]:
     if spec.selection.mode == "all":
         selected = list(items)
-    elif spec.selection.mode == "ids":
+    elif spec.selection.mode in {"ids", "ordered_ids"}:
         by_id = {item["item_id"]: item for item in items}
         missing = [item_id for item_id in spec.selection.item_ids if item_id not in by_id]
         if missing:
@@ -51,6 +51,8 @@ def _select_items(spec: CollectionSpec, items: tuple[dict[str, Any], ...]) -> li
         if not selected:
             wanted = {key: value for key, value in spec.selection.facets}
             raise ValidationError(f"collection facet selection matched no items: {wanted}")
+    if spec.selection.mode == "ordered_ids":
+        return selected
     return sorted(selected, key=lambda item: item["item_id"])
 
 

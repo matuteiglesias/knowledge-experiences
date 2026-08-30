@@ -1,0 +1,34 @@
+{
+  "ordered_item_ids": [
+    "repo.thesis:docs/Location-Quotients/chapter2_18.md",
+    "repo.thesis:docs/Location-Quotients/chapter2_06.md",
+    "repo.thesis:docs/Location-Quotients/chapter2_12.md",
+    "repo.thesis:docs/Location-Quotients/chapter2_08.md",
+    "repo.thesis:docs/Location-Quotients/chapter2_07.md",
+    "repo.thesis:docs/Location-Quotients/chapter2_19.md"
+  ],
+  "ordered_link_targets": [
+    "observations-lq-problem",
+    "convenient-framework-location-quotient",
+    "characterization-of-plq",
+    "probabilistic-location-quotient",
+    "Location-Quotients/empirical-distributions",
+    "Location-Quotients/conclusion-location-quotients"
+  ],
+  "ordered_source_paths": [
+    "docs/Location-Quotients/chapter2_18.md",
+    "docs/Location-Quotients/chapter2_06.md",
+    "docs/Location-Quotients/chapter2_12.md",
+    "docs/Location-Quotients/chapter2_08.md",
+    "docs/Location-Quotients/chapter2_07.md",
+    "docs/Location-Quotients/chapter2_19.md"
+  ],
+  "ordering_semantics": "producer editorial sequence; not alphabetical or item-id sort",
+  "producer": "repo.thesis",
+  "producer_authority_document": "docs/intro.md#Trail-B",
+  "producer_git_commit": "7265018750db0f96b69efd4048aedad06ad803fc",
+  "schema_id": "knowledge.curated-trail-source-receipt",
+  "schema_version": 1,
+  "source_projection": "experiences/real/economics-of-aggregation-programme/source/items.jsonl",
+  "trail_label": "Why is a location quotient not on a common scale?"
+}

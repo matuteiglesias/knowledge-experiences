@@ -1,0 +1,16 @@
+{
+  "schema_id": "knowledge.experience-spec",
+  "schema_version": 1,
+  "experience_id": "economic-complexity-reading-path",
+  "title": "Understand the location-quotient problem",
+  "collection_spec": "collection.json",
+  "renderer": "static-navigator",
+  "visibility": "public",
+  "capabilities": {
+    "search": true,
+    "facets": []
+  },
+  "navigation": {
+    "default_sort": "curated"
+  }
+}

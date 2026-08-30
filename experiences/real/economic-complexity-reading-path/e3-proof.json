@@ -1,0 +1,20 @@
+{
+  "collection_release_id": "sha256:1301c8bd650a44c7",
+  "experience_release_id": "sha256:b1fe6ed6d4ee4230",
+  "ordered_item_ids": [
+    "repo.thesis:docs/Location-Quotients/chapter2_18.md",
+    "repo.thesis:docs/Location-Quotients/chapter2_06.md",
+    "repo.thesis:docs/Location-Quotients/chapter2_12.md",
+    "repo.thesis:docs/Location-Quotients/chapter2_08.md",
+    "repo.thesis:docs/Location-Quotients/chapter2_07.md",
+    "repo.thesis:docs/Location-Quotients/chapter2_19.md"
+  ],
+  "producer_authority_document": "docs/intro.md#Trail-B",
+  "proof": "producer-curated-order-to-frozen-experience",
+  "rendered_artifact_sha256": "b41299b32c17453069ffd8a5cbccf5cd2e22e78683f2317ad1be773efe4c2bfe",
+  "result": "pass",
+  "schema_id": "knowledge.e3-cross-repo-proof",
+  "schema_version": 1,
+  "source_commit": "7265018750db0f96b69efd4048aedad06ad803fc",
+  "source_repo": "matuteiglesias/thesis"
+}
