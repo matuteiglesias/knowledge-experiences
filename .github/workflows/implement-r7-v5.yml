@@ -1,0 +1,37 @@
+name: Implement R7 ordered trail v5
+
+on:
+  push:
+    branches: [real-use/r7-ordered-thesis-trail]
+    paths:
+      - '.github/workflows/implement-r7-v5.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  implement:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: real-use/r7-ordered-thesis-trail
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply R7 and materialize exact Trail B
+        run: python scripts/r7_apply_once.py
+      - name: Validate full repository and persistent Trail B proof
+        run: |
+          make check
+          python scripts/prove_ordered_thesis_trail.py --thesis-root /tmp/thesis-r7
+      - name: Commit non-workflow R7 result
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src contracts tests scripts/prove_ordered_thesis_trail.py experiences/real/economic-complexity-reading-path docs SYSTEM.yaml
+          git diff --cached --check
+          git commit -m 'R7: preserve producer-curated reading order'
+          git push origin HEAD:real-use/r7-ordered-thesis-trail
