@@ -1,0 +1,104 @@
+name: Repair R7 producer trail pin
+
+on:
+  push:
+    branches: [real-use/r7-ordered-thesis-trail]
+    paths:
+      - '.github/workflows/retry-r7-literal-trail.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: real-use/r7-ordered-thesis-trail
+      - name: Replace paraphrased trail with literal producer targets
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('.github/workflows/implement-r7-ordered-trail.yml')
+          text = p.read_text()
+          old = """          slugs = [
+              'observations-lq-problem',
+              'lq-misleads',
+              'weighted-multi-product-lq',
+              'designing-plq',
+              'measurement-robustness',
+              'selection-diagnostics',
+          ]"""
+          new = """          slugs = [
+              'observations-lq-problem',
+              'convenient-framework-location-quotient',
+              'characterization-of-plq',
+              'probabilistic-location-quotient',
+              'Location-Quotients/empirical-distributions',
+              'Location-Quotients/conclusion-location-quotients',
+          ]"""
+          if text.count(old) != 1:
+              raise SystemExit(f'expected one materialization list, found {text.count(old)}')
+          text = text.replace(old, new)
+
+          old = """          SLUGS = [
+              'observations-lq-problem', 'lq-misleads', 'weighted-multi-product-lq',
+              'designing-plq', 'measurement-robustness', 'selection-diagnostics',
+          ]"""
+          new = """          SLUGS = [
+              'observations-lq-problem', 'convenient-framework-location-quotient', 'characterization-of-plq',
+              'probabilistic-location-quotient', 'Location-Quotients/empirical-distributions', 'Location-Quotients/conclusion-location-quotients',
+          ]"""
+          if text.count(old) != 1:
+              raise SystemExit(f'expected one persistent-proof list, found {text.count(old)}')
+          text = text.replace(old, new)
+
+          text = text.replace(
+              "          slug_paths = {}\n          for path in sorted((thesis / 'docs').rglob('*.md')):",
+              "          slug_keys = [target.rsplit('/', 1)[-1] for target in slugs]\n          slug_paths = {}\n          for path in sorted((thesis / 'docs').rglob('*.md')):",
+              1,
+          )
+          text = text.replace(
+              "              if match and match.group(1) in slugs:\n                  slug = match.group(1)",
+              "              if match and match.group(1).lstrip('/') in slug_keys:\n                  slug = match.group(1).lstrip('/')",
+              1,
+          )
+          text = text.replace(
+              "          missing = [slug for slug in slugs if slug not in slug_paths]\n          if missing:\n              raise SystemExit(f'producer Trail B slugs do not resolve to exact Markdown files: {missing}')",
+              "          missing = [slug for slug in slug_keys if slug not in slug_paths]\n          if missing:\n              raise SystemExit(f'producer Trail B targets do not resolve to exact Markdown files: {missing}')",
+              1,
+          )
+          text = text.replace(
+              "          ordered_paths = [slug_paths[slug] for slug in slugs]",
+              "          ordered_paths = [slug_paths[slug] for slug in slug_keys]",
+              1,
+          )
+
+          text = text.replace(
+              "              mapping = {}\n              for path in sorted((root / 'docs').rglob('*.md')):",
+              "              slug_keys = [target.rsplit('/', 1)[-1] for target in SLUGS]\n              mapping = {}\n              for path in sorted((root / 'docs').rglob('*.md')):",
+              1,
+          )
+          text = text.replace(
+              "                  if match and match.group(1) in SLUGS:\n                      if match.group(1) in mapping:\n                          raise SystemExit(f'duplicate slug {match.group(1)}')\n                      mapping[match.group(1)] = path.relative_to(root).as_posix()",
+              "                  if match and match.group(1).lstrip('/') in slug_keys:\n                      key = match.group(1).lstrip('/')\n                      if key in mapping:\n                          raise SystemExit(f'duplicate slug {key}')\n                      mapping[key] = path.relative_to(root).as_posix()",
+              1,
+          )
+          text = text.replace(
+              "              missing = [slug for slug in SLUGS if slug not in mapping]\n              if missing:\n                  raise SystemExit(f'unresolved Trail B slugs: {missing}')\n              return [mapping[slug] for slug in SLUGS]",
+              "              missing = [slug for slug in slug_keys if slug not in mapping]\n              if missing:\n                  raise SystemExit(f'unresolved Trail B targets: {missing}')\n              return [mapping[slug] for slug in slug_keys]",
+              1,
+          )
+          p.write_text(text)
+          PY
+      - name: Commit repair and retrigger implementation
+        run: |
+          rm .github/workflows/retry-r7-literal-trail.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'R7: pin trail to literal producer targets'
+          git push origin HEAD:real-use/r7-ordered-thesis-trail
