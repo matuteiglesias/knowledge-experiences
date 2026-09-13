@@ -1,0 +1,21 @@
+{
+  "schema_id": "knowledge.collection-spec",
+  "schema_version": 1,
+  "collection_id": "aggregation-public-explainer",
+  "title": "Why can individual shocks move the aggregate?",
+  "description": "A public-safe guide to Matías Iglesias's governed research notes on aggregation and aggregate volatility. Each card links to the source note that supports it.",
+  "source": {
+    "adapter": "jsonl",
+    "path": "source/items.jsonl",
+    "authority": "repo.thesis",
+    "release_id": "git:7265018750db0f96b69efd4048aedad06ad803fc"
+  },
+  "selection": {"mode": "ordered_ids", "item_ids": [
+    "repo.thesis:aggregation-question",
+    "repo.thesis:aggregation-why",
+    "repo.thesis:aggregation-evidence",
+    "repo.thesis:aggregation-method",
+    "repo.thesis:aggregation-finding",
+    "repo.thesis:aggregation-limitations"
+  ]}
+}

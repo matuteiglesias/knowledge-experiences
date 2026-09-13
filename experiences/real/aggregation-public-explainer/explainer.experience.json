@@ -1,0 +1,11 @@
+{
+  "schema_id": "knowledge.experience-spec",
+  "schema_version": 1,
+  "experience_id": "aggregation-public-explainer",
+  "title": "Why can individual shocks move the aggregate?",
+  "collection_spec": "collection.json",
+  "renderer": "static-navigator",
+  "visibility": "public",
+  "capabilities": {"search": true, "facets": ["explainer_section"]},
+  "navigation": {"default_sort": "curated"}
+}
