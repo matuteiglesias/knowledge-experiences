@@ -1,4 +1,13 @@
-.PHONY: check seed-check census-check test doctor example clean
+.PHONY: check seed-check census-check test doctor example producer-receipt-build clean
+
+PROJECTS_ROOT ?=
+
+producer-receipt-build:
+	@test -n "$(PROJECTS_ROOT)" || { echo "PROJECTS_ROOT is required" >&2; exit 2; }
+	python3 "$(PROJECTS_ROOT)/scripts/producer_local_receipt.py" --producer producer.manual.knowledge-experience-composer --cwd "$(CURDIR)" --evidence-changed "$(OUT)/experience.release.json" --evidence-json "$(OUT)/experience.release.json#/schema_id=knowledge.experience-release" --enforce-evidence -- env PYTHONPATH=src $(PYTHON) -m knowledge_experiences.cli build "$(SPEC)" --out "$(OUT)"
+
+SPEC ?= examples/fixture/demo.experience.json
+OUT ?= dist/example
 
 PYTHON ?= python3
 PYTHONPATH_ENV := PYTHONPATH=src
